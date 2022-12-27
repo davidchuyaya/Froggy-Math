@@ -8,79 +8,90 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
+    static let totalProblems = 20
+    var solved = 0
+    var failed = 0
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    var difficulty = Difficulty.easy
+    
+    var problemWindow: ProblemWindow!
+    var problemNum1 = 0
+    var problemNum2 = 0
+    var solution = 0
     
     override func didMove(to view: SKView) {
+        anchorPoint = CGPoint(x: 0, y: 0)
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+        createFrog()
+        createFlies()
+        createNumButtons()
+        createProblemWindow()
+        newProblem()
+        refreshProblemWindow()
+    }
+    
+    func createFrog() {
+        let frog = Frog(stage: .egg, delegate: self)
+        frog.position = CGPoint(x: Util.margin(), y: Util.margin())
+        addChild(frog)
+    }
+    
+    func createFlies() {
+        let createFly = SKAction.run {
+            let fly = Fly(type: .speed, difficulty: .hard, delegate: self)
+            self.addChild(fly)
         }
+        let wait = SKAction.wait(forDuration: TimeInterval(Difficulty.hard.timeBetweenProblems()))
+        run(SKAction.repeat(SKAction.sequence([createFly, wait]), count: GameScene.totalProblems))
+    }
+    
+    func createNumButtons() {
+        for num in NumberTypes.allCases {
+            let button = NumberButton(num: num, delegate: self)
+            let leftSpacing = (NumberButton.getSize() + Util.width(percent: NumberButton.insetSpacingPercent)) * Double(num.rawValue)
+            button.position = CGPoint(x: Util.margin() + leftSpacing, y: Util.margin() * 2 + Frog.getSize())
+            addChild(button)
+        }
+    }
+    
+    func createProblemWindow() {
+        problemWindow = ProblemWindow()
+        problemWindow.position = CGPoint(x: Util.windowWidth() / 2, y: Util.windowHeight() / 2)
+        addChild(problemWindow)
+    }
+    
+    func newProblem() {
+        problemNum1 = Int.random(in: 2...9)
+        problemNum2 = Int.random(in: 2...9)
+    }
+    
+    func refreshProblemWindow() {
+        problemWindow.changeNumText(firstNum: problemNum1, secondNum: problemNum2, solution: solution)
+    }
+    
+    func onFrogPressed() {
+        print("ribbit")
+    }
+    
+    func onButtonPressed(num: NumberTypes) {
+        solution = solution * 10 + num.rawValue
+        let answer = problemNum1 * problemNum2
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+        if solution > answer {
+            solution = 0
         }
-    }
-    
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
+        else if solution == answer {
+            newProblem()
+            solution = 0
         }
+        refreshProblemWindow()
     }
     
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
+    func flyReachedBottom() {
+        newProblem()
+        refreshProblemWindow()
     }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered

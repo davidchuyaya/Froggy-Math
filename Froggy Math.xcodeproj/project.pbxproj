@@ -15,6 +15,14 @@
 		062C494E294C41FE00116F44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062C494C294C41FE00116F44 /* Main.storyboard */; };
 		062C4950294C420000116F44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 062C494F294C420000116F44 /* Assets.xcassets */; };
 		062C4953294C420000116F44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062C4951294C420000116F44 /* LaunchScreen.storyboard */; };
+		062C495B294C437300116F44 /* NumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062C495A294C437300116F44 /* NumberButton.swift */; };
+		06302BFB294C4C0E000F7D7D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06302BFA294C4C0E000F7D7D /* Util.swift */; };
+		063A3793295A86600074BB85 /* Frog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063A3792295A86600074BB85 /* Frog.swift */; };
+		063A3795295A86A40074BB85 /* FrogDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063A3794295A86A40074BB85 /* FrogDelegate.swift */; };
+		063A379B295A8BB20074BB85 /* Fly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063A379A295A8BB20074BB85 /* Fly.swift */; };
+		063A379D295AAE850074BB85 /* FlyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063A379C295AAE850074BB85 /* FlyDelegate.swift */; };
+		0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */; };
+		0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +35,14 @@
 		062C494D294C41FE00116F44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		062C494F294C420000116F44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		062C4952294C420000116F44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		062C495A294C437300116F44 /* NumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberButton.swift; sourceTree = "<group>"; };
+		06302BFA294C4C0E000F7D7D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		063A3792295A86600074BB85 /* Frog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frog.swift; sourceTree = "<group>"; };
+		063A3794295A86A40074BB85 /* FrogDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrogDelegate.swift; sourceTree = "<group>"; };
+		063A379A295A8BB20074BB85 /* Fly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fly.swift; sourceTree = "<group>"; };
+		063A379C295AAE850074BB85 /* FlyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyDelegate.swift; sourceTree = "<group>"; };
+		0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDelegate.swift; sourceTree = "<group>"; };
+		0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,16 +75,72 @@
 		062C4941294C41FE00116F44 /* Froggy Math */ = {
 			isa = PBXGroup;
 			children = (
+				063A3799295A89E80074BB85 /* timer */,
+				063A3798295A89CA0074BB85 /* counter */,
+				063A3797295A89BB0074BB85 /* multiplier */,
+				063A3796295A89AB0074BB85 /* fly */,
+				063A3791295A86500074BB85 /* frog */,
+				062C4959294C435000116F44 /* math buttons */,
 				062C4942294C41FE00116F44 /* AppDelegate.swift */,
 				062C4944294C41FE00116F44 /* GameScene.sks */,
 				062C4946294C41FE00116F44 /* Actions.sks */,
 				062C4948294C41FE00116F44 /* GameScene.swift */,
+				0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */,
 				062C494A294C41FE00116F44 /* GameViewController.swift */,
+				06302BFA294C4C0E000F7D7D /* Util.swift */,
 				062C494C294C41FE00116F44 /* Main.storyboard */,
 				062C494F294C420000116F44 /* Assets.xcassets */,
 				062C4951294C420000116F44 /* LaunchScreen.storyboard */,
 			);
 			path = "Froggy Math";
+			sourceTree = "<group>";
+		};
+		062C4959294C435000116F44 /* math buttons */ = {
+			isa = PBXGroup;
+			children = (
+				062C495A294C437300116F44 /* NumberButton.swift */,
+				0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */,
+			);
+			path = "math buttons";
+			sourceTree = "<group>";
+		};
+		063A3791295A86500074BB85 /* frog */ = {
+			isa = PBXGroup;
+			children = (
+				063A3792295A86600074BB85 /* Frog.swift */,
+				063A3794295A86A40074BB85 /* FrogDelegate.swift */,
+			);
+			path = frog;
+			sourceTree = "<group>";
+		};
+		063A3796295A89AB0074BB85 /* fly */ = {
+			isa = PBXGroup;
+			children = (
+				063A379A295A8BB20074BB85 /* Fly.swift */,
+				063A379C295AAE850074BB85 /* FlyDelegate.swift */,
+			);
+			path = fly;
+			sourceTree = "<group>";
+		};
+		063A3797295A89BB0074BB85 /* multiplier */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = multiplier;
+			sourceTree = "<group>";
+		};
+		063A3798295A89CA0074BB85 /* counter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = counter;
+			sourceTree = "<group>";
+		};
+		063A3799295A89E80074BB85 /* timer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = timer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,7 +217,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				062C4949294C41FE00116F44 /* GameScene.swift in Sources */,
+				063A379D295AAE850074BB85 /* FlyDelegate.swift in Sources */,
 				062C494B294C41FE00116F44 /* GameViewController.swift in Sources */,
+				063A3795295A86A40074BB85 /* FrogDelegate.swift in Sources */,
+				0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */,
+				063A3793295A86600074BB85 /* Frog.swift in Sources */,
+				0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */,
+				06302BFB294C4C0E000F7D7D /* Util.swift in Sources */,
+				063A379B295A8BB20074BB85 /* Fly.swift in Sources */,
+				062C495B294C437300116F44 /* NumberButton.swift in Sources */,
 				062C4943294C41FE00116F44 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
