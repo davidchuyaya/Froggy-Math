@@ -41,7 +41,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         
         createBg()
         createFrog()
-        createHomeButton()
+        createOtherButtons()
         createNumButtons()
         createProblemWindow()
         newProblem()
@@ -61,10 +61,14 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         addChild(frog)
     }
     
-    func createHomeButton() {
-        let button = Button(type: .home, delegate: self)
-        button.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - Util.marginPercent - Button.sizePercent))
-        addChild(button)
+    func createOtherButtons() {
+        let homeButton = Button(type: .home, delegate: self)
+        homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - Util.marginPercent) - Util.width(percent: Button.sizePercent))
+        addChild(homeButton)
+        
+        let enterButton = Button(type: .enter, delegate: self)
+        enterButton.position = CGPoint(x: Util.width(percent: 1 - Util.marginPercent - Button.sizePercent), y: Frog.getHeight() - Util.width(percent: Button.sizePercent))
+        addChild(enterButton)
     }
     
     func createNumButtons() {
@@ -109,11 +113,24 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func onButtonPressed(num: NumberTypes) {
         input = input * 10 + num.rawValue
-        let answer = problemNum1 * problemNum2
         refreshProblemWindow()
-        
+    }
+    
+    func onButtonPressed(button: ButtonTypes) {
+        switch(button) {
+        case .home:
+            scene?.view?.presentScene(GameScene(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight())))
+        case .enter:
+            onEnterPressed()
+        default:
+            print("unhandled button type in BattleScene")
+        }
+    }
+    
+    func onEnterPressed() {
+        let answer = problemNum1 * problemNum2
         // incorrect answer
-        if input > answer {
+        if input != answer {
             switch (mode) {
             case .zenMode:
                 fallthrough
@@ -132,19 +149,10 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
             }
         }
         // correct answer
-        else if input == answer {
+        else {
             frog.tongue(to: fly!.position)
             solved += 1
             newProblem()
-        }
-    }
-    
-    func onButtonPressed(button: ButtonTypes) {
-        switch(button) {
-        case .home:
-            scene?.view?.presentScene(GameScene(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight())))
-        default:
-            print("unhandled button type in BattleScene")
         }
     }
     

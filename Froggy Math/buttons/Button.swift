@@ -27,6 +27,8 @@ class Button: SKNode {
             color = .yellow
         case .home:
             color = .green
+        case .enter:
+            color = .white
         default:
             print("button type not handled")
         }
