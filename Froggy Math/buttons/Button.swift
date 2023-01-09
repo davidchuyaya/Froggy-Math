@@ -25,6 +25,8 @@ class Button: SKNode {
             color = .red
         case .zenMode:
             color = .yellow
+        case .home:
+            color = .green
         default:
             print("button type not handled")
         }

@@ -36,7 +36,7 @@ enum NumberTypes: Int, CaseIterable {
     case one = 1, two, three, four, five, six, seven, eight, nine, zero = 0
 }
 enum ButtonTypes {
-    case speedMode, accuracyMode, zenMode, settings
+    case speedMode, accuracyMode, zenMode, settings, home
 }
 
 enum FrogType {
@@ -71,9 +71,9 @@ enum Difficulty {
     func speed() -> CGFloat {
         switch(self) {
         case .easy:
-            return 300
+            return 200
         case .medium:
-            return 500
+            return 400
         case .hard:
             return 800
         }

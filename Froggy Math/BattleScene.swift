@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
+class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, FlyDelegate {
     static let leafWidthPercent = 0.7
     static let leafYPercent = 0.7
     
@@ -41,6 +41,7 @@ class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
         
         createBg()
         createFrog()
+        createHomeButton()
         createNumButtons()
         createProblemWindow()
         newProblem()
@@ -58,6 +59,12 @@ class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
         frog = Frog(type: .basic, delegate: self)
         frog.position = CGPoint(x: Util.margin(), y: Util.margin())
         addChild(frog)
+    }
+    
+    func createHomeButton() {
+        let button = Button(type: .home, delegate: self)
+        button.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - Util.marginPercent - Button.sizePercent))
+        addChild(button)
     }
     
     func createNumButtons() {
@@ -108,6 +115,8 @@ class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
         // incorrect answer
         if input > answer {
             switch (mode) {
+            case .zenMode:
+                fallthrough
             case .speedMode:
                 // retry
                 input = 0
@@ -116,7 +125,7 @@ class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
                 // fly away
                 failed += 1
                 fly!.exit()
-                fly = nil
+                fly = nil // set to nil so the fly "in focus" is the next fly
                 newProblem()
             default:
                 print("incorrect answer not supported in this mode")
@@ -127,6 +136,15 @@ class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
             frog.tongue(to: fly!.position)
             solved += 1
             newProblem()
+        }
+    }
+    
+    func onButtonPressed(button: ButtonTypes) {
+        switch(button) {
+        case .home:
+            scene?.view?.presentScene(GameScene(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight())))
+        default:
+            print("unhandled button type in BattleScene")
         }
     }
     

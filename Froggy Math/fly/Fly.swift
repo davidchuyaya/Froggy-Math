@@ -8,6 +8,7 @@
 import SpriteKit
 
 class Fly: SKNode {
+    static let xMarginPercent = 0.4
     static let sizePercent = 0.1
     static let moveDistance = 5.0
     static let screenBottom: CGFloat = 100
@@ -42,6 +43,8 @@ class Fly: SKNode {
         switch (type) {
         case .speedMode:
             followSpiralPath()
+        case .zenMode:
+            fallthrough
         case .accuracyMode:
             followPathToLeaf()
         default:
@@ -52,8 +55,8 @@ class Fly: SKNode {
     func followSpiralPath() {
         let clockwise = Bool.random()
         let path = UIBezierPath()
-        let startingX = CGFloat.random(in: Util.margin()..<Util.windowWidth()-Util.margin())
-        path.move(to: CGPoint(x: startingX, y: Util.windowHeight()))
+        let startingX = CGFloat.random(in: Util.width(percent: Fly.xMarginPercent)..<Util.width(percent: 1-Fly.xMarginPercent))
+        path.move(to: CGPoint(x: startingX, y: Util.height(percent: 1+Fly.sizePercent)))
         
         var prevTopY = Util.windowHeight()
         for i in 0..<Fly.numLoops {
