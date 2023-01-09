@@ -22,6 +22,10 @@ class Util {
         return windowWidth() * percent
     }
     
+    static func height(percent: Double) -> CGFloat {
+        return windowHeight() * percent
+    }
+    
     static func margin() -> CGFloat {
         return width(percent: marginPercent)
     }

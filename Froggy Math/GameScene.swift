@@ -19,6 +19,10 @@ class GameScene: SKScene, ButtonDelegate {
         let speedModeButton = Button(type: .speedMode, delegate: self)
         speedModeButton.position = CGPoint(x: 200, y: 200)
         addChild(speedModeButton)
+        
+        let accuracyModeButton = Button(type: .accuracyMode, delegate: self)
+        accuracyModeButton.position = CGPoint(x: 150, y: 200)
+        addChild(accuracyModeButton)
     }
     
     func onButtonPressed(button: ButtonTypes) {

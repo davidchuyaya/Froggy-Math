@@ -17,7 +17,19 @@ class Button: SKNode {
         self.type = type
         self.delegate = delegate
         
-        let rect = SKSpriteNode(color: UIColor.blue, size: CGSize(width: Util.width(percent: Button.sizePercent), height: Util.width(percent: Button.sizePercent)))
+        var color: UIColor!
+        switch (type) {
+        case .speedMode:
+            color = .blue
+        case .accuracyMode:
+            color = .red
+        case .zenMode:
+            color = .yellow
+        default:
+            print("button type not handled")
+        }
+        
+        let rect = SKSpriteNode(color: color, size: CGSize(width: Util.width(percent: Button.sizePercent), height: Util.width(percent: Button.sizePercent)))
         rect.anchorPoint = CGPoint(x: 0, y: 0)
         
         addChild(rect)

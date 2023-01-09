@@ -16,6 +16,8 @@ class Fly: SKNode {
     var type: ButtonTypes!
     var difficulty: Difficulty!
     var delegate: FlyDelegate!
+    var flyPic: SKSpriteNode!
+    var wingsUpTexture: SKTexture!
     
     init(type: ButtonTypes, difficulty: Difficulty, delegate: FlyDelegate) {
         super.init()
@@ -24,18 +26,30 @@ class Fly: SKNode {
         self.difficulty = difficulty
         self.delegate = delegate
         
-        let rect = SKSpriteNode(color: .blue, size: CGSize(width: Fly.getSize(), height: Fly.getSize()))
-        rect.anchorPoint = CGPoint(x: 0, y: 0)
-        addChild(rect)
-        
-        let frame1 = SKTexture(imageNamed: "flies_0000_Layer-2")
+        wingsUpTexture = SKTexture(imageNamed: "flies_0000_Layer-2")
         let frame2 = SKTexture(imageNamed: "flies_0001_Layer-1")
         
-        rect.run(SKAction.repeatForever(SKAction.animate(with: [frame1, frame2], timePerFrame: 0.1)))
-        followPath()
+        flyPic = SKSpriteNode(texture: wingsUpTexture, size: CGSize(width: Fly.getSize(), height: Fly.getSize()))
+        flyPic.anchorPoint = CGPoint(x: 0, y: 0)
+        addChild(flyPic)
+        flyPic.zPosition = 2
+        
+        flyPic.run(SKAction.repeatForever(SKAction.animate(with: [wingsUpTexture, frame2], timePerFrame: 0.1)))
+        createPaths()
     }
     
-    func followPath() {
+    func createPaths() {
+        switch (type) {
+        case .speedMode:
+            followSpiralPath()
+        case .accuracyMode:
+            followPathToLeaf()
+        default:
+            print("type deosn't exist for fly")
+        }
+    }
+    
+    func followSpiralPath() {
         let clockwise = Bool.random()
         let path = UIBezierPath()
         let startingX = CGFloat.random(in: Util.margin()..<Util.windowWidth()-Util.margin())
@@ -81,7 +95,31 @@ class Fly: SKNode {
         return midwayY
     }
     
-
+    func followPathToLeaf() {
+        let path = CGMutablePath()
+        let destX = Util.width(percent: 1 - BattleScene.leafWidthPercent/3*2)
+        let destY = Util.height(percent: 1 - BattleScene.leafYPercent/5*2)
+        path.move(to: CGPoint(x: -Util.width(percent: 0.1), y: destY + Util.height(percent: 0.1)))
+        path.addLine(to: CGPoint(x: destX, y: destY))
+        
+        let pause = SKAction.run {
+            self.flyPic.isPaused = true
+            self.flyPic.texture = self.wingsUpTexture
+        }
+        
+        run(SKAction.sequence([SKAction.follow(path, asOffset: false, orientToPath: false, speed: difficulty.speed()), pause]))
+    }
+    
+    func exit() {
+        let path = CGMutablePath()
+        let destX = Util.width(percent: 1.1)
+        let destY = Util.height(percent: 1 - BattleScene.leafYPercent/5*2)
+        path.move(to: position)
+        path.addLine(to: CGPoint(x: destX, y: destY + Util.height(percent: 0.1)))
+        
+        flyPic.isPaused = false
+        run(SKAction.sequence([SKAction.follow(path, asOffset: false, orientToPath: false, speed: difficulty.speed()), SKAction.removeFromParent()]))
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

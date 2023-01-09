@@ -9,6 +9,9 @@ import SpriteKit
 import GameplayKit
 
 class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
+    static let leafWidthPercent = 0.7
+    static let leafYPercent = 0.7
+    
     static let totalProblems = 20
     var solved = 0
     var failed = 0
@@ -36,10 +39,19 @@ class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0, y: 0)
         
+        createBg()
         createFrog()
         createNumButtons()
         createProblemWindow()
         newProblem()
+    }
+    
+    func createBg() {
+        let leafWidth = Util.width(percent: BattleScene.leafWidthPercent)
+        let stemLeaf = SKSpriteNode(texture: SKTexture(imageNamed: "stemLeaf"), size: CGSize(width: leafWidth, height: leafWidth / 1771*1063))
+        stemLeaf.anchorPoint = CGPoint(x: 1, y: 0.5)
+        stemLeaf.position = CGPoint(x: Util.windowWidth(), y: Util.height(percent: BattleScene.leafYPercent))
+        addChild(stemLeaf)
     }
    
     func createFrog() {
@@ -93,10 +105,24 @@ class BattleScene: SKScene, NumberButtonDelegate, FrogDelegate, FlyDelegate {
         let answer = problemNum1 * problemNum2
         refreshProblemWindow()
         
+        // incorrect answer
         if input > answer {
-            input = 0
-            refreshProblemWindow()
+            switch (mode) {
+            case .speedMode:
+                // retry
+                input = 0
+                refreshProblemWindow()
+            case .accuracyMode:
+                // fly away
+                failed += 1
+                fly!.exit()
+                fly = nil
+                newProblem()
+            default:
+                print("incorrect answer not supported in this mode")
+            }
         }
+        // correct answer
         else if input == answer {
             frog.tongue(to: fly!.position)
             solved += 1
