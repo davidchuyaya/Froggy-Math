@@ -32,28 +32,46 @@ enum NumberTypes: Int, CaseIterable {
     case one = 1, two, three, four, five, six, seven, eight, nine, zero = 0
 }
 enum ButtonTypes {
-    case enter, backspace
+    case speedMode, accuracyMode, zenMode, settings
 }
 
-enum FrogStages {
-    case egg, tadpole, tadpoleWithFeet, frogWithTail, frog
-}
-
-enum GameType {
-    case speed, accuracy, zen
+enum FrogType {
+    case basic, wizard, boba, roundTongue, vampire, king, baby, spotted
+    
+    func file() -> String {
+        switch (self) {
+        case .basic:
+            return "froggies_0007_basic"
+        case .wizard:
+            return "froggies_0000_wizard"
+        case .boba:
+            return "froggies_0001_boba"
+        case .roundTongue:
+            return "froggies_0002_round-tongue"
+        case .vampire:
+            return "froggies_0003_vampire"
+        case .king:
+            return "froggies_0004_king"
+        case .baby:
+            return "froggies_0005_baby"
+        case .spotted:
+            return "froggies_0006_spotted"
+        }
+    }
 }
 
 enum Difficulty {
     case easy, medium, hard
     
-    func timeBetweenProblems() -> Int {
+    // higher is faster
+    func speed() -> CGFloat {
         switch(self) {
         case .easy:
-            return 5
+            return 300
         case .medium:
-            return 3
+            return 500
         case .hard:
-            return 1
+            return 800
         }
     }
 }

@@ -11,24 +11,27 @@ class Fly: SKNode {
     static let sizePercent = 0.1
     static let moveDistance = 5.0
     static let screenBottom: CGFloat = 100
-    static let speed: CGFloat = 500 // higher is faster
     static let loopVariation: CGFloat = 10 // higher = more diverse sizes of loops, might go off screen though
     static let numLoops = 4
-    var type: GameType!
+    var type: ButtonTypes!
     var difficulty: Difficulty!
     var delegate: FlyDelegate!
     
-    init(type: GameType, difficulty: Difficulty, delegate: FlyDelegate) {
+    init(type: ButtonTypes, difficulty: Difficulty, delegate: FlyDelegate) {
         super.init()
         
         self.type = type
         self.difficulty = difficulty
         self.delegate = delegate
         
-        let rect = SKSpriteNode(color: UIColor.blue, size: CGSize(width: Fly.getSize(), height: Fly.getSize()))
+        let rect = SKSpriteNode(color: .blue, size: CGSize(width: Fly.getSize(), height: Fly.getSize()))
         rect.anchorPoint = CGPoint(x: 0, y: 0)
         addChild(rect)
         
+        let frame1 = SKTexture(imageNamed: "flies_0000_Layer-2")
+        let frame2 = SKTexture(imageNamed: "flies_0001_Layer-1")
+        
+        rect.run(SKAction.repeatForever(SKAction.animate(with: [frame1, frame2], timePerFrame: 0.1)))
         followPath()
     }
     
@@ -47,7 +50,8 @@ class Fly: SKNode {
         let notifyParent = SKAction.run {
             self.delegate.flyReachedBottom()
         }
-        run(SKAction.sequence([SKAction.follow(path.cgPath, speed: Fly.speed), notifyParent]))
+        
+        run(SKAction.sequence([SKAction.follow(path.cgPath, asOffset: false, orientToPath: false, speed: difficulty.speed()), notifyParent]))
     }
     
     // returns new starting Y after the loop
@@ -76,6 +80,8 @@ class Fly: SKNode {
         
         return midwayY
     }
+    
+
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

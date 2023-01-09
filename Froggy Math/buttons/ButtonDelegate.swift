@@ -7,6 +7,9 @@
 
 import Foundation
 
-protocol ButtonDelegate {
+protocol NumberButtonDelegate {
     func onButtonPressed(num: NumberTypes)
+}
+protocol ButtonDelegate {
+    func onButtonPressed(button: ButtonTypes)
 }
