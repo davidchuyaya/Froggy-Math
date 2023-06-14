@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06206E102A39828B0001B110 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06206E0F2A39828B0001B110 /* AlertWindow.swift */; };
 		062C4943294C41FE00116F44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062C4942294C41FE00116F44 /* AppDelegate.swift */; };
 		062C4945294C41FE00116F44 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 062C4944294C41FE00116F44 /* GameScene.sks */; };
 		062C4947294C41FE00116F44 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 062C4946294C41FE00116F44 /* Actions.sks */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06206E0F2A39828B0001B110 /* AlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWindow.swift; sourceTree = "<group>"; };
 		062C493F294C41FE00116F44 /* Froggy Math.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Froggy Math.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		062C4942294C41FE00116F44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		062C4944294C41FE00116F44 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				062C4948294C41FE00116F44 /* BattleScene.swift */,
 				064675F5296B51D300174DFF /* GameScene.swift */,
 				0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */,
+				06206E0F2A39828B0001B110 /* AlertWindow.swift */,
 				062C494A294C41FE00116F44 /* GameViewController.swift */,
 				06302BFA294C4C0E000F7D7D /* Util.swift */,
 				062C494C294C41FE00116F44 /* Main.storyboard */,
@@ -226,6 +229,7 @@
 				062C4949294C41FE00116F44 /* BattleScene.swift in Sources */,
 				063A379D295AAE850074BB85 /* FlyDelegate.swift in Sources */,
 				062C494B294C41FE00116F44 /* GameViewController.swift in Sources */,
+				06206E102A39828B0001B110 /* AlertWindow.swift in Sources */,
 				063A3795295A86A40074BB85 /* FrogDelegate.swift in Sources */,
 				0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */,
 				063A3793295A86600074BB85 /* Frog.swift in Sources */,

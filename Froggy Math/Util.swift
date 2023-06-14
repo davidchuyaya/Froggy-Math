@@ -36,7 +36,7 @@ enum NumberTypes: Int, CaseIterable {
     case one = 1, two, three, four, five, six, seven, eight, nine, zero = 0
 }
 enum ButtonTypes {
-    case speedMode, accuracyMode, zenMode, settings, home, enter
+    case speedMode, accuracyMode, zenMode, settings, home, enter, ok
 }
 
 enum FrogType {

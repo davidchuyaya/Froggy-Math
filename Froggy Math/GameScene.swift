@@ -13,20 +13,26 @@ class GameScene: SKScene, ButtonDelegate {
         anchorPoint = CGPoint(x: 0, y: 0)
         
         createButtons()
+        createEggProgressionWindow()
     }
     
     func createButtons() {
-        let speedModeButton = Button(type: .speedMode, delegate: self)
+        let speedModeButton = Button(type: .speedMode, center: true, delegate: self)
         speedModeButton.position = CGPoint(x: 200, y: 200)
         addChild(speedModeButton)
         
-        let accuracyModeButton = Button(type: .accuracyMode, delegate: self)
+        let accuracyModeButton = Button(type: .accuracyMode, center: true, delegate: self)
         accuracyModeButton.position = CGPoint(x: 150, y: 200)
         addChild(accuracyModeButton)
         
-        let zenModeButton = Button(type: .zenMode, delegate: self)
+        let zenModeButton = Button(type: .zenMode, center: true, delegate: self)
         zenModeButton.position = CGPoint(x: 100, y: 200)
         addChild(zenModeButton)
+    }
+    
+    func createEggProgressionWindow() {
+        addChild(AlertWindow(imageFile: "hi", text: "you got an egg!"))
+        print("Created!")
     }
     
     func onButtonPressed(button: ButtonTypes) {

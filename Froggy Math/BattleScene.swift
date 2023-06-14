@@ -62,11 +62,11 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     }
     
     func createOtherButtons() {
-        let homeButton = Button(type: .home, delegate: self)
+        let homeButton = Button(type: .home, center: false, delegate: self)
         homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - Util.marginPercent) - Util.width(percent: Button.sizePercent))
         addChild(homeButton)
         
-        let enterButton = Button(type: .enter, delegate: self)
+        let enterButton = Button(type: .enter, center: false, delegate: self)
         enterButton.position = CGPoint(x: Util.width(percent: 1 - Util.marginPercent - Button.sizePercent), y: Frog.getHeight() - Util.width(percent: Button.sizePercent))
         addChild(enterButton)
     }

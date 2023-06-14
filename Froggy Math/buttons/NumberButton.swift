@@ -19,7 +19,7 @@ class NumberButton: SKNode {
         let numText = SKLabelNode(text: String(num.rawValue))
         numText.horizontalAlignmentMode = .center
         numText.verticalAlignmentMode = .center
-        numText.color = UIColor.white
+        numText.fontColor = UIColor.white
         numText.zPosition = 101
         
         let rect = SKSpriteNode(color: UIColor.blue, size: CGSize(width: NumberButton.getSize(), height: NumberButton.getSize()))

@@ -12,7 +12,7 @@ class Button: SKNode {
     var delegate: ButtonDelegate!
     var type: ButtonTypes!
     
-    init(type: ButtonTypes, delegate: ButtonDelegate) {
+    init(type: ButtonTypes, center: Bool, delegate: ButtonDelegate) {
         super.init()
         self.type = type
         self.delegate = delegate
@@ -29,12 +29,19 @@ class Button: SKNode {
             color = .green
         case .enter:
             color = .white
+        case .ok:
+            color = .purple
         default:
             print("button type not handled")
         }
         
         let rect = SKSpriteNode(color: color, size: CGSize(width: Util.width(percent: Button.sizePercent), height: Util.width(percent: Button.sizePercent)))
-        rect.anchorPoint = CGPoint(x: 0, y: 0)
+        if center {
+            rect.anchorPoint = CGPoint(x: 0.5, y: 0)
+        }
+        else {
+            rect.anchorPoint = CGPoint(x: 0, y: 0)
+        }
         
         addChild(rect)
         isUserInteractionEnabled = true
