@@ -26,6 +26,10 @@
 		064675F8296B53B300174DFF /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064675F7296B53B300174DFF /* Button.swift */; };
 		0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */; };
 		0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */; };
+		06D007902A3AC33200CABA15 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D0078F2A3AC33200CABA15 /* Settings.swift */; };
+		06D007A42A3AD3B100CABA15 /* slurp_0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A12A3AD3B000CABA15 /* slurp_0.m4a */; };
+		06D007A52A3AD3B100CABA15 /* slurp_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A22A3AD3B100CABA15 /* slurp_2.m4a */; };
+		06D007A62A3AD3B100CABA15 /* slurp_1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A32A3AD3B100CABA15 /* slurp_1.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,10 @@
 		064675F7296B53B300174DFF /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDelegate.swift; sourceTree = "<group>"; };
 		0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemWindow.swift; sourceTree = "<group>"; };
+		06D0078F2A3AC33200CABA15 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		06D007A12A3AD3B000CABA15 /* slurp_0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_0.m4a; sourceTree = SOURCE_ROOT; };
+		06D007A22A3AD3B100CABA15 /* slurp_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_2.m4a; sourceTree = SOURCE_ROOT; };
+		06D007A32A3AD3B100CABA15 /* slurp_1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_1.m4a; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +89,7 @@
 		062C4941294C41FE00116F44 /* Froggy Math */ = {
 			isa = PBXGroup;
 			children = (
+				06D007912A3AD27700CABA15 /* sounds */,
 				063A3799295A89E80074BB85 /* timer */,
 				063A3798295A89CA0074BB85 /* counter */,
 				063A3797295A89BB0074BB85 /* multiplier */,
@@ -96,6 +105,7 @@
 				06206E0F2A39828B0001B110 /* AlertWindow.swift */,
 				062C494A294C41FE00116F44 /* GameViewController.swift */,
 				06302BFA294C4C0E000F7D7D /* Util.swift */,
+				06D0078F2A3AC33200CABA15 /* Settings.swift */,
 				062C494C294C41FE00116F44 /* Main.storyboard */,
 				062C494F294C420000116F44 /* Assets.xcassets */,
 				062C4951294C420000116F44 /* LaunchScreen.storyboard */,
@@ -150,6 +160,16 @@
 			children = (
 			);
 			path = timer;
+			sourceTree = "<group>";
+		};
+		06D007912A3AD27700CABA15 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				06D007A12A3AD3B000CABA15 /* slurp_0.m4a */,
+				06D007A32A3AD3B100CABA15 /* slurp_1.m4a */,
+				06D007A22A3AD3B100CABA15 /* slurp_2.m4a */,
+			);
+			path = sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,8 +231,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				062C494E294C41FE00116F44 /* Main.storyboard in Resources */,
+				06D007A62A3AD3B100CABA15 /* slurp_1.m4a in Resources */,
 				062C4945294C41FE00116F44 /* GameScene.sks in Resources */,
+				06D007A42A3AD3B100CABA15 /* slurp_0.m4a in Resources */,
 				062C4950294C420000116F44 /* Assets.xcassets in Resources */,
+				06D007A52A3AD3B100CABA15 /* slurp_2.m4a in Resources */,
 				062C4953294C420000116F44 /* LaunchScreen.storyboard in Resources */,
 				062C4947294C41FE00116F44 /* Actions.sks in Resources */,
 			);
@@ -234,6 +257,7 @@
 				0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */,
 				063A3793295A86600074BB85 /* Frog.swift in Sources */,
 				0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */,
+				06D007902A3AC33200CABA15 /* Settings.swift in Sources */,
 				06302BFB294C4C0E000F7D7D /* Util.swift in Sources */,
 				063A379B295A8BB20074BB85 /* Fly.swift in Sources */,
 				062C495B294C437300116F44 /* NumberButton.swift in Sources */,

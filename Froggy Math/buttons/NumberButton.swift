@@ -8,7 +8,7 @@
 import SpriteKit
 
 class NumberButton: SKNode {
-    static let insetSpacingPercent = 0.02
+    static let insetSpacingPercent = 0.0
     var num: NumberTypes!
     var delegate: NumberButtonDelegate!
     
@@ -16,18 +16,10 @@ class NumberButton: SKNode {
         super.init()
         self.num = num
         self.delegate = delegate
-        let numText = SKLabelNode(text: String(num.rawValue))
-        numText.horizontalAlignmentMode = .center
-        numText.verticalAlignmentMode = .center
-        numText.fontColor = UIColor.white
-        numText.zPosition = 101
         
-        let rect = SKSpriteNode(color: UIColor.blue, size: CGSize(width: NumberButton.getSize(), height: NumberButton.getSize()))
+        let rect = SKSpriteNode(texture: SKTexture(imageNamed: num.file()), size: CGSize(width: NumberButton.getSize(), height: NumberButton.getSize()))
         rect.anchorPoint = CGPoint(x: 0, y: 0)
         rect.zPosition = 100
-        
-        rect.addChild(numText)
-        numText.position = CGPoint(x: rect.size.width / 2, y: rect.size.height / 2)
         addChild(rect)
         isUserInteractionEnabled = true
     }

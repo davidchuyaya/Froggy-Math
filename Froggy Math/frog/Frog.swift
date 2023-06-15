@@ -11,7 +11,9 @@ class Frog: SKNode {
     static let tongueSpeed = 0.03 //lower is faster
     static let sizePercent = 0.7
     static let heightRatio = 0.75
+
     var delegate: FrogDelegate!
+    var slurpSoundActions = [SKAction]()
     
     init(type: FrogType, delegate: FrogDelegate) {
         super.init()
@@ -22,6 +24,11 @@ class Frog: SKNode {
         rect.anchorPoint = CGPoint(x: 0, y: 0)
         addChild(rect)
         isUserInteractionEnabled = true
+        
+        // set up sounds. Load them before we use them to avoid audio lag
+        for file in Sounds.slurp.files() {
+            slurpSoundActions.append(SKAction.playSoundFileNamed(file, waitForCompletion: false))
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -74,7 +81,10 @@ class Frog: SKNode {
             tongue.removeFromParent()
         }
         
-        tongue.run(SKAction.sequence([SKAction.animate(with: frames, timePerFrame: Frog.tongueSpeed), remove]))
+        let tongueAction = SKAction.sequence([SKAction.animate(with: frames, timePerFrame: Frog.tongueSpeed), remove])
+        let slurpSound = slurpSoundActions.randomElement()!
+        
+        tongue.run(SKAction.group([tongueAction, slurpSound]))
     }
 }
 

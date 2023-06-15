@@ -11,12 +11,15 @@ import GameplayKit
 class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, FlyDelegate {
     static let leafWidthPercent = 0.7
     static let leafYPercent = 0.7
+    static let flyCounterYPercent = 0.2
+    static let flyCounterMargin = 0.005
     
-    static let totalProblems = 20
+    static let totalProblems = 10
     var solved = 0
     var failed = 0
     
     var mode: ButtonTypes!
+    var flyType: FlyTypes!
     var difficulty = Difficulty.easy
     
     var problemWindow: ProblemWindow!
@@ -26,10 +29,17 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     var frog: Frog!
     var fly: Fly?
+    var flyCounters = [Fly]()
     
     init(mode: ButtonTypes) {
         super.init(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight()))
         self.mode = mode
+        if mode == .speedMode {
+            flyType = .spiral
+        }
+        else {
+            flyType = .toLeaf
+        }
     }
                    
     required init?(coder aDecoder: NSCoder) {
@@ -44,7 +54,13 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         createOtherButtons()
         createNumButtons()
         createProblemWindow()
-        newProblem()
+        switch mode {
+        case .accuracyMode:
+            createFlyCounter()
+        default:
+            break
+        }
+        resetValues()
     }
     
     func createBg() {
@@ -63,12 +79,16 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func createOtherButtons() {
         let homeButton = Button(type: .home, center: false, delegate: self)
-        homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - Util.marginPercent) - Util.width(percent: Button.sizePercent))
+        homeButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
         addChild(homeButton)
         
         let enterButton = Button(type: .enter, center: false, delegate: self)
         enterButton.position = CGPoint(x: Util.width(percent: 1 - Util.marginPercent - Button.sizePercent), y: Frog.getHeight() - Util.width(percent: Button.sizePercent))
         addChild(enterButton)
+        
+        let clearButton = Button(type: .clear, center: false, delegate: self)
+        clearButton.position = CGPoint(x: Util.margin(), y: enterButton.position.y)
+        addChild(clearButton)
     }
     
     func createNumButtons() {
@@ -86,6 +106,16 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         addChild(problemWindow)
     }
     
+    func createFlyCounter() {
+        for i in 0..<BattleScene.totalProblems {
+            let fly = Fly(type: .still, difficulty: difficulty, delegate: self)
+            let topExtraMargin = CGFloat(i) * (Fly.getSize() + Util.height(percent: BattleScene.flyCounterMargin))
+            fly.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - BattleScene.flyCounterYPercent) - topExtraMargin)
+            addChild(fly)
+            flyCounters.append(fly)
+        }
+    }
+    
     func newProblem() {
         problemNum1 = Int.random(in: 2...9)
         problemNum2 = Int.random(in: 2...9)
@@ -93,12 +123,9 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         refreshProblemWindow()
         
         if let prevFly = fly {
-            let remove = SKAction.run {
-                prevFly.removeFromParent()
-            }
-            run(SKAction.sequence([SKAction.wait(forDuration: Frog.tongueSpeed * 3), remove]))
+            prevFly.removeFromParent()
         }
-        fly = Fly(type: mode, difficulty: difficulty, delegate: self)
+        fly = Fly(type: flyType, difficulty: difficulty, delegate: self)
         self.addChild(fly!)
     }
     
@@ -106,9 +133,17 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         problemWindow.changeNumText(firstNum: problemNum1, secondNum: problemNum2, solution: input)
     }
     
+    func resetValues() {
+        solved = 0
+        failed = 0
+        newProblem()
+        for fly in flyCounters {
+            fly.setColorNeutral()
+        }
+    }
+    
     func onFrogPressed() {
-        input = 0
-        refreshProblemWindow()
+        print("frog pressed!")
     }
     
     func onButtonPressed(num: NumberTypes) {
@@ -120,8 +155,12 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         switch(button) {
         case .home:
             scene?.view?.presentScene(GameScene(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight())))
+        case .back:
+            resetValues()
         case .enter:
             onEnterPressed()
+        case .clear:
+            onClearPressed()
         default:
             print("unhandled button type in BattleScene")
         }
@@ -129,36 +168,73 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func onEnterPressed() {
         let answer = problemNum1 * problemNum2
-        // incorrect answer
-        if input != answer {
-            switch (mode) {
-            case .zenMode:
-                fallthrough
-            case .speedMode:
-                // retry
-                input = 0
-                refreshProblemWindow()
-            case .accuracyMode:
+        
+        switch (mode) {
+        case .zenMode:
+            fallthrough
+        case .speedMode:
+            indicateIncorrect()
+            if input != answer {
+                clear()
+            }
+            else {
+                frog.tongue(to: fly!.position)
+                solved += 1
+                newProblem()
+            }
+        case .accuracyMode:
+            if input != answer {
+                indicateIncorrect()
                 // fly away
                 failed += 1
                 fly!.exit()
                 fly = nil // set to nil so the fly "in focus" is the next fly
-                newProblem()
-            default:
-                print("incorrect answer not supported in this mode")
+                flyCounters[solved + failed - 1].setColorFailed()
             }
+            else {
+                frog.tongue(to: fly!.position)
+                solved += 1
+                flyCounters[solved + failed - 1].setColorSucceeded()
+            }
+            
+            if solved + failed == BattleScene.totalProblems {
+                gameOver()
+            }
+            else {
+                newProblem()
+            }
+        default:
+            print("Unsupported mode when enter pressed")
         }
-        // correct answer
-        else {
-            frog.tongue(to: fly!.position)
-            solved += 1
-            newProblem()
-        }
+    }
+    
+    func onClearPressed() {
+        clear()
+    }
+    
+    func clear() {
+        input = 0
+        refreshProblemWindow()
     }
     
     func flyReachedBottom() {
         failed += 1
         newProblem()
+    }
+    
+    // the answer the user inputted was wrong
+    func indicateIncorrect() {
+        
+    }
+    
+    // the user has spent too much time or too many tries on this fly
+    func indicateFailed() {
+        
+    }
+    
+    func gameOver() {
+        let gameOverWindow = AlertWindow(imageFile: FrogStages.file(stage: 0), text: "Game over!", buttonTypes: [.home, .back], delegate: self)
+        addChild(gameOverWindow)
     }
     
     override func update(_ currentTime: TimeInterval) {

@@ -14,41 +14,47 @@ class Fly: SKNode {
     static let screenBottom: CGFloat = 100
     static let loopVariation: CGFloat = 10 // higher = more diverse sizes of loops, might go off screen though
     static let numLoops = 4
-    var type: ButtonTypes!
+    var type: FlyTypes!
     var difficulty: Difficulty!
     var delegate: FlyDelegate!
     var flyPic: SKSpriteNode!
-    var wingsUpTexture: SKTexture!
+    var wingsDownTexture: SKTexture!
     
-    init(type: ButtonTypes, difficulty: Difficulty, delegate: FlyDelegate) {
+    init(type: FlyTypes, difficulty: Difficulty, delegate: FlyDelegate) {
         super.init()
         
         self.type = type
         self.difficulty = difficulty
         self.delegate = delegate
         
-        wingsUpTexture = SKTexture(imageNamed: "flies_0000_Layer-2")
-        let frame2 = SKTexture(imageNamed: "flies_0001_Layer-1")
+        let wingsUpTexture = SKTexture(imageNamed: "flies_0000_Layer-2")
+        wingsDownTexture = SKTexture(imageNamed: "flies_0001_Layer-1")
         
-        flyPic = SKSpriteNode(texture: wingsUpTexture, size: CGSize(width: Fly.getSize(), height: Fly.getSize()))
+        flyPic = SKSpriteNode(texture: wingsDownTexture, size: CGSize(width: Fly.getSize(), height: Fly.getSize()))
         flyPic.anchorPoint = CGPoint(x: 0, y: 0)
         addChild(flyPic)
         flyPic.zPosition = 2
         
-        flyPic.run(SKAction.repeatForever(SKAction.animate(with: [wingsUpTexture, frame2], timePerFrame: 0.1)))
-        createPaths()
+        // if type = still, this fly is a fly counter and should show up as a silhouette first
+        if type == .still {
+            setColorNeutral()
+        } // otherwise animate flapping
+        else {
+            flyPic.run(SKAction.repeatForever(SKAction.animate(with: [wingsDownTexture, wingsUpTexture], timePerFrame: 0.1)))
+            createPaths()
+        }
     }
     
     func createPaths() {
         switch (type) {
-        case .speedMode:
+        case .spiral:
             followSpiralPath()
-        case .zenMode:
-            fallthrough
-        case .accuracyMode:
+        case .toLeaf:
             followPathToLeaf()
+        case .still:
+            break
         default:
-            print("type deosn't exist for fly")
+            print("type doesn't exist for fly")
         }
     }
     
@@ -107,7 +113,7 @@ class Fly: SKNode {
         
         let pause = SKAction.run {
             self.flyPic.isPaused = true
-            self.flyPic.texture = self.wingsUpTexture
+            self.flyPic.texture = self.wingsDownTexture
         }
         
         run(SKAction.sequence([SKAction.follow(path, asOffset: false, orientToPath: false, speed: difficulty.speed()), pause]))
@@ -122,6 +128,20 @@ class Fly: SKNode {
         
         flyPic.isPaused = false
         run(SKAction.sequence([SKAction.follow(path, asOffset: false, orientToPath: false, speed: difficulty.speed()), SKAction.removeFromParent()]))
+    }
+    
+    func setColorNeutral() {
+        flyPic.color = .black
+        flyPic.colorBlendFactor = 1.0
+    }
+    
+    func setColorFailed() {
+        flyPic.color = .red
+        flyPic.colorBlendFactor = 0.7
+    }
+    
+    func setColorSucceeded() {
+        flyPic.colorBlendFactor = 0.0
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -9,6 +9,8 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, ButtonDelegate {
+    static let buttonsBottomMargin = 0.1
+    
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0, y: 0)
         
@@ -17,22 +19,23 @@ class GameScene: SKScene, ButtonDelegate {
     }
     
     func createButtons() {
-        let speedModeButton = Button(type: .speedMode, center: true, delegate: self)
-        speedModeButton.position = CGPoint(x: 200, y: 200)
-        addChild(speedModeButton)
-        
         let accuracyModeButton = Button(type: .accuracyMode, center: true, delegate: self)
-        accuracyModeButton.position = CGPoint(x: 150, y: 200)
+        accuracyModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent - Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(accuracyModeButton)
         
+        let speedModeButton = Button(type: .speedMode, center: true, delegate: self)
+        speedModeButton.position = CGPoint(x: Util.width(percent: 0.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        addChild(speedModeButton)
+        
         let zenModeButton = Button(type: .zenMode, center: true, delegate: self)
-        zenModeButton.position = CGPoint(x: 100, y: 200)
+        zenModeButton.position = CGPoint(x: Util.width(percent: 0.5 + Button.sizePercent + Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(zenModeButton)
     }
     
     func createEggProgressionWindow() {
-        addChild(AlertWindow(imageFile: "hi", text: "you got an egg!"))
-        print("Created!")
+        if Settings.getFrogStage() == 0 {
+            addChild(AlertWindow(imageFile: FrogStages.file(stage: 0), text: "You got a new egg!", buttonTypes: [.ok], delegate: nil))
+        }
     }
     
     func onButtonPressed(button: ButtonTypes) {
