@@ -9,6 +9,9 @@ import UIKit
 
 class Util {
     static let marginPercent = 0.04
+    static let font = "Noteworthy-Light"
+    static let fontSize: CGFloat = 36
+    static let fontSizeSmall: CGFloat = 12
     
     static func windowHeight() -> CGFloat {
         return UIScreen.main.bounds.size.height
@@ -33,13 +36,13 @@ class Util {
 }
 
 enum NumberTypes: Int, CaseIterable {
-    case one = 1, two, three, four, five, six, seven, eight, nine, zero = 0
+    case zero = 0, one, two, three, four, five, six, seven, eight, nine
     func file() -> String {
         return "\(self.rawValue)"
     }
 }
 enum ButtonTypes {
-    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, back, enter, clear, ok
+    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, back, replay, enter, clear, ok
     func file() -> String {
         return "\(self)"
     }

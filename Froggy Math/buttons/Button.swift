@@ -8,21 +8,23 @@
 import SpriteKit
 
 class Button: SKNode {
-    static let sizePercent = 0.3
-    static let randomWarpDelta: Float = 0.03 // higher is more warp
+    static let sizePercent = 0.2
+    static let randomWarpDelta: Float = 0.07 // higher is more warp
     static let warpSpeed = 1.2 // lower is faster
     static let clickScale = 1.1
     
-    var delegate: ButtonDelegate!
-    var type: ButtonTypes!
+    var delegate: ButtonDelegate?
+    var type: ButtonTypes?
     var rect: SKSpriteNode!
+    var size: CGFloat!
 
-    init(type: ButtonTypes, center: Bool, delegate: ButtonDelegate) {
+    // non-ButtonType button
+    init(imageFile: String, size: CGFloat, center: Bool, delegate: ButtonDelegate?) {
         super.init()
-        self.type = type
+        self.size = size
         self.delegate = delegate
         
-        rect = SKSpriteNode(texture: SKTexture(imageNamed: type.file()), size: CGSize(width: Util.width(percent: Button.sizePercent), height: Util.width(percent: Button.sizePercent)))
+        rect = SKSpriteNode(texture: SKTexture(imageNamed: imageFile), size: CGSize(width: size, height: size))
         if center {
             rect.anchorPoint = CGPoint(x: 0.5, y: 0)
         }
@@ -36,8 +38,19 @@ class Button: SKNode {
         startRandomWarp()
     }
     
+    // custom width
+    convenience init(type: ButtonTypes, size: CGFloat, center: Bool, delegate: ButtonDelegate) {
+        self.init(imageFile: type.file(), size: size, center: center, delegate: delegate)
+        self.type = type
+    }
+    
+    // default button
+    convenience init(type: ButtonTypes, center: Bool, delegate: ButtonDelegate) {
+        self.init(type: type, size: Util.width(percent: Button.sizePercent), center: center, delegate: delegate)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     func startRandomWarp() {
@@ -83,6 +96,23 @@ class Button: SKNode {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         rect.setScale(1)
-        delegate.onButtonPressed(button: type)
+        onButtonPressed()
+    }
+    
+    func onButtonPressed() {
+        if let delegate = delegate {
+            if let type = type {
+                delegate.onButtonPressed(button: type)
+            }
+        }
+    }
+    
+    func setIncorrectColor() {
+        rect.color = .red
+        rect.colorBlendFactor = 0.8
+    }
+    
+    func setDefaultColor() {
+        rect.colorBlendFactor = 0.0
     }
 }

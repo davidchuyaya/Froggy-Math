@@ -10,17 +10,18 @@ import SpriteKit
 class Fly: SKNode {
     static let xMarginPercent = 0.4
     static let sizePercent = 0.1
+    static let stillSizePercent = 0.06
     static let moveDistance = 5.0
     static let screenBottom: CGFloat = 100
     static let loopVariation: CGFloat = 10 // higher = more diverse sizes of loops, might go off screen though
     static let numLoops = 4
     var type: FlyTypes!
     var difficulty: Difficulty!
-    var delegate: FlyDelegate!
+    var delegate: FlyDelegate?
     var flyPic: SKSpriteNode!
     var wingsDownTexture: SKTexture!
     
-    init(type: FlyTypes, difficulty: Difficulty, delegate: FlyDelegate) {
+    init(type: FlyTypes, center: Bool, difficulty: Difficulty, delegate: FlyDelegate?) {
         super.init()
         
         self.type = type
@@ -30,8 +31,13 @@ class Fly: SKNode {
         let wingsUpTexture = SKTexture(imageNamed: "flies_0000_Layer-2")
         wingsDownTexture = SKTexture(imageNamed: "flies_0001_Layer-1")
         
-        flyPic = SKSpriteNode(texture: wingsDownTexture, size: CGSize(width: Fly.getSize(), height: Fly.getSize()))
-        flyPic.anchorPoint = CGPoint(x: 0, y: 0)
+        flyPic = SKSpriteNode(texture: wingsDownTexture, size: CGSize(width: Fly.getSize(type: type), height: Fly.getSize(type: type)))
+        if center {
+            flyPic.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        }
+        else {
+            flyPic.anchorPoint = CGPoint(x: 0, y: 0)
+        }
         addChild(flyPic)
         flyPic.zPosition = 2
         
@@ -40,9 +46,14 @@ class Fly: SKNode {
             setColorNeutral()
         } // otherwise animate flapping
         else {
+            position = CGPoint(x: -200, y: -200)
             flyPic.run(SKAction.repeatForever(SKAction.animate(with: [wingsDownTexture, wingsUpTexture], timePerFrame: 0.1)))
             createPaths()
         }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     func createPaths() {
@@ -70,11 +81,9 @@ class Fly: SKNode {
             prevTopY = addLoopTo(path, x: startingX, topY: prevTopY, clockwise: clockwise, lastLoop: lastLoop)
         }
         
-        let notifyParent = SKAction.run {
-            self.delegate.flyReachedBottom()
-        }
-        
-        run(SKAction.sequence([SKAction.follow(path.cgPath, asOffset: false, orientToPath: false, speed: difficulty.speed()), notifyParent]))
+        run(SKAction.follow(path.cgPath, asOffset: false, orientToPath: false, speed: difficulty.speed()), completion: {
+            self.delegate?.flyReachedBottom()
+        })
     }
     
     // returns new starting Y after the loop
@@ -83,7 +92,7 @@ class Fly: SKNode {
         let loopAvgSize = (Util.windowHeight() - Fly.screenBottom) / CGFloat(Fly.numLoops) * 1.5
         let loopDiff = CGFloat.random(in: -Fly.loopVariation..<Fly.loopVariation)
         var bottomY = topY - (loopAvgSize + loopDiff)
-        if (bottomY - Fly.getSize() * 2) < Fly.screenBottom || lastLoop { // add some padding at bottom so fly doesn't dip out of existence
+        if (bottomY - Fly.getSize(type: type) * 2) < Fly.screenBottom || lastLoop { // add some padding at bottom so fly doesn't dip out of existence
             bottomY = Fly.screenBottom
         }
         
@@ -144,11 +153,12 @@ class Fly: SKNode {
         flyPic.colorBlendFactor = 0.0
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    static func getSize() -> Double {
-        return Util.width(percent: sizePercent)
+    static func getSize(type: FlyTypes) -> Double {
+        if type == .still {
+            return Util.width(percent: stillSizePercent)
+        }
+        else {
+            return Util.width(percent: sizePercent)
+        }
     }
 }

@@ -18,6 +18,8 @@
 		062C4953294C420000116F44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 062C4951294C420000116F44 /* LaunchScreen.storyboard */; };
 		062C495B294C437300116F44 /* NumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062C495A294C437300116F44 /* NumberButton.swift */; };
 		06302BFB294C4C0E000F7D7D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06302BFA294C4C0E000F7D7D /* Util.swift */; };
+		063782882A3BC0BB00A4A1C6 /* TimeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063782872A3BC0BA00A4A1C6 /* TimeBar.swift */; };
+		0637828A2A3BC0F500A4A1C6 /* TimeBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063782892A3BC0F500A4A1C6 /* TimeBarDelegate.swift */; };
 		063A3793295A86600074BB85 /* Frog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063A3792295A86600074BB85 /* Frog.swift */; };
 		063A3795295A86A40074BB85 /* FrogDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063A3794295A86A40074BB85 /* FrogDelegate.swift */; };
 		063A379B295A8BB20074BB85 /* Fly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063A379A295A8BB20074BB85 /* Fly.swift */; };
@@ -26,6 +28,8 @@
 		064675F8296B53B300174DFF /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064675F7296B53B300174DFF /* Button.swift */; };
 		0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */; };
 		0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */; };
+		06BCAB332A3BE487005F3A9F /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB322A3BE487005F3A9F /* SettingsScene.swift */; };
+		06BCAB352A3C274D005F3A9F /* FlyCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB342A3C274D005F3A9F /* FlyCounter.swift */; };
 		06D007902A3AC33200CABA15 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D0078F2A3AC33200CABA15 /* Settings.swift */; };
 		06D007A42A3AD3B100CABA15 /* slurp_0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A12A3AD3B000CABA15 /* slurp_0.m4a */; };
 		06D007A52A3AD3B100CABA15 /* slurp_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A22A3AD3B100CABA15 /* slurp_2.m4a */; };
@@ -45,6 +49,8 @@
 		062C4952294C420000116F44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		062C495A294C437300116F44 /* NumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberButton.swift; sourceTree = "<group>"; };
 		06302BFA294C4C0E000F7D7D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		063782872A3BC0BA00A4A1C6 /* TimeBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBar.swift; sourceTree = "<group>"; };
+		063782892A3BC0F500A4A1C6 /* TimeBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBarDelegate.swift; sourceTree = "<group>"; };
 		063A3792295A86600074BB85 /* Frog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frog.swift; sourceTree = "<group>"; };
 		063A3794295A86A40074BB85 /* FrogDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrogDelegate.swift; sourceTree = "<group>"; };
 		063A379A295A8BB20074BB85 /* Fly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fly.swift; sourceTree = "<group>"; };
@@ -53,6 +59,8 @@
 		064675F7296B53B300174DFF /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDelegate.swift; sourceTree = "<group>"; };
 		0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemWindow.swift; sourceTree = "<group>"; };
+		06BCAB322A3BE487005F3A9F /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
+		06BCAB342A3C274D005F3A9F /* FlyCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyCounter.swift; sourceTree = "<group>"; };
 		06D0078F2A3AC33200CABA15 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		06D007A12A3AD3B000CABA15 /* slurp_0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_0.m4a; sourceTree = SOURCE_ROOT; };
 		06D007A22A3AD3B100CABA15 /* slurp_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_2.m4a; sourceTree = SOURCE_ROOT; };
@@ -91,8 +99,6 @@
 			children = (
 				06D007912A3AD27700CABA15 /* sounds */,
 				063A3799295A89E80074BB85 /* timer */,
-				063A3798295A89CA0074BB85 /* counter */,
-				063A3797295A89BB0074BB85 /* multiplier */,
 				063A3796295A89AB0074BB85 /* fly */,
 				063A3791295A86500074BB85 /* frog */,
 				062C4959294C435000116F44 /* buttons */,
@@ -101,6 +107,7 @@
 				062C4946294C41FE00116F44 /* Actions.sks */,
 				062C4948294C41FE00116F44 /* BattleScene.swift */,
 				064675F5296B51D300174DFF /* GameScene.swift */,
+				06BCAB322A3BE487005F3A9F /* SettingsScene.swift */,
 				0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */,
 				06206E0F2A39828B0001B110 /* AlertWindow.swift */,
 				062C494A294C41FE00116F44 /* GameViewController.swift */,
@@ -137,27 +144,16 @@
 			children = (
 				063A379A295A8BB20074BB85 /* Fly.swift */,
 				063A379C295AAE850074BB85 /* FlyDelegate.swift */,
+				06BCAB342A3C274D005F3A9F /* FlyCounter.swift */,
 			);
 			path = fly;
-			sourceTree = "<group>";
-		};
-		063A3797295A89BB0074BB85 /* multiplier */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = multiplier;
-			sourceTree = "<group>";
-		};
-		063A3798295A89CA0074BB85 /* counter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = counter;
 			sourceTree = "<group>";
 		};
 		063A3799295A89E80074BB85 /* timer */ = {
 			isa = PBXGroup;
 			children = (
+				063782872A3BC0BA00A4A1C6 /* TimeBar.swift */,
+				063782892A3BC0F500A4A1C6 /* TimeBarDelegate.swift */,
 			);
 			path = timer;
 			sourceTree = "<group>";
@@ -250,6 +246,8 @@
 			files = (
 				064675F6296B51D300174DFF /* GameScene.swift in Sources */,
 				062C4949294C41FE00116F44 /* BattleScene.swift in Sources */,
+				06BCAB352A3C274D005F3A9F /* FlyCounter.swift in Sources */,
+				0637828A2A3BC0F500A4A1C6 /* TimeBarDelegate.swift in Sources */,
 				063A379D295AAE850074BB85 /* FlyDelegate.swift in Sources */,
 				062C494B294C41FE00116F44 /* GameViewController.swift in Sources */,
 				06206E102A39828B0001B110 /* AlertWindow.swift in Sources */,
@@ -260,7 +258,9 @@
 				06D007902A3AC33200CABA15 /* Settings.swift in Sources */,
 				06302BFB294C4C0E000F7D7D /* Util.swift in Sources */,
 				063A379B295A8BB20074BB85 /* Fly.swift in Sources */,
+				063782882A3BC0BB00A4A1C6 /* TimeBar.swift in Sources */,
 				062C495B294C437300116F44 /* NumberButton.swift in Sources */,
+				06BCAB332A3BE487005F3A9F /* SettingsScene.swift in Sources */,
 				064675F8296B53B300174DFF /* Button.swift in Sources */,
 				062C4943294C41FE00116F44 /* AppDelegate.swift in Sources */,
 			);

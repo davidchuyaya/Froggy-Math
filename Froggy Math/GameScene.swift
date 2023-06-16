@@ -11,6 +11,14 @@ import GameplayKit
 class GameScene: SKScene, ButtonDelegate {
     static let buttonsBottomMargin = 0.1
     
+    override init() {
+        super.init(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight()))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0, y: 0)
         
@@ -30,6 +38,10 @@ class GameScene: SKScene, ButtonDelegate {
         let zenModeButton = Button(type: .zenMode, center: true, delegate: self)
         zenModeButton.position = CGPoint(x: Util.width(percent: 0.5 + Button.sizePercent + Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(zenModeButton)
+        
+        let settingsButton = Button(type: .settings, center: false, delegate: self)
+        settingsButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
+        addChild(settingsButton)
     }
     
     func createEggProgressionWindow() {
@@ -39,6 +51,13 @@ class GameScene: SKScene, ButtonDelegate {
     }
     
     func onButtonPressed(button: ButtonTypes) {
-        scene?.view?.presentScene(BattleScene(mode: button))
+        switch (button) {
+        case .accuracyMode, .speedMode, .zenMode:
+            scene?.view?.presentScene(BattleScene(mode: button))
+        case .settings:
+            scene?.view?.presentScene(SettingsScene())
+        default:
+            print("Button on main screen not supported")
+        }
     }
 }

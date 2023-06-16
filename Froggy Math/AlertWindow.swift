@@ -9,9 +9,7 @@ import SpriteKit
 
 class AlertWindow: SKNode, ButtonDelegate {
     static let imageWidthPercent = 0.5
-    static let font = "Noteworthy-Light"
-    static let fontSize: CGFloat = 36
-    static let numberOfLines = 2
+    static let yMarginPercent = 0.1
     
     var delegate: ButtonDelegate?
     var image: SKSpriteNode!
@@ -30,7 +28,7 @@ class AlertWindow: SKNode, ButtonDelegate {
             // center button x should be 0, if there is an odd number
             let distanceFromMid = halfNumButtons - Double(i)
             let x = (0.5 - distanceFromMid) * (Util.width(percent: Button.sizePercent + Util.marginPercent))
-            button.position = CGPoint(x: x, y: Util.margin())
+            button.position = CGPoint(x: x, y: Util.width(percent: AlertWindow.yMarginPercent))
             button.zPosition = 201
             buttons.append(button)
         }
@@ -38,23 +36,21 @@ class AlertWindow: SKNode, ButtonDelegate {
         label = SKLabelNode()
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .top
-        label.fontSize = AlertWindow.fontSize
-        label.fontName = AlertWindow.font
-        label.numberOfLines = AlertWindow.numberOfLines
-        label.preferredMaxLayoutWidth = Util.width(percent: AlertWindow.imageWidthPercent - Util.marginPercent * 2)
-        let labelHeight = labelHeight() * CGFloat(AlertWindow.numberOfLines)
-        label.position = CGPoint(x: 0, y: Util.width(percent: Button.sizePercent + Util.marginPercent * 2) + labelHeight)
+        label.fontSize = Util.fontSize
+        label.fontName = Util.font
+        label.numberOfLines = 0
+        label.preferredMaxLayoutWidth = Util.width(percent: 1 - Util.marginPercent * 2)
+        label.position = CGPoint(x: 0, y: Util.windowHeight() / 2)
         label.fontColor = .black
         label.zPosition = 201
         label.text = text
         
         image = SKSpriteNode(texture: SKTexture(imageNamed: imageFile), size: CGSize(width: Util.width(percent: AlertWindow.imageWidthPercent), height: Util.width(percent: AlertWindow.imageWidthPercent)))
-//        image = SKSpriteNode(color: .blue, size: CGSize(width: Util.width(percent: AlertWindow.imageWidthPercent), height: Util.width(percent: AlertWindow.imageWidthPercent)))
-        image.anchorPoint = CGPoint(x: 0.5, y: 0)
-        image.position = CGPoint(x: 0, y: Util.width(percent: Button.sizePercent + Util.marginPercent * 3) + labelHeight)
+        image.anchorPoint = CGPoint(x: 0.5, y: 1)
+        image.position = CGPoint(x: 0, y: Util.height(percent: 1 - AlertWindow.yMarginPercent))
         image.zPosition = 201
 
-        let bg = SKSpriteNode(color: .white, size: CGSize(width: Util.width(percent: AlertWindow.imageWidthPercent + Util.marginPercent * 2), height: Util.width(percent: AlertWindow.imageWidthPercent + Button.sizePercent + Util.marginPercent * 4) + labelHeight))
+        let bg = SKSpriteNode(color: .white, size: CGSize(width: Util.windowWidth(), height: Util.windowHeight()))
         bg.anchorPoint = CGPoint(x: 0.5, y: 0)
         bg.zPosition = 200
         addChild(bg)
@@ -64,17 +60,12 @@ class AlertWindow: SKNode, ButtonDelegate {
         for button in buttons {
             bg.addChild(button)
         }
-        // for some reason centering bg on y-axis doesn't center its children, so we have to do a little math
-        position = CGPoint(x: Util.windowWidth() / 2, y: Util.windowHeight() / 2 - bg.size.height / 2)
+        
+        position = CGPoint(x: Util.windowWidth() / 2, y: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func labelHeight() -> CGFloat {
-        let font = UIFont(name: AlertWindow.font, size: AlertWindow.fontSize)
-        return font!.lineHeight
+        super.init(coder: aDecoder)
     }
     
     func onButtonPressed(button: ButtonTypes) {

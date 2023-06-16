@@ -7,36 +7,29 @@
 
 import SpriteKit
 
-class NumberButton: SKNode {
-    static let insetSpacingPercent = 0.0
+class NumberButton: Button {
+    static let numButtonSizePercent = 0.16
+    static let insetPercent = 0.03
     var num: NumberTypes!
-    var delegate: NumberButtonDelegate!
+    var numDelegate: NumberButtonDelegate!
     
-    init(num: NumberTypes, delegate: NumberButtonDelegate) {
-        super.init()
-        self.num = num
-        self.delegate = delegate
+    init(num: NumberTypes, center: Bool, delegate: NumberButtonDelegate) {
+        super.init(imageFile: num.file(), size: Util.width(percent: NumberButton.numButtonSizePercent), center: center, delegate: nil)
         
-        let rect = SKSpriteNode(texture: SKTexture(imageNamed: num.file()), size: CGSize(width: NumberButton.getSize(), height: NumberButton.getSize()))
-        rect.anchorPoint = CGPoint(x: 0, y: 0)
-        rect.zPosition = 100
-        addChild(rect)
-        isUserInteractionEnabled = true
+        self.num = num
+        self.numDelegate = delegate
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        delegate.onButtonPressed(num: num)
+    override func onButtonPressed() {
+        numDelegate.onButtonPressed(num: num)
     }
     
-    static func getSize() -> Double {
-        let screenSides = Util.marginPercent * 2
-        let numButtons = 10.0
-        let totalInsetSpacing = insetSpacingPercent * (numButtons - 1)
-        let w =  Util.width(percent: (1-screenSides-totalInsetSpacing)/numButtons)
-        return w
+    func setDisabledColor() {
+        rect.color = .black
+        rect.colorBlendFactor = 0.8
     }
 }
