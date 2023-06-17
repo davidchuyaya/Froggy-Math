@@ -23,7 +23,8 @@ class GameScene: SKScene, ButtonDelegate {
         anchorPoint = CGPoint(x: 0, y: 0)
         
         createButtons()
-        createEggProgressionWindow()
+        createProgressBar()
+        createEggProgressionAlert()
     }
     
     func createButtons() {
@@ -44,7 +45,12 @@ class GameScene: SKScene, ButtonDelegate {
         addChild(settingsButton)
     }
     
-    func createEggProgressionWindow() {
+    func createProgressBar() {
+        let progressBar = ProgressBar()
+        addChild(progressBar)
+    }
+    
+    func createEggProgressionAlert() {
         if Settings.getFrogStage() == 0 {
             addChild(AlertWindow(imageFile: FrogStages.file(stage: 0), text: "You got a new egg!", buttonTypes: [.ok], delegate: nil))
         }

@@ -10,18 +10,16 @@ import SpriteKit
 class Fly: SKNode {
     static let xMarginPercent = 0.4
     static let sizePercent = 0.1
-    static let stillSizePercent = 0.06
     static let moveDistance = 5.0
-    static let screenBottom: CGFloat = 100
     static let loopVariation: CGFloat = 10 // higher = more diverse sizes of loops, might go off screen though
     static let numLoops = 4
     var type: FlyTypes!
     var difficulty: Difficulty!
-    var delegate: FlyDelegate?
+    var delegate: FlyDelegate!
     var flyPic: SKSpriteNode!
     var wingsDownTexture: SKTexture!
     
-    init(type: FlyTypes, center: Bool, difficulty: Difficulty, delegate: FlyDelegate?) {
+    init(type: FlyTypes, difficulty: Difficulty, delegate: FlyDelegate) {
         super.init()
         
         self.type = type
@@ -31,25 +29,14 @@ class Fly: SKNode {
         let wingsUpTexture = SKTexture(imageNamed: "flies_0000_Layer-2")
         wingsDownTexture = SKTexture(imageNamed: "flies_0001_Layer-1")
         
-        flyPic = SKSpriteNode(texture: wingsDownTexture, size: CGSize(width: Fly.getSize(type: type), height: Fly.getSize(type: type)))
-        if center {
-            flyPic.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        }
-        else {
-            flyPic.anchorPoint = CGPoint(x: 0, y: 0)
-        }
+        flyPic = SKSpriteNode(texture: wingsDownTexture, size: CGSize(width: Util.width(percent: Fly.sizePercent), height: Util.width(percent: Fly.sizePercent)))
+        flyPic.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(flyPic)
         flyPic.zPosition = 2
-        
-        // if type = still, this fly is a fly counter and should show up as a silhouette first
-        if type == .still {
-            setColorNeutral()
-        } // otherwise animate flapping
-        else {
-            position = CGPoint(x: -200, y: -200)
-            flyPic.run(SKAction.repeatForever(SKAction.animate(with: [wingsDownTexture, wingsUpTexture], timePerFrame: 0.1)))
-            createPaths()
-        }
+
+        position = CGPoint(x: -200, y: -200)
+        flyPic.run(SKAction.repeatForever(SKAction.animate(with: [wingsDownTexture, wingsUpTexture], timePerFrame: 0.1)))
+        createPaths()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -62,8 +49,6 @@ class Fly: SKNode {
             followSpiralPath()
         case .toLeaf:
             followPathToLeaf()
-        case .still:
-            break
         default:
             print("type doesn't exist for fly")
         }
@@ -82,18 +67,18 @@ class Fly: SKNode {
         }
         
         run(SKAction.follow(path.cgPath, asOffset: false, orientToPath: false, speed: difficulty.speed()), completion: {
-            self.delegate?.flyReachedBottom()
+            self.delegate.flyReachedBottom()
         })
     }
     
     // returns new starting Y after the loop
     func addLoopTo(_ path: UIBezierPath, x: CGFloat, topY: CGFloat, clockwise: Bool, lastLoop: Bool) -> CGFloat {
         // control the size of the loops. x1.5 because the the flies go halfway back up each loop
-        let loopAvgSize = (Util.windowHeight() - Fly.screenBottom) / CGFloat(Fly.numLoops) * 1.5
+        let loopAvgSize = Util.windowHeight() / CGFloat(Fly.numLoops) * 1.5
         let loopDiff = CGFloat.random(in: -Fly.loopVariation..<Fly.loopVariation)
         var bottomY = topY - (loopAvgSize + loopDiff)
-        if (bottomY - Fly.getSize(type: type) * 2) < Fly.screenBottom || lastLoop { // add some padding at bottom so fly doesn't dip out of existence
-            bottomY = Fly.screenBottom
+        if (bottomY - Util.width(percent: Fly.sizePercent) * 2) < 0 || lastLoop { // add some padding at bottom so fly doesn't dip out of existence
+            bottomY = 0
         }
         
         let cpXDif1 = (topY - bottomY) * 0.75
@@ -137,28 +122,5 @@ class Fly: SKNode {
         
         flyPic.isPaused = false
         run(SKAction.sequence([SKAction.follow(path, asOffset: false, orientToPath: false, speed: difficulty.speed()), SKAction.removeFromParent()]))
-    }
-    
-    func setColorNeutral() {
-        flyPic.color = .black
-        flyPic.colorBlendFactor = 1.0
-    }
-    
-    func setColorFailed() {
-        flyPic.color = .red
-        flyPic.colorBlendFactor = 0.7
-    }
-    
-    func setColorSucceeded() {
-        flyPic.colorBlendFactor = 0.0
-    }
-    
-    static func getSize(type: FlyTypes) -> Double {
-        if type == .still {
-            return Util.width(percent: stillSizePercent)
-        }
-        else {
-            return Util.width(percent: sizePercent)
-        }
     }
 }

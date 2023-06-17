@@ -48,7 +48,10 @@ enum ButtonTypes {
     }
 }
 enum FlyTypes {
-    case toLeaf, spiral, still
+    case toLeaf, spiral
+}
+enum FlyCounterTypes {
+    case normal, numbered, progress
 }
 
 enum Difficulty {
@@ -69,8 +72,7 @@ enum Difficulty {
 
 class FrogStages {
     static func file(stage: Int) -> String {
-        // only 7 stages of frog
-        return "frog_stage_\(stage % 7)"
+        return "frog_stage_\(stage)"
     }
 }
 

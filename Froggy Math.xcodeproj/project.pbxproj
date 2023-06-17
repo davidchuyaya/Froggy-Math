@@ -28,6 +28,8 @@
 		064675F8296B53B300174DFF /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064675F7296B53B300174DFF /* Button.swift */; };
 		0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */; };
 		0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */; };
+		0671C8FF2A3CD2430072B400 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0671C8FE2A3CD2430072B400 /* ProgressBar.swift */; };
+		0671C9012A3CEA890072B400 /* GameOverWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0671C9002A3CEA890072B400 /* GameOverWindow.swift */; };
 		06BCAB332A3BE487005F3A9F /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB322A3BE487005F3A9F /* SettingsScene.swift */; };
 		06BCAB352A3C274D005F3A9F /* FlyCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB342A3C274D005F3A9F /* FlyCounter.swift */; };
 		06D007902A3AC33200CABA15 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D0078F2A3AC33200CABA15 /* Settings.swift */; };
@@ -59,6 +61,8 @@
 		064675F7296B53B300174DFF /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		0663F4E42956B07000EB7DCF /* ButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDelegate.swift; sourceTree = "<group>"; };
 		0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemWindow.swift; sourceTree = "<group>"; };
+		0671C8FE2A3CD2430072B400 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		0671C9002A3CEA890072B400 /* GameOverWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverWindow.swift; sourceTree = "<group>"; };
 		06BCAB322A3BE487005F3A9F /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		06BCAB342A3C274D005F3A9F /* FlyCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyCounter.swift; sourceTree = "<group>"; };
 		06D0078F2A3AC33200CABA15 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -107,9 +111,11 @@
 				062C4946294C41FE00116F44 /* Actions.sks */,
 				062C4948294C41FE00116F44 /* BattleScene.swift */,
 				064675F5296B51D300174DFF /* GameScene.swift */,
+				0671C8FE2A3CD2430072B400 /* ProgressBar.swift */,
 				06BCAB322A3BE487005F3A9F /* SettingsScene.swift */,
 				0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */,
 				06206E0F2A39828B0001B110 /* AlertWindow.swift */,
+				0671C9002A3CEA890072B400 /* GameOverWindow.swift */,
 				062C494A294C41FE00116F44 /* GameViewController.swift */,
 				06302BFA294C4C0E000F7D7D /* Util.swift */,
 				06D0078F2A3AC33200CABA15 /* Settings.swift */,
@@ -248,6 +254,7 @@
 				062C4949294C41FE00116F44 /* BattleScene.swift in Sources */,
 				06BCAB352A3C274D005F3A9F /* FlyCounter.swift in Sources */,
 				0637828A2A3BC0F500A4A1C6 /* TimeBarDelegate.swift in Sources */,
+				0671C9012A3CEA890072B400 /* GameOverWindow.swift in Sources */,
 				063A379D295AAE850074BB85 /* FlyDelegate.swift in Sources */,
 				062C494B294C41FE00116F44 /* GameViewController.swift in Sources */,
 				06206E102A39828B0001B110 /* AlertWindow.swift in Sources */,
@@ -262,6 +269,7 @@
 				062C495B294C437300116F44 /* NumberButton.swift in Sources */,
 				06BCAB332A3BE487005F3A9F /* SettingsScene.swift in Sources */,
 				064675F8296B53B300174DFF /* Button.swift in Sources */,
+				0671C8FF2A3CD2430072B400 /* ProgressBar.swift in Sources */,
 				062C4943294C41FE00116F44 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

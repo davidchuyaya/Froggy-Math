@@ -12,11 +12,10 @@ class AlertWindow: SKNode, ButtonDelegate {
     static let yMarginPercent = 0.1
     
     var delegate: ButtonDelegate?
-    var image: SKSpriteNode!
     var label: SKLabelNode!
     var buttons = [Button]()
     
-    init(imageFile: String, text: String, buttonTypes: [ButtonTypes], delegate: ButtonDelegate?) {
+    init(image: SKNode?, text: String, buttonTypes: [ButtonTypes], delegate: ButtonDelegate?) {
         super.init()
         
         self.delegate = delegate
@@ -44,24 +43,30 @@ class AlertWindow: SKNode, ButtonDelegate {
         label.fontColor = .black
         label.zPosition = 201
         label.text = text
-        
-        image = SKSpriteNode(texture: SKTexture(imageNamed: imageFile), size: CGSize(width: Util.width(percent: AlertWindow.imageWidthPercent), height: Util.width(percent: AlertWindow.imageWidthPercent)))
-        image.anchorPoint = CGPoint(x: 0.5, y: 1)
-        image.position = CGPoint(x: 0, y: Util.height(percent: 1 - AlertWindow.yMarginPercent))
-        image.zPosition = 201
 
         let bg = SKSpriteNode(color: .white, size: CGSize(width: Util.windowWidth(), height: Util.windowHeight()))
         bg.anchorPoint = CGPoint(x: 0.5, y: 0)
         bg.zPosition = 200
         addChild(bg)
         
-        bg.addChild(image)
+        if image != nil {
+            bg.addChild(image!)
+        }
         bg.addChild(label)
         for button in buttons {
             bg.addChild(button)
         }
         
         position = CGPoint(x: Util.windowWidth() / 2, y: 0)
+    }
+    
+    convenience init(imageFile: String, text: String, buttonTypes: [ButtonTypes], delegate: ButtonDelegate?) {
+        let image = SKSpriteNode(texture: SKTexture(imageNamed: imageFile), size: CGSize(width: Util.width(percent: AlertWindow.imageWidthPercent), height: Util.width(percent: AlertWindow.imageWidthPercent)))
+        image.anchorPoint = CGPoint(x: 0.5, y: 1)
+        image.position = CGPoint(x: 0, y: Util.height(percent: 1 - AlertWindow.yMarginPercent))
+        image.zPosition = 201
+        
+        self.init(image: image, text: text, buttonTypes: buttonTypes, delegate: delegate)
     }
     
     required init?(coder aDecoder: NSCoder) {

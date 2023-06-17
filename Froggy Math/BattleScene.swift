@@ -22,6 +22,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     static let totalProblems = 10
     var solved = 0
     var failed = 0
+    var incorrect = 0
     
     var mode: ButtonTypes!
     var flyType: FlyTypes!
@@ -42,8 +43,10 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     var frog: Frog!
     var fly: Fly?
-    var flyCounters = [Fly]() // used in accuracy mode
+    var flyCounters = [FlyCounter]() // used in accuracy mode
     var flyCounter: FlyCounter? // used in speed/zen mode
+    
+    var startTime: Date!
     
     init(mode: ButtonTypes) {
         super.init(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight()))
@@ -151,23 +154,23 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     }
     
     func createTimer() {
-        let topY = Util.windowHeight() - Util.width(percent: Util.marginPercent * 3 + Button.sizePercent + Fly.stillSizePercent)
+        let topY = Util.windowHeight() - Util.width(percent: Util.marginPercent * 3 + Button.sizePercent + FlyCounter.withTextSizePercent)
         let bottomY = Util.margin() + numberButtonTopY
         timeBar = TimeBar(topY: topY, bottomY: bottomY, delegate: self)
         addChild(timeBar!)
     }
     
     func createFlyCounter() {
-        flyCounter = FlyCounter()
-        flyCounter!.position = CGPoint(x: Util.width(percent: Util.marginPercent + TimeBar.widthPercent / 2), y: Util.windowHeight() - Util.width(percent: Util.marginPercent * 2 + Button.sizePercent + Fly.stillSizePercent))
+        flyCounter = FlyCounter(type: .numbered)
+        flyCounter!.position = CGPoint(x: Util.width(percent: Util.marginPercent + TimeBar.widthPercent / 2), y: Util.windowHeight() - Util.width(percent: Util.marginPercent * 2 + Button.sizePercent + FlyCounter.withTextSizePercent))
         addChild(flyCounter!)
     }
     
     func createFlyCounters() {
         for i in 0..<BattleScene.totalProblems {
-            let fly = Fly(type: .still, center: false, difficulty: difficulty, delegate: self)
-            let topExtraMargin = CGFloat(i) * (Fly.getSize(type: .still) + Util.height(percent: BattleScene.flyCounterMargin))
-            fly.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - BattleScene.flyCounterYPercent) - topExtraMargin)
+            let fly = FlyCounter(type: .normal)
+            let topExtraMargin = CGFloat(i) * (Util.width(percent: FlyCounter.flySizePercent) + Util.height(percent: BattleScene.flyCounterMargin))
+            fly.position = CGPoint(x: Util.width(percent: FlyCounter.flySizePercent / 2 + Util.marginPercent), y: Util.height(percent: 1 - BattleScene.flyCounterYPercent) - topExtraMargin)
             addChild(fly)
             flyCounters.append(fly)
         }
@@ -183,7 +186,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         if let prevFly = fly {
             prevFly.removeFromParent()
         }
-        fly = Fly(type: flyType, center: false, difficulty: difficulty, delegate: self)
+        fly = Fly(type: flyType, difficulty: difficulty, delegate: self)
         self.addChild(fly!)
     }
     
@@ -198,6 +201,8 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     func resetValues() {
         solved = 0
         failed = 0
+        incorrect = 0
+        startTime = Date()
         newProblem()
         refreshFlyCounter()
         reviewNumbers.removeAll()
@@ -299,6 +304,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     // the answer the user inputted was wrong
     func indicateIncorrect() {
+        incorrect += 1
         pause(true)
         let flareButtons = SKAction.run {
             for button in self.inputButtons {
@@ -318,6 +324,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     // the user has spent too much time or too many tries on this fly
     func indicateFailed() {
+        incorrect += 1
         failed += 1
         addReviewNumbers()
         pause(true)
@@ -348,16 +355,30 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     }
     
     func gameOver() {
-        var reviewText = ""
-        if !reviewNumbers.isEmpty {
-            for (num1, num2) in reviewNumbers {
-                reviewText += "\n\(num1) × \(num2) = \(num1*num2)"
-            }
-        }
-        
-        let gameOverWindow = AlertWindow(imageFile: FrogStages.file(stage: 0), text: "Game over! \(reviewText)", buttonTypes: [.home, .replay], delegate: self)
-        addChild(gameOverWindow)
         pause(true)
+        
+        // show game over window
+        let gameOverWindow = GameOverWindow(reviewNumbers: reviewNumbers, buttonTypes: [.home, .replay], delegate: self)
+        addChild(gameOverWindow)
+        let accuracy = Double(solved / (solved + incorrect + failed))
+        let timeElapsed = Date().timeIntervalSince(startTime)
+        let speed = Double(solved) / timeElapsed * 60.0
+        gameOverWindow.animate(mode: mode, solvedFlies: solved, accuracy: accuracy, speed: speed)
+        
+        // save new stats
+        Settings.updateAccuracy(accuracy)
+        Settings.updateSpeed(speed)
+        
+        switch (mode) {
+        case .accuracyMode:
+            Settings.updateFliesInAccuracyMode(solved: solved)
+        case .speedMode:
+            Settings.updateFliesInSpeedMode(solved: solved)
+        case .zenMode:
+            Settings.updateFliesInZenMode(solved: solved)
+        default:
+            print("Unsupported game mode: \(mode!)")
+        }
     }
     
     func pause(_ pause: Bool) {
