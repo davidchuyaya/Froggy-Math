@@ -300,7 +300,9 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     }
     
     func onClearPressed() {
-        clear()
+        let onesPlace = input % 10
+        input = (input - onesPlace) / 10
+        refreshProblemWindow()
     }
     
     func onProgressFrogPressed() {
@@ -380,20 +382,22 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func gameOver() {
         pause(true)
-        let shouldEvolve = shouldEvolve()
+        let (modeDelta, progressTotal, shouldEvolve) = calculateProgress()
         
         // show game over window
         let progressFrogDelegate = shouldEvolve ? self : nil
         gameOverWindow = GameOverWindow(reviewNumbers: reviewNumbers, buttonTypes: [.home, .replay], delegate: self, frogDelegate: progressFrogDelegate)
         addChild(gameOverWindow!)
-        let accuracy = Double(solved) / Double(solved + incorrect + failed)
+        let attempts = solved + incorrect + failed
+        let accuracy = (attempts == 0) ? 0 : Double(solved) / Double(attempts)
         let timeElapsed = Date().timeIntervalSince(startTime) - pauseTime
         let speed = Double(solved) / timeElapsed * 60.0
-        gameOverWindow!.animate(mode: mode, solvedFlies: solved, accuracy: accuracy, speed: speed)
+        gameOverWindow!.animate(mode: mode, solvedFlies: solved, accuracy: accuracy, speed: speed, modeDelta: modeDelta, progressTotal: progressTotal)
         
         // save new stats
         Settings.updateAccuracy(accuracy)
         Settings.updateSpeed(speed)
+        Settings.addCoins(solved)
         
         if !shouldEvolve {
             if !Settings.didLastEvolveToday() {
@@ -426,32 +430,38 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         }
     }
     
-    func shouldEvolve() -> Bool {
-        guard solved > 0 else {
-            return false
-        }
-        guard !Settings.didLastEvolveToday() else {
-            return false
-        }
-        
-        let total: Int
+    func calculateProgress() -> (modeDelta: Int, progressTotal: Int, shouldEvolve: Bool) {
         let fliesInAccuracyMode = Settings.getFliesInAccuracyMode()
         let fliesInSpeedMode = Settings.getFliesInSpeedMode()
         let fliesInZenMode = Settings.getFliesInZenMode()
+
+        guard !Settings.didLastEvolveToday() else {
+            return (0, 0, false)
+        }
+        
+        let total: Int
+        let modeTotal: Int
+        let modeDelta: Int
         
         switch (mode) {
         case .accuracyMode:
-            total = min(fliesInAccuracyMode + solved, FlyCounter.maxFlies) + fliesInSpeedMode + fliesInZenMode
+            modeTotal = min(fliesInAccuracyMode + solved, FlyCounter.maxFlies)
+            modeDelta = modeTotal - fliesInAccuracyMode
+            total = modeTotal + fliesInSpeedMode + fliesInZenMode
         case .speedMode:
-            total = fliesInAccuracyMode + min(fliesInSpeedMode + solved, FlyCounter.maxFlies) + fliesInZenMode
+            modeTotal = min(fliesInSpeedMode + solved, FlyCounter.maxFlies)
+            modeDelta = modeTotal - fliesInSpeedMode
+            total = fliesInAccuracyMode + modeTotal + fliesInZenMode
         case .zenMode:
-            total = fliesInAccuracyMode + fliesInSpeedMode + min(fliesInZenMode + solved, FlyCounter.maxFlies)
+            modeTotal = min(fliesInZenMode + solved, FlyCounter.maxFlies)
+            modeDelta = modeTotal - fliesInZenMode
+            total = fliesInAccuracyMode + fliesInSpeedMode + modeTotal
         default:
             print("Unsupported game mode: \(mode!)")
-            return false
+            return (0, 0, false)
         }
         
-        return total >= FlyCounter.maxFlies
+        return (modeDelta, total, total >= FlyCounter.maxFlies * 3)
     }
     
     // note: Must always call pause(true) before pause(false), otherwise calculation of pause time breaks

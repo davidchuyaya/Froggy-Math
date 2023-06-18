@@ -128,7 +128,7 @@ class GameOverWindow: AlertWindow {
         return label
     }
     
-    func animate(mode: ButtonTypes, solvedFlies: Int, accuracy: Double, speed: Double) {
+    func animate(mode: ButtonTypes, solvedFlies: Int, accuracy: Double, speed: Double, modeDelta: Int, progressTotal: Int) {
         let accuracyWeek = max(Settings.getAccuracyWeek(), accuracy)
         let accuracyDay = max(Settings.getAccuracyDay(), accuracy)
         let speedWeek = max(Settings.getSpeedWeek(), speed)
@@ -147,7 +147,7 @@ class GameOverWindow: AlertWindow {
         accuracyBar.run(SKAction.sequence([wait, SKAction.resize(toWidth: accuracy * statsWidth, duration: GameOverWindow.animateTime)]))
         speedBar.run(SKAction.sequence([wait, SKAction.resize(toWidth: speed / speedWeek * statsWidth, duration: GameOverWindow.animateTime)]))
         let progressBarAction = SKAction.run {
-            self.progressBar.animate(mode: mode, solvedFlies: solvedFlies)
+            self.progressBar.animate(mode: mode,  modeDelta: modeDelta, progressTotal: progressTotal)
         }
         run(SKAction.sequence([wait, progressBarAction]))
         

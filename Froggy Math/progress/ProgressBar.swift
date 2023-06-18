@@ -90,21 +90,13 @@ class ProgressBar: SKNode {
     }
     
     
-    func animate(mode: ButtonTypes, solvedFlies: Int) {
-        guard solvedFlies > 0 else {
+    func animate(mode: ButtonTypes, modeDelta: Int, progressTotal: Int) {
+        guard modeDelta > 0 else {
             return // nothing to animate (no changes)
         }
-        guard !Settings.didLastEvolveToday() else {
-            return // just evolved today, so new flies don't count
-        }
-        let oldNumFlies = Settings.getFliesInAccuracyMode() + Settings.getFliesInSpeedMode() + Settings.getFliesInZenMode()
-        let newNumFlies = min(FlyCounter.maxFlies, oldNumFlies + solvedFlies)
-        guard oldNumFlies != newNumFlies else {
-            return // nothing to animate (already at max)
-        }
         
-        barFillMask.run(SKAction.resize(toWidth: getBarFillWidth(frogStage: Settings.getFrogStage(), flies: newNumFlies), duration: GameOverWindow.animateTime))
-        flyCounters[mode]?.animateCountIncrement(solvedFlies: solvedFlies)
+        barFillMask.run(SKAction.resize(toWidth: getBarFillWidth(frogStage: Settings.getFrogStage(), flies: progressTotal), duration: GameOverWindow.animateTime))
+        flyCounters[mode]?.animateCountIncrement(modeDelta: modeDelta)
     }
     
     func getBottomY() -> CGFloat {

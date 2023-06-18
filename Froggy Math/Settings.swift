@@ -21,6 +21,7 @@ class Settings {
     static let keySpeedWeek = "speed-week"
     static let keySpeedDay = "speed-day"
     static let keyFrogs = "frogs" // array of all frogs
+    static let keyCoins = "coins" // how many coins you have
     
     // call function on init
     static func registerDefaults() {
@@ -38,7 +39,8 @@ class Settings {
             keyAccuracyDay: 0.0,
             keySpeedWeek: 0.0,
             keySpeedDay: 0.0,
-            keyFrogs: [String]()
+            keyFrogs: [String](),
+            keyCoins: 0
         ])
     }
     
@@ -202,5 +204,10 @@ class Settings {
         var frogs = getFrogs()
         frogs.append(frog)
         UserDefaults.standard.set(frogs.map({$0.rawValue}), forKey: keyFrogs)
+    }
+    
+    static func addCoins(_ coins: Int) {
+        let existingCoins = UserDefaults.standard.integer(forKey: keyCoins)
+        UserDefaults.standard.set(existingCoins + coins, forKey: keyCoins)
     }
 }

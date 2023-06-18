@@ -92,8 +92,8 @@ class FlyCounter: SKNode {
         }
     }
     
-    func animateCountIncrement(solvedFlies: Int) {
-        guard solvedFlies > 0 else {
+    func animateCountIncrement(modeDelta: Int) {
+        guard modeDelta > 0 else {
             return
         }
         guard count != nil else {
@@ -106,7 +106,7 @@ class FlyCounter: SKNode {
         }
         
         let flySize = Util.width(percent: FlyCounter.flySizePercent)
-        let percentWidth = Double(count! + solvedFlies) / Double(FlyCounter.maxFlies)
+        let percentWidth = Double(count! + modeDelta) / Double(FlyCounter.maxFlies)
         
         flyMask!.run(SKAction.resize(toWidth: (1.0 - percentWidth) * flySize, duration: GameOverWindow.animateTime))
     }
