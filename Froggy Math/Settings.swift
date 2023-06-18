@@ -9,7 +9,8 @@ import Foundation
 
 class Settings {
     static let keyLastWeek = "last-week" // the week we're tracking weekly stats for
-    static let keyLastDay = "last-day" // when the flies/frog stage was last recalculated + the day we're tracking daily stats for
+    static let keyLastDay = "last-day" // the day we're tracking daily stats for
+    static let keyLastEvolved = "last-evolved" // the last day the frog stage changed. Cannot change 2 stages in one day
     static let keyFrogStage = "frog-stage" // what current stage of the egg are we on
     static let keyTimesTable = "times-table" // which numbers' times tables we are using
     static let keyFliesInAccuracyMode = "flies-in-accuracy-mode" // how many flies we got in accuracy mode since we last maxed out all flies
@@ -19,6 +20,7 @@ class Settings {
     static let keyAccuracyDay = "accuracy-day"
     static let keySpeedWeek = "speed-week"
     static let keySpeedDay = "speed-day"
+    static let keyFrogs = "frogs" // array of all frogs
     
     // call function on init
     static func registerDefaults() {
@@ -26,7 +28,8 @@ class Settings {
         UserDefaults.standard.register(defaults: [
             keyLastWeek: now,
             keyLastDay: now,
-            keyFrogStage: 0,
+            keyLastEvolved: NSCalendar.current.date(byAdding: .day, value: -1, to: now)!, // last evolved NOT today by default
+            keyFrogStage: 7, // default stage = 7 so we can trigger new egg alert, which will reset stage to 0
             keyTimesTable: Array(2...9),
             keyFliesInAccuracyMode: 0,
             keyFliesInSpeedMode: 0,
@@ -34,7 +37,8 @@ class Settings {
             keyAccuracyWeek: 0.0,
             keyAccuracyDay: 0.0,
             keySpeedWeek: 0.0,
-            keySpeedDay: 0.0
+            keySpeedDay: 0.0,
+            keyFrogs: [String]()
         ])
     }
     
@@ -60,12 +64,22 @@ class Settings {
         }
     }
     
-    static func getFrogStage() -> Int {
-        return UserDefaults.standard.integer(forKey: keyFrogStage) % 7
+    static func didLastEvolveToday() -> Bool {
+        let now = Date()
+        let lastEvolved = UserDefaults.standard.object(forKey: keyLastEvolved) as! Date
+        return NSCalendar.current.isDate(now, inSameDayAs: lastEvolved)
     }
     
-    static func setFrogStage(num: Int) {
-        UserDefaults.standard.set(num % 7, forKey: keyFrogStage)
+    static func setLastEvolved() {
+        UserDefaults.standard.set(Date(), forKey: keyLastEvolved)
+    }
+    
+    static func getFrogStage() -> Int {
+        return UserDefaults.standard.integer(forKey: keyFrogStage) % 8
+    }
+    
+    static func incrementFrogStage() {
+        UserDefaults.standard.set((getFrogStage() + 1) % 8, forKey: keyFrogStage)
     }
     
     static func getTimesTable() -> [Int] {
@@ -124,12 +138,26 @@ class Settings {
         UserDefaults.standard.set(newFlies, forKey: keyFliesInZenMode)
     }
     
+    static func resetFlies() {
+        UserDefaults.standard.set(0, forKey: keyFliesInAccuracyMode)
+        UserDefaults.standard.set(0, forKey: keyFliesInSpeedMode)
+        UserDefaults.standard.set(0, forKey: keyFliesInZenMode)
+    }
+    
     static func getAccuracyWeek() -> Double {
         return UserDefaults.standard.double(forKey: keyAccuracyWeek)
     }
     
+    static func resetAccuracyWeek() {
+        UserDefaults.standard.set(0.0, forKey: keyAccuracyWeek)
+    }
+    
     static func getAccuracyDay() -> Double {
         return UserDefaults.standard.double(forKey: keyAccuracyDay)
+    }
+    
+    static func resetAccuracyDay() {
+        UserDefaults.standard.set(0.0, forKey: keyAccuracyDay)
     }
     
     static func updateAccuracy(_ num: Double) {
@@ -145,8 +173,16 @@ class Settings {
         return UserDefaults.standard.double(forKey: keySpeedWeek)
     }
     
+    static func resetSpeedWeek() {
+        UserDefaults.standard.set(0.0, forKey: keySpeedWeek)
+    }
+    
     static func getSpeedDay() -> Double {
         return UserDefaults.standard.double(forKey: keySpeedDay)
+    }
+    
+    static func resetSpeedDay() {
+        UserDefaults.standard.set(0.0, forKey: keySpeedDay)
     }
     
     static func updateSpeed(_ num: Double) {
@@ -156,5 +192,15 @@ class Settings {
         if getSpeedDay() < num {
             UserDefaults.standard.set(num, forKey: keySpeedDay)
         }
+    }
+    
+    static func getFrogs() -> [FrogType] {
+        return UserDefaults.standard.stringArray(forKey: keyFrogs)!.map({FrogType(rawValue: $0)!})
+    }
+    
+    static func addFrog(_ frog: FrogType) {
+        var frogs = getFrogs()
+        frogs.append(frog)
+        UserDefaults.standard.set(frogs.map({$0.rawValue}), forKey: keyFrogs)
     }
 }

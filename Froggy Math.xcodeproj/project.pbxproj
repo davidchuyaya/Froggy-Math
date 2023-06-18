@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060196652A3ED0240042DA94 /* EvolutionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060196642A3ED0240042DA94 /* EvolutionWindow.swift */; };
+		060196682A3ED5DE0042DA94 /* ProgressFrog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060196672A3ED5DE0042DA94 /* ProgressFrog.swift */; };
+		0601966A2A3ED61E0042DA94 /* ProgressFrogDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060196692A3ED61E0042DA94 /* ProgressFrogDelegate.swift */; };
 		06206E102A39828B0001B110 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06206E0F2A39828B0001B110 /* AlertWindow.swift */; };
 		062C4943294C41FE00116F44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062C4942294C41FE00116F44 /* AppDelegate.swift */; };
 		062C4945294C41FE00116F44 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 062C4944294C41FE00116F44 /* GameScene.sks */; };
@@ -39,6 +42,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		060196642A3ED0240042DA94 /* EvolutionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionWindow.swift; sourceTree = "<group>"; };
+		060196672A3ED5DE0042DA94 /* ProgressFrog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressFrog.swift; sourceTree = "<group>"; };
+		060196692A3ED61E0042DA94 /* ProgressFrogDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressFrogDelegate.swift; sourceTree = "<group>"; };
 		06206E0F2A39828B0001B110 /* AlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWindow.swift; sourceTree = "<group>"; };
 		062C493F294C41FE00116F44 /* Froggy Math.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Froggy Math.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		062C4942294C41FE00116F44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +88,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060196632A3ED0000042DA94 /* window */ = {
+			isa = PBXGroup;
+			children = (
+				06206E0F2A39828B0001B110 /* AlertWindow.swift */,
+				060196642A3ED0240042DA94 /* EvolutionWindow.swift */,
+				0671C9002A3CEA890072B400 /* GameOverWindow.swift */,
+			);
+			path = window;
+			sourceTree = "<group>";
+		};
+		060196662A3ED5690042DA94 /* progress */ = {
+			isa = PBXGroup;
+			children = (
+				0671C8FE2A3CD2430072B400 /* ProgressBar.swift */,
+				060196672A3ED5DE0042DA94 /* ProgressFrog.swift */,
+				060196692A3ED61E0042DA94 /* ProgressFrogDelegate.swift */,
+			);
+			path = progress;
+			sourceTree = "<group>";
+		};
 		062C4936294C41FE00116F44 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +127,7 @@
 		062C4941294C41FE00116F44 /* Froggy Math */ = {
 			isa = PBXGroup;
 			children = (
+				060196632A3ED0000042DA94 /* window */,
 				06D007912A3AD27700CABA15 /* sounds */,
 				063A3799295A89E80074BB85 /* timer */,
 				063A3796295A89AB0074BB85 /* fly */,
@@ -108,14 +135,12 @@
 				062C4959294C435000116F44 /* buttons */,
 				062C4942294C41FE00116F44 /* AppDelegate.swift */,
 				062C4944294C41FE00116F44 /* GameScene.sks */,
+				060196662A3ED5690042DA94 /* progress */,
 				062C4946294C41FE00116F44 /* Actions.sks */,
 				062C4948294C41FE00116F44 /* BattleScene.swift */,
 				064675F5296B51D300174DFF /* GameScene.swift */,
-				0671C8FE2A3CD2430072B400 /* ProgressBar.swift */,
 				06BCAB322A3BE487005F3A9F /* SettingsScene.swift */,
 				0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */,
-				06206E0F2A39828B0001B110 /* AlertWindow.swift */,
-				0671C9002A3CEA890072B400 /* GameOverWindow.swift */,
 				062C494A294C41FE00116F44 /* GameViewController.swift */,
 				06302BFA294C4C0E000F7D7D /* Util.swift */,
 				06D0078F2A3AC33200CABA15 /* Settings.swift */,
@@ -257,12 +282,15 @@
 				0671C9012A3CEA890072B400 /* GameOverWindow.swift in Sources */,
 				063A379D295AAE850074BB85 /* FlyDelegate.swift in Sources */,
 				062C494B294C41FE00116F44 /* GameViewController.swift in Sources */,
+				060196652A3ED0240042DA94 /* EvolutionWindow.swift in Sources */,
 				06206E102A39828B0001B110 /* AlertWindow.swift in Sources */,
 				063A3795295A86A40074BB85 /* FrogDelegate.swift in Sources */,
 				0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */,
 				063A3793295A86600074BB85 /* Frog.swift in Sources */,
 				0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */,
+				0601966A2A3ED61E0042DA94 /* ProgressFrogDelegate.swift in Sources */,
 				06D007902A3AC33200CABA15 /* Settings.swift in Sources */,
+				060196682A3ED5DE0042DA94 /* ProgressFrog.swift in Sources */,
 				06302BFB294C4C0E000F7D7D /* Util.swift in Sources */,
 				063A379B295A8BB20074BB85 /* Fly.swift in Sources */,
 				063782882A3BC0BB00A4A1C6 /* TimeBar.swift in Sources */,

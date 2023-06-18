@@ -22,9 +22,10 @@ class GameScene: SKScene, ButtonDelegate {
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0, y: 0)
         
+        createNewEggAlert()
         createButtons()
         createProgressBar()
-        createEggProgressionAlert()
+        refreshStats()
     }
     
     func createButtons() {
@@ -50,10 +51,26 @@ class GameScene: SKScene, ButtonDelegate {
         addChild(progressBar)
     }
     
-    func createEggProgressionAlert() {
-        if Settings.getFrogStage() == 0 {
-            addChild(AlertWindow(imageFile: FrogStages.file(stage: 0), text: "You got a new egg!", buttonTypes: [.ok], delegate: nil))
+    func createNewEggAlert() {
+        // frog is at final stage and we didn't just evolve
+        if Settings.getFrogStage() == 7 && !Settings.didLastEvolveToday() {
+            Settings.incrementFrogStage()
+            addChild(EvolutionWindow(frogStage: 0))
         }
+    }
+    
+    func refreshStats() {
+        // reset stats if they're for the wrong week/day
+        if !Settings.isSameWeek() {
+            Settings.resetAccuracyWeek()
+            Settings.resetSpeedWeek()
+        }
+        if !Settings.isSameDay() {
+            Settings.resetAccuracyDay()
+            Settings.resetSpeedDay()
+        }
+        // If we're in a new week, set today as the start of the week. If we're in a new day, set today as the date
+        Settings.refreshDate()
     }
     
     func onButtonPressed(button: ButtonTypes) {

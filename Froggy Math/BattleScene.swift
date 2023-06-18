@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, FlyDelegate, TimeBarDelegate {
+class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, FlyDelegate, TimeBarDelegate, ProgressFrogDelegate {
     static let leafWidthPercent = 0.7
     static let leafYPercent = 0.7
     static let flyCounterYPercent = 0.2
@@ -47,6 +47,11 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     var flyCounter: FlyCounter? // used in speed/zen mode
     
     var startTime: Date!
+    var pauseTime = 0.0
+    var pauseStarted: Date!
+    
+    var gameOverWindow: GameOverWindow?
+    var newFrog: FrogType?
     
     init(mode: ButtonTypes) {
         super.init(size: CGSize(width: Util.windowWidth(), height: Util.windowHeight()))
@@ -103,6 +108,12 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         let pauseButton = Button(type: .pause, center: false, delegate: self)
         pauseButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
         addChild(pauseButton)
+        
+        if mode == .zenMode {
+            let endButton = Button(type: .end, center: false, delegate: self)
+            endButton.position = CGPoint(x: Util.width(percent: 1 - Util.marginPercent - Button.sizePercent), y: pauseButton.position.y)
+            addChild(endButton)
+        }
         
         let enterButton = Button(type: .enter, size: Util.width(percent: NumberButton.numButtonSizePercent), center: false, delegate: self)
         enterButton.position = CGPoint(x: Util.width(percent: 1 - Util.marginPercent - NumberButton.numButtonSizePercent), y: Util.height(percent: BattleScene.numbersBottomMargin) + Util.width(percent: NumberButton.numButtonSizePercent * 1.5 + NumberButton.insetPercent))
@@ -203,6 +214,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         failed = 0
         incorrect = 0
         startTime = Date()
+        pauseTime = 0.0
         newProblem()
         refreshFlyCounter()
         reviewNumbers.removeAll()
@@ -234,6 +246,8 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         case .replay:
             resetValues()
             pause(false)
+        case .end:
+            gameOver()
         case .enter:
             onEnterPressed()
         case .clear:
@@ -287,6 +301,16 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func onClearPressed() {
         clear()
+    }
+    
+    func onProgressFrogPressed() {
+        gameOverWindow!.removeFromParent()
+        if let newFrog = newFrog {
+            addChild(EvolutionWindow(frogStage: Settings.getFrogStage(), newFrog: newFrog, delegate: self))
+        }
+        else {
+            addChild(EvolutionWindow(frogStage: Settings.getFrogStage()))
+        }
     }
     
     func clear() {
@@ -356,32 +380,90 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func gameOver() {
         pause(true)
+        let shouldEvolve = shouldEvolve()
         
         // show game over window
-        let gameOverWindow = GameOverWindow(reviewNumbers: reviewNumbers, buttonTypes: [.home, .replay], delegate: self)
-        addChild(gameOverWindow)
-        let accuracy = Double(solved / (solved + incorrect + failed))
-        let timeElapsed = Date().timeIntervalSince(startTime)
+        let progressFrogDelegate = shouldEvolve ? self : nil
+        gameOverWindow = GameOverWindow(reviewNumbers: reviewNumbers, buttonTypes: [.home, .replay], delegate: self, frogDelegate: progressFrogDelegate)
+        addChild(gameOverWindow!)
+        let accuracy = Double(solved) / Double(solved + incorrect + failed)
+        let timeElapsed = Date().timeIntervalSince(startTime) - pauseTime
         let speed = Double(solved) / timeElapsed * 60.0
-        gameOverWindow.animate(mode: mode, solvedFlies: solved, accuracy: accuracy, speed: speed)
+        gameOverWindow!.animate(mode: mode, solvedFlies: solved, accuracy: accuracy, speed: speed)
         
         // save new stats
         Settings.updateAccuracy(accuracy)
         Settings.updateSpeed(speed)
         
-        switch (mode) {
-        case .accuracyMode:
-            Settings.updateFliesInAccuracyMode(solved: solved)
-        case .speedMode:
-            Settings.updateFliesInSpeedMode(solved: solved)
-        case .zenMode:
-            Settings.updateFliesInZenMode(solved: solved)
-        default:
-            print("Unsupported game mode: \(mode!)")
+        if !shouldEvolve {
+            if !Settings.didLastEvolveToday() {
+                switch (mode) {
+                case .accuracyMode:
+                    Settings.updateFliesInAccuracyMode(solved: solved)
+                case .speedMode:
+                    Settings.updateFliesInSpeedMode(solved: solved)
+                case .zenMode:
+                    Settings.updateFliesInZenMode(solved: solved)
+                default:
+                    print("Unsupported game mode: \(mode!)")
+                }
+            }
+        }
+        else {
+            // evolve, reset flies values
+            Settings.incrementFrogStage()
+            Settings.setLastEvolved()
+            Settings.resetFlies()
+            
+            let allFrogs = Set(FrogType.allCases)
+            let remainingFrogs = allFrogs.subtracting(Settings.getFrogs())
+            guard !remainingFrogs.isEmpty else {
+                print("All available frogs have been obtained")
+                return
+            }
+            newFrog = remainingFrogs.randomElement()
+            Settings.addFrog(newFrog!)
         }
     }
     
+    func shouldEvolve() -> Bool {
+        guard solved > 0 else {
+            return false
+        }
+        guard !Settings.didLastEvolveToday() else {
+            return false
+        }
+        
+        let total: Int
+        let fliesInAccuracyMode = Settings.getFliesInAccuracyMode()
+        let fliesInSpeedMode = Settings.getFliesInSpeedMode()
+        let fliesInZenMode = Settings.getFliesInZenMode()
+        
+        switch (mode) {
+        case .accuracyMode:
+            total = min(fliesInAccuracyMode + solved, FlyCounter.maxFlies) + fliesInSpeedMode + fliesInZenMode
+        case .speedMode:
+            total = fliesInAccuracyMode + min(fliesInSpeedMode + solved, FlyCounter.maxFlies) + fliesInZenMode
+        case .zenMode:
+            total = fliesInAccuracyMode + fliesInSpeedMode + min(fliesInZenMode + solved, FlyCounter.maxFlies)
+        default:
+            print("Unsupported game mode: \(mode!)")
+            return false
+        }
+        
+        return total >= FlyCounter.maxFlies
+    }
+    
+    // note: Must always call pause(true) before pause(false), otherwise calculation of pause time breaks
     func pause(_ pause: Bool) {
+        // calculate pause time
+        if pause {
+            pauseStarted = Date()
+        }
+        else {
+            pauseTime += Date().timeIntervalSince(pauseStarted)
+        }
+        
         if mode == .speedMode {
             timeBar?.isPaused = pause
             fly?.isPaused = pause

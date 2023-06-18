@@ -35,9 +35,13 @@ class FlyCounter: SKNode {
         case .progress:
             let flyCrop = SKCropNode()
             flyCrop.zPosition = flyPic.zPosition + 1
-            flyMask = SKSpriteNode(color: .white, size: CGSize(width: 0, height: flySize))
+            flyMask = SKSpriteNode(color: .white, size: CGSize(width: flySize, height: flySize))
+            flyMask?.anchorPoint = CGPoint(x: 1, y: 0.5)
+            flyMask?.position = CGPoint(x: flySize / 2.0, y: 0)
             flyCrop.maskNode = flyMask
             let flyPic2 = SKSpriteNode(texture: SKTexture(imageNamed: "flies_0001_Layer-1"), size: CGSize(width: flySize, height: flySize))
+            flyPic2.color = .black
+            flyPic2.colorBlendFactor = 1.0
             flyCrop.addChild(flyPic2)
             rect.addChild(flyCrop)
         case .numbered:
@@ -49,12 +53,12 @@ class FlyCounter: SKNode {
             label!.fontColor = .white
             label!.zPosition = 5
             rect.addChild(label!)
+            fallthrough
         case .normal:
-            break
+            setColorNeutral()
         }
         
         addChild(rect)
-        setColorNeutral()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -83,8 +87,8 @@ class FlyCounter: SKNode {
         }
         if let flyMask = flyMask {
             let flySize = Util.width(percent: FlyCounter.flySizePercent)
-            let percentWidth = Double(count / FlyCounter.maxFlies)
-            flyMask.size = CGSize(width: percentWidth * flySize, height: flySize)
+            let percentWidth = Double(count) / Double(FlyCounter.maxFlies)
+            flyMask.size = CGSize(width: (1.0 - percentWidth) * flySize, height: flySize)
         }
     }
     
@@ -102,8 +106,8 @@ class FlyCounter: SKNode {
         }
         
         let flySize = Util.width(percent: FlyCounter.flySizePercent)
-        let percentWidth = Double((count! + solvedFlies) / FlyCounter.maxFlies)
+        let percentWidth = Double(count! + solvedFlies) / Double(FlyCounter.maxFlies)
         
-        flyMask!.run(SKAction.resize(toWidth: percentWidth * flySize, duration: GameOverWindow.animateTime))
+        flyMask!.run(SKAction.resize(toWidth: (1.0 - percentWidth) * flySize, duration: GameOverWindow.animateTime))
     }
 }

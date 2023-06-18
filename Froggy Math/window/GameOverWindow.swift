@@ -25,7 +25,7 @@ class GameOverWindow: AlertWindow {
     var speedBar: SKSpriteNode!
     var speedText: SKLabelNode!
     
-    convenience init(reviewNumbers: [(Int, Int)], buttonTypes: [ButtonTypes], delegate: ButtonDelegate) {
+    convenience init(reviewNumbers: [(Int, Int)], buttonTypes: [ButtonTypes], delegate: ButtonDelegate, frogDelegate: ProgressFrogDelegate?) {
         var reviewText = ""
         if !reviewNumbers.isEmpty {
             for (num1, num2) in reviewNumbers {
@@ -36,7 +36,7 @@ class GameOverWindow: AlertWindow {
         
         self.init(image: nil, text: text, buttonTypes: buttonTypes, delegate: delegate)
         
-        progressBar = ProgressBar()
+        progressBar = ProgressBar(delegate: frogDelegate)
         progressBar.zPosition = 201
         progressBar.position = CGPoint(x: -Util.windowWidth() / 2, y: 0)
         addChild(progressBar)
@@ -129,8 +129,6 @@ class GameOverWindow: AlertWindow {
     }
     
     func animate(mode: ButtonTypes, solvedFlies: Int, accuracy: Double, speed: Double) {
-        progressBar.animate(mode: mode, solvedFlies: solvedFlies)
-        
         let accuracyWeek = max(Settings.getAccuracyWeek(), accuracy)
         let accuracyDay = max(Settings.getAccuracyDay(), accuracy)
         let speedWeek = max(Settings.getSpeedWeek(), speed)
@@ -148,6 +146,10 @@ class GameOverWindow: AlertWindow {
         let wait = SKAction.wait(forDuration: GameOverWindow.animateTime * 2)
         accuracyBar.run(SKAction.sequence([wait, SKAction.resize(toWidth: accuracy * statsWidth, duration: GameOverWindow.animateTime)]))
         speedBar.run(SKAction.sequence([wait, SKAction.resize(toWidth: speed / speedWeek * statsWidth, duration: GameOverWindow.animateTime)]))
+        let progressBarAction = SKAction.run {
+            self.progressBar.animate(mode: mode, solvedFlies: solvedFlies)
+        }
+        run(SKAction.sequence([wait, progressBarAction]))
         
         if solvedFlies > 0 {
             var currentCoins = 0

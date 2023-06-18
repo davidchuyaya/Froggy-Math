@@ -42,7 +42,7 @@ enum NumberTypes: Int, CaseIterable {
     }
 }
 enum ButtonTypes {
-    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, back, replay, enter, clear, ok
+    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, end, back, replay, enter, clear, ok
     func file() -> String {
         return "\(self)"
     }
@@ -74,6 +74,33 @@ class FrogStages {
     static func file(stage: Int) -> String {
         return "frog_stage_\(stage)"
     }
+    static func evolveText(newStage: Int, newFrog: FrogType? = nil) -> String {
+        switch (newStage) {
+        case 0:
+            return "Congratulations!\nYou got a new frog egg!\nPlay some games to make it grow up!"
+        case 1:
+            return "You can see a baby frog inside the frog egg!"
+        case 2:
+            return "Your frog egg hatched into a tiny tadpole!"
+        case 3:
+            return "Your tadpole grew a tail!"
+        case 4:
+            return "Your tadpole grew some hind feet!"
+        case 5:
+            return "Your tadpole grew some hands!"
+        case 6:
+            return "Your tadpole's tail shrunk!"
+        case 7:
+            if let newFrog = newFrog {
+                return "Your tadpole became a \(newFrog.name())!"
+            }
+            else {
+                return "Code error. No new frog was chosen"
+            }
+        default:
+            return "Code error. Unexpected frog stage"
+        }
+    }
 }
 
 enum Sounds {
@@ -95,27 +122,38 @@ enum Sounds {
     }
 }
 
-enum FrogType {
-    case basic, wizard, boba, roundTongue, vampire, king, baby, spotted
+enum FrogType: String, CaseIterable {
+    case basic = "froggies_0007_basic"
+    case wizard = "froggies_0000_wizard"
+    case boba = "froggies_0001_boba"
+    case roundTongue = "froggies_0002_round-tongue"
+    case vampire = "froggies_0003_vampire"
+    case king = "froggies_0004_king"
+    case baby = "froggies_0005_baby"
+    case spotted = "froggies_0006_spotted"
     
     func file() -> String {
+        return rawValue
+    }
+    
+    func name() -> String {
         switch (self) {
         case .basic:
-            return "froggies_0007_basic"
+            return "basic frog"
         case .wizard:
-            return "froggies_0000_wizard"
+            return "wizard frog"
         case .boba:
-            return "froggies_0001_boba"
+            return "boba frog"
         case .roundTongue:
-            return "froggies_0002_round-tongue"
+            return "round tongue frog"
         case .vampire:
-            return "froggies_0003_vampire"
+            return "vampire frog"
         case .king:
-            return "froggies_0004_king"
+            return "frog king"
         case .baby:
-            return "froggies_0005_baby"
+            return "baby frog"
         case .spotted:
-            return "froggies_0006_spotted"
+            return "spotted frog"
         }
     }
 }

@@ -12,14 +12,14 @@ class ProgressBar: SKNode {
     static let topPercent = 0.12
     static let frogStageSizePercent = 0.1
     static let insetPercent = 0.01
-    static let progressX = [200.0, 326.0, 440.0, 550.0, 671.0, 818.0]
+    static let progressX = [0.0, 200.0, 326.0, 440.0, 550.0, 671.0, 818.0, 1037.0]
     static let animateSpeed = 2.0 // higher is slower
     
+    var frog: ProgressFrog!
     var barFillMask: SKSpriteNode!
     var flyCounters = [ButtonTypes: FlyCounter]()
-    var bottomY: CGFloat!
     
-    init(frogStage: Int, fliesInAccuracyMode: Int, fliesInSpeedMode: Int, fliesInZenMode: Int) {
+    init(frogStage: Int, fliesInAccuracyMode: Int, fliesInSpeedMode: Int, fliesInZenMode: Int, delegate: ProgressFrogDelegate?) {
         super.init()
         
         let barWidth = Util.width(percent: ProgressBar.widthPercent)
@@ -28,11 +28,10 @@ class ProgressBar: SKNode {
         let flySize = Util.width(percent: Fly.sizePercent)
         let frogSize = barHeight + flySize + inset
         
-        let frog = SKSpriteNode(texture: SKTexture(imageNamed: FrogStages.file(stage: frogStage)), size: CGSize(width: frogSize, height: frogSize))
+        // todo: Handle showing the unique chosen frog & positioning it
+        frog = ProgressFrog(image: FrogStages.file(stage: frogStage), size: frogSize, delegate: delegate)
         frog.position = CGPoint(x: Util.windowWidth() / 2 - (barWidth + frogSize + inset) / 2, y: Util.height(percent: 1 - ProgressBar.topPercent) - frogSize)
-        frog.anchorPoint = CGPoint(x: 0, y: 0)
         addChild(frog)
-        bottomY = frog.position.y
         
         let bar = SKSpriteNode(texture: SKTexture(imageNamed: "progress_bar"), size: CGSize(width: barWidth, height: barHeight))
         bar.position = CGPoint(x: frog.position.x + frogSize + inset, y: Util.height(percent: 1 - ProgressBar.topPercent) - barHeight)
@@ -69,10 +68,12 @@ class ProgressBar: SKNode {
         flyCounterZen.position = CGPoint(x: bar.position.x + barWidth - flySize * 0.5, y: bar.position.y - inset - flySize * 0.5)
         addChild(flyCounterZen)
         flyCounters[.zenMode] = flyCounterZen
+        
+        isUserInteractionEnabled = true
     }
     
-    override convenience init() {
-        self.init(frogStage: Settings.getFrogStage(), fliesInAccuracyMode: Settings.getFliesInAccuracyMode(), fliesInSpeedMode: Settings.getFliesInSpeedMode(), fliesInZenMode: Settings.getFliesInZenMode())
+    convenience init(delegate: ProgressFrogDelegate? = nil) {
+        self.init(frogStage: Settings.getFrogStage(), fliesInAccuracyMode: Settings.getFliesInAccuracyMode(), fliesInSpeedMode: Settings.getFliesInSpeedMode(), fliesInZenMode: Settings.getFliesInZenMode(), delegate: delegate)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -93,19 +94,20 @@ class ProgressBar: SKNode {
         guard solvedFlies > 0 else {
             return // nothing to animate (no changes)
         }
+        guard !Settings.didLastEvolveToday() else {
+            return // just evolved today, so new flies don't count
+        }
         let oldNumFlies = Settings.getFliesInAccuracyMode() + Settings.getFliesInSpeedMode() + Settings.getFliesInZenMode()
         let newNumFlies = min(FlyCounter.maxFlies, oldNumFlies + solvedFlies)
         guard oldNumFlies != newNumFlies else {
             return // nothing to animate (already at max)
         }
-        print("Animated progress bar")
         
-        // todo: Neither of the following seem to do anything. Can we not animate masks?
         barFillMask.run(SKAction.resize(toWidth: getBarFillWidth(frogStage: Settings.getFrogStage(), flies: newNumFlies), duration: GameOverWindow.animateTime))
         flyCounters[mode]?.animateCountIncrement(solvedFlies: solvedFlies)
     }
     
     func getBottomY() -> CGFloat {
-        return bottomY
+        return frog.position.y
     }
 }
