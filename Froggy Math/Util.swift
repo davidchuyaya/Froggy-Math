@@ -42,7 +42,7 @@ enum NumberTypes: Int, CaseIterable {
     }
 }
 enum ButtonTypes {
-    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, end, back, replay, enter, clear, ok
+    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, end, back, replay, enter, clear, ok, next, prev
     func file() -> String {
         return "\(self)"
     }

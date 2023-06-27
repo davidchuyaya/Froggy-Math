@@ -13,21 +13,25 @@ class Frog: SKNode {
     static let heightRatio = 0.75
 
     var delegate: FrogDelegate!
+    var frog: SKSpriteNode!
     var slurpSoundActions = [SKAction]()
     
-    init(type: FrogType, delegate: FrogDelegate) {
+    init(type: FrogType, size: CGSize? = nil, loadSounds: Bool, delegate: FrogDelegate) {
         super.init()
         
         self.delegate = delegate
         
-        let rect = SKSpriteNode(texture: SKTexture(imageNamed: type.file()), size: CGSize(width: Frog.getWidth(), height: Frog.getHeight()))
-        rect.anchorPoint = CGPoint(x: 0, y: 0)
-        addChild(rect)
+        let frogSize = size ?? CGSize(width: Frog.getWidth(), height: Frog.getHeight())
+        frog = SKSpriteNode(texture: SKTexture(imageNamed: type.file()), size: frogSize)
+        frog.anchorPoint = CGPoint(x: 0, y: 0)
+        addChild(frog)
         isUserInteractionEnabled = true
         
         // set up sounds. Load them before we use them to avoid audio lag
-        for file in Sounds.slurp.files() {
-            slurpSoundActions.append(SKAction.playSoundFileNamed(file, waitForCompletion: false))
+        if loadSounds {
+            for file in Sounds.slurp.files() {
+                slurpSoundActions.append(SKAction.playSoundFileNamed(file, waitForCompletion: false))
+            }
         }
     }
     
@@ -37,6 +41,11 @@ class Frog: SKNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         delegate.onFrogPressed()
+    }
+    
+    func setColorSilhouette() {
+        frog.color = .black
+        frog.colorBlendFactor = 1.0
     }
     
     static func getWidth() -> Double {

@@ -35,6 +35,7 @@
 		0671C9012A3CEA890072B400 /* GameOverWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0671C9002A3CEA890072B400 /* GameOverWindow.swift */; };
 		06BCAB332A3BE487005F3A9F /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB322A3BE487005F3A9F /* SettingsScene.swift */; };
 		06BCAB352A3C274D005F3A9F /* FlyCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB342A3C274D005F3A9F /* FlyCounter.swift */; };
+		06CBC9562A4AA07400900753 /* FroggiesScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CBC9552A4AA07400900753 /* FroggiesScene.swift */; };
 		06D007902A3AC33200CABA15 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D0078F2A3AC33200CABA15 /* Settings.swift */; };
 		06D007A42A3AD3B100CABA15 /* slurp_0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A12A3AD3B000CABA15 /* slurp_0.m4a */; };
 		06D007A52A3AD3B100CABA15 /* slurp_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A22A3AD3B100CABA15 /* slurp_2.m4a */; };
@@ -71,6 +72,7 @@
 		0671C9002A3CEA890072B400 /* GameOverWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverWindow.swift; sourceTree = "<group>"; };
 		06BCAB322A3BE487005F3A9F /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		06BCAB342A3C274D005F3A9F /* FlyCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyCounter.swift; sourceTree = "<group>"; };
+		06CBC9552A4AA07400900753 /* FroggiesScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroggiesScene.swift; sourceTree = "<group>"; };
 		06D0078F2A3AC33200CABA15 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		06D007A12A3AD3B000CABA15 /* slurp_0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_0.m4a; sourceTree = SOURCE_ROOT; };
 		06D007A22A3AD3B100CABA15 /* slurp_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_2.m4a; sourceTree = SOURCE_ROOT; };
@@ -140,6 +142,7 @@
 				062C4948294C41FE00116F44 /* BattleScene.swift */,
 				064675F5296B51D300174DFF /* GameScene.swift */,
 				06BCAB322A3BE487005F3A9F /* SettingsScene.swift */,
+				06CBC9552A4AA07400900753 /* FroggiesScene.swift */,
 				0663F4E62956BDFD00EB7DCF /* ProblemWindow.swift */,
 				062C494A294C41FE00116F44 /* GameViewController.swift */,
 				06302BFA294C4C0E000F7D7D /* Util.swift */,
@@ -291,6 +294,7 @@
 				0601966A2A3ED61E0042DA94 /* ProgressFrogDelegate.swift in Sources */,
 				06D007902A3AC33200CABA15 /* Settings.swift in Sources */,
 				060196682A3ED5DE0042DA94 /* ProgressFrog.swift in Sources */,
+				06CBC9562A4AA07400900753 /* FroggiesScene.swift in Sources */,
 				06302BFB294C4C0E000F7D7D /* Util.swift in Sources */,
 				063A379B295A8BB20074BB85 /* Fly.swift in Sources */,
 				063782882A3BC0BB00A4A1C6 /* TimeBar.swift in Sources */,

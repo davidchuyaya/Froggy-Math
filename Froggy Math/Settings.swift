@@ -12,6 +12,7 @@ class Settings {
     static let keyLastDay = "last-day" // the day we're tracking daily stats for
     static let keyLastEvolved = "last-evolved" // the last day the frog stage changed. Cannot change 2 stages in one day
     static let keyFrogStage = "frog-stage" // what current stage of the egg are we on
+    static let keyLatestFrog = "latest-frog" // if frog-stage = 7, what the most recent frog was
     static let keyTimesTable = "times-table" // which numbers' times tables we are using
     static let keyFliesInAccuracyMode = "flies-in-accuracy-mode" // how many flies we got in accuracy mode since we last maxed out all flies
     static let keyFliesInSpeedMode = "flies-in-speed-mode"
@@ -31,6 +32,7 @@ class Settings {
             keyLastDay: now,
             keyLastEvolved: NSCalendar.current.date(byAdding: .day, value: -1, to: now)!, // last evolved NOT today by default
             keyFrogStage: 7, // default stage = 7 so we can trigger new egg alert, which will reset stage to 0
+            keyLatestFrog: FrogType.basic.rawValue,
             keyTimesTable: Array(2...9),
             keyFliesInAccuracyMode: 0,
             keyFliesInSpeedMode: 0,
@@ -80,8 +82,18 @@ class Settings {
         return UserDefaults.standard.integer(forKey: keyFrogStage) % 8
     }
     
-    static func incrementFrogStage() {
-        UserDefaults.standard.set((getFrogStage() + 1) % 8, forKey: keyFrogStage)
+    static func incrementFrogStage() -> Int {
+        let newStage = (getFrogStage() + 1) % 8
+        UserDefaults.standard.set(newStage, forKey: keyFrogStage)
+        return newStage
+    }
+    
+    static func getLatestFrog() -> FrogType {
+        return FrogType(rawValue: UserDefaults.standard.string(forKey: keyLatestFrog)!)!
+    }
+    
+    static func setLatestFrog(frog: FrogType) {
+        UserDefaults.standard.set(frog.rawValue, forKey: keyLatestFrog)
     }
     
     static func getTimesTable() -> [Int] {

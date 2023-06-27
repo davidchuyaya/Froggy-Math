@@ -99,7 +99,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     }
    
     func createFrog() {
-        frog = Frog(type: .basic, delegate: self)
+        frog = Frog(type: .basic, loadSounds: true, delegate: self)
         frog.position = CGPoint(x: Util.margin(), y: numberButtonTopY)
         addChild(frog)
     }
@@ -415,18 +415,13 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         }
         else {
             // evolve, reset flies values
-            Settings.incrementFrogStage()
+            let newStage = Settings.incrementFrogStage()
             Settings.setLastEvolved()
             Settings.resetFlies()
             
-            let allFrogs = Set(FrogType.allCases)
-            let remainingFrogs = allFrogs.subtracting(Settings.getFrogs())
-            guard !remainingFrogs.isEmpty else {
-                print("All available frogs have been obtained")
-                return
+            if newStage == 7 {
+                chooseNewFrog()
             }
-            newFrog = remainingFrogs.randomElement()
-            Settings.addFrog(newFrog!)
         }
     }
     
@@ -462,6 +457,18 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         }
         
         return (modeDelta, total, total >= FlyCounter.maxFlies * 3)
+    }
+    
+    func chooseNewFrog() {
+        let allFrogs = Set(FrogType.allCases)
+        let remainingFrogs = allFrogs.subtracting(Settings.getFrogs())
+        guard !remainingFrogs.isEmpty else {
+            print("All available frogs have been obtained")
+            return
+        }
+        newFrog = remainingFrogs.randomElement()
+        Settings.addFrog(newFrog!)
+        Settings.setLatestFrog(frog: newFrog!)
     }
     
     // note: Must always call pause(true) before pause(false), otherwise calculation of pause time breaks

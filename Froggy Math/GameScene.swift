@@ -22,6 +22,8 @@ class GameScene: SKScene, ButtonDelegate {
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0, y: 0)
         
+        print(UserDefaults.standard.dictionaryRepresentation())
+        
         createNewEggAlert()
         createButtons()
         createProgressBar()
@@ -44,6 +46,11 @@ class GameScene: SKScene, ButtonDelegate {
         let settingsButton = Button(type: .settings, center: false, delegate: self)
         settingsButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
         addChild(settingsButton)
+        
+        // todo: Replace type with froggies button when image is available
+        let froggiesButton = Button(type: .enter, center: false, delegate: self)
+        froggiesButton.position = CGPoint(x: Util.width(percent: 1 - Button.sizePercent - Util.marginPercent), y: settingsButton.position.y)
+        addChild(froggiesButton)
     }
     
     func createProgressBar() {
@@ -79,6 +86,8 @@ class GameScene: SKScene, ButtonDelegate {
             scene?.view?.presentScene(BattleScene(mode: button))
         case .settings:
             scene?.view?.presentScene(SettingsScene())
+        case .enter: // todo: Replace type with froggies button when image is available
+            scene?.view?.presentScene(FroggiesScene())
         default:
             print("Button on main screen not supported")
         }

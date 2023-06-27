@@ -11,13 +11,13 @@ class ProgressFrog: SKNode {
     var frog: SKSpriteNode!
     var delegate: ProgressFrogDelegate?
     
-    init(image: String, size: CGFloat, delegate: ProgressFrogDelegate?) {
+    init(image: String, size: CGSize, delegate: ProgressFrogDelegate?) {
         super.init()
         // todo: Animate if there is a delegate (so the user knows to click)
         
         self.delegate = delegate
         
-        frog = SKSpriteNode(texture: SKTexture(imageNamed: image), size: CGSize(width: size, height: size))
+        frog = SKSpriteNode(texture: SKTexture(imageNamed: image), size: size)
         frog.anchorPoint = CGPoint(x: 0, y: 0)
         addChild(frog)
         
