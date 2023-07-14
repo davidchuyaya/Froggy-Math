@@ -325,6 +325,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     }
     
     func timeOut() {
+        addReviewNumbers()
         gameOver()
     }
     
