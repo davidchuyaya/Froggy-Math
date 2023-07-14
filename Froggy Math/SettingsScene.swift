@@ -80,7 +80,11 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
         var timesTable = Settings.getTimesTable()
         let disabling = timesTable.contains(num.rawValue)
         if disabling {
-            Settings.setTimesTable(timesTable.filter({$0 != num.rawValue}))
+            let newTimesTable = timesTable.filter({$0 != num.rawValue})
+            guard !newTimesTable.isEmpty else {
+                return // not allowed to have fewer than 1 number in times table
+            }
+            Settings.setTimesTable(newTimesTable)
             numberButtons[num.rawValue - 2].setDisabledColor()
         }
         else {
