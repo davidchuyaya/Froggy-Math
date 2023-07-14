@@ -27,16 +27,16 @@ class ProgressBar: SKNode {
         let inset = Util.width(percent: ProgressBar.insetPercent)
         let flySize = Util.width(percent: Fly.sizePercent)
         let frogSize = barHeight + flySize + inset
+        let frogHeight = frogSize * Frog.heightRatio
         
         // showing the frog stage or the unique chosen frog & positioning it
         if frogStage == 7 {
             frog = ProgressFrog(image: Settings.getLatestFrog().file(), size: CGSize(width: frogSize, height: frogSize * Frog.heightRatio), delegate: delegate)
-            frog.position = CGPoint(x: Util.windowWidth() / 2 - (barWidth + frogSize + inset) / 2, y: Util.height(percent: 1 - ProgressBar.topPercent) - frogSize)
         }
         else {
-            frog = ProgressFrog(image: FrogStages.file(stage: frogStage), size: CGSize(width: frogSize, height: frogSize), delegate: delegate)
-            frog.position = CGPoint(x: Util.windowWidth() / 2 - (barWidth + frogSize + inset) / 2, y: Util.height(percent: 1 - ProgressBar.topPercent) - frogSize)
+            frog = ProgressFrog(image: FrogStages.file(stage: frogStage), size: CGSize(width: frogSize, height: frogSize * Frog.heightRatio), delegate: delegate)
         }
+        frog.position = CGPoint(x: Util.windowWidth() / 2 - (barWidth + frogSize + inset) / 2, y: Util.height(percent: 1 - ProgressBar.topPercent) - (frogHeight + barHeight + inset + flySize) / 2)
         addChild(frog)
         
         let bar = SKSpriteNode(texture: SKTexture(imageNamed: "progress_bar"), size: CGSize(width: barWidth, height: barHeight))
