@@ -10,6 +10,8 @@ import SpriteKit
 class FlyCounter: SKNode {
     static let withTextSizePercent = 0.1
     static let flySizePercent = 0.06
+    static let rotation = Double.pi / 4
+    static let rotateSpeed = 0.5 // smaller is faster
     
     static let maxFlies = 30
     
@@ -108,6 +110,22 @@ class FlyCounter: SKNode {
         let flySize = Util.width(percent: FlyCounter.flySizePercent)
         let percentWidth = Double(count! + modeDelta) / Double(FlyCounter.maxFlies)
         
-        flyMask!.run(SKAction.resize(toWidth: (1.0 - percentWidth) * flySize, duration: GameOverWindow.animateTime))
+        let fillMask = SKAction.resize(toWidth: (1.0 - percentWidth) * flySize, duration: GameOverWindow.animateTime)
+        let actions: SKAction!
+        if count! + modeDelta >= FlyCounter.maxFlies {
+            actions = SKAction.sequence([fillMask, SKAction.run {
+                self.animateShake()
+            }])
+        }
+        else {
+            actions = fillMask
+        }
+        
+        flyMask!.run(actions)
+    }
+    
+    func animateShake() {
+        let rotate = SKAction.rotate(byAngle: FlyCounter.rotation, duration: FlyCounter.rotateSpeed)
+        flyPic.run(SKAction.repeatForever(SKAction.sequence([rotate, rotate.reversed()])))
     }
 }

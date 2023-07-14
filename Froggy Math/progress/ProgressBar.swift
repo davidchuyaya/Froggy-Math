@@ -62,18 +62,27 @@ class ProgressBar: SKNode {
         flyCounterAccuracy.position = CGPoint(x: bar.position.x + barWidth - flySize * 2.5 - inset * 2, y: bar.position.y - inset - flySize * 0.5)
         addChild(flyCounterAccuracy)
         flyCounters[.accuracyMode] = flyCounterAccuracy
+        if fliesInAccuracyMode == FlyCounter.maxFlies {
+            flyCounterAccuracy.animateShake()
+        }
         
         let flyCounterSpeed = FlyCounter(type: .progress)
         flyCounterSpeed.setCount(fliesInSpeedMode)
         flyCounterSpeed.position = CGPoint(x: bar.position.x + barWidth - flySize * 1.5 - inset, y: bar.position.y - inset - flySize * 0.5)
         addChild(flyCounterSpeed)
         flyCounters[.speedMode] = flyCounterSpeed
+        if fliesInSpeedMode == FlyCounter.maxFlies {
+            flyCounterSpeed.animateShake()
+        }
         
         let flyCounterZen = FlyCounter(type: .progress)
         flyCounterZen.setCount(fliesInZenMode)
         flyCounterZen.position = CGPoint(x: bar.position.x + barWidth - flySize * 0.5, y: bar.position.y - inset - flySize * 0.5)
         addChild(flyCounterZen)
         flyCounters[.zenMode] = flyCounterZen
+        if fliesInZenMode == FlyCounter.maxFlies {
+            flyCounterZen.animateShake()
+        }
         
         isUserInteractionEnabled = true
     }
