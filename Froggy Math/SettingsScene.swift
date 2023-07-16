@@ -33,12 +33,12 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
     
     func createButtons() {
         let homeButton = Button(type: .home, center: false, delegate: self)
-        homeButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
+        homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(homeButton)
     }
     
     func createTimesTableSection() {
-        let topMargin = Util.width(percent: Util.marginPercent * 2 + Button.sizePercent)
+        let topMargin = Util.height(percent: GameScene.buttonsTopMargin) + Util.width(percent: Util.marginPercent + Button.sizePercent)
         
         let timesTableLabel = SKLabelNode(text: "Times tables")
         timesTableLabel.fontName = Util.font
@@ -50,6 +50,7 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
         addChild(timesTableLabel)
         
         let timesTable = Settings.getTimesTable()
+        let style = Settings.getNumberStyle()
         
         outerLoop: for num in NumberTypes.allCases {
             var x = Util.margin()
@@ -65,7 +66,7 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
                 y -= Util.width(percent: NumberButton.numButtonSizePercent + NumberButton.insetPercent)
             }
             
-            let button = NumberButton(num: num, center: false, delegate: self)
+            let button = NumberButton(num: num, style: style, center: false, delegate: self)
             button.position = CGPoint(x: x, y: y)
             if !timesTable.contains(num.rawValue) {
                 button.setDisabledColor()

@@ -23,6 +23,7 @@ class Settings {
     static let keySpeedDay = "speed-day"
     static let keyFrogs = "frogs" // array of all frogs
     static let keyCoins = "coins" // how many coins you have
+    static let keyNumberStyle = "number-style" // what style the number buttons are
     
     // call function on init
     static func registerDefaults() {
@@ -42,7 +43,8 @@ class Settings {
             keySpeedWeek: 0.0,
             keySpeedDay: 0.0,
             keyFrogs: [String](),
-            keyCoins: 0
+            keyCoins: 0,
+            keyNumberStyle: NumberStyles.arabic.rawValue
         ])
     }
     
@@ -221,5 +223,13 @@ class Settings {
     static func addCoins(_ coins: Int) {
         let existingCoins = UserDefaults.standard.integer(forKey: keyCoins)
         UserDefaults.standard.set(existingCoins + coins, forKey: keyCoins)
+    }
+    
+    static func getNumberStyle() -> NumberStyles {
+        return NumberStyles(rawValue: UserDefaults.standard.string(forKey: keyNumberStyle)!)!
+    }
+    
+    static func setNumberStyle(_ style: NumberStyles) {
+        UserDefaults.standard.set(style.rawValue, forKey: keyNumberStyle)
     }
 }

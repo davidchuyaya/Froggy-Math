@@ -35,14 +35,23 @@ class Util {
 
 }
 
+enum NumberStyles: String {
+    case arabic, chinese
+}
+
 enum NumberTypes: Int, CaseIterable {
     case zero = 0, one, two, three, four, five, six, seven, eight, nine
-    func file() -> String {
-        return "\(self.rawValue)"
+    func file(style: NumberStyles) -> String {
+        switch (style) {
+        case .arabic:
+            return "\(self.rawValue)"
+        case .chinese:
+            return "\(self.rawValue)_zh"
+        }
     }
 }
 enum ButtonTypes {
-    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, end, back, replay, enter, clear, ok, next, prev
+    case speedMode, accuracyMode, zenMode, settings, home, pause, resume, end, back, replay, enter, clear, ok, next, prev, froggies
     func file() -> String {
         return "\(self)"
     }

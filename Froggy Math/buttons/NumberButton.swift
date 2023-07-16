@@ -13,8 +13,8 @@ class NumberButton: Button {
     var num: NumberTypes!
     var numDelegate: NumberButtonDelegate!
     
-    init(num: NumberTypes, center: Bool, delegate: NumberButtonDelegate) {
-        super.init(imageFile: num.file(), size: Util.width(percent: NumberButton.numButtonSizePercent), center: center, delegate: nil)
+    init(num: NumberTypes, style: NumberStyles, center: Bool, delegate: NumberButtonDelegate) {
+        super.init(imageFile: num.file(style: style), size: Util.width(percent: NumberButton.numButtonSizePercent), center: center, delegate: nil)
         
         self.num = num
         self.numDelegate = delegate

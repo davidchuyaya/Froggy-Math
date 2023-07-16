@@ -9,6 +9,7 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, ButtonDelegate {
+    static let buttonsTopMargin = 0.06
     static let buttonsBottomMargin = 0.1
     
     override init() {
@@ -44,13 +45,16 @@ class GameScene: SKScene, ButtonDelegate {
         addChild(zenModeButton)
         
         let settingsButton = Button(type: .settings, center: false, delegate: self)
-        settingsButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
+        settingsButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(settingsButton)
         
-        // todo: Replace type with froggies button when image is available
-        let froggiesButton = Button(type: .enter, center: false, delegate: self)
+        let froggiesButton = Button(type: .froggies, center: false, delegate: self)
         froggiesButton.position = CGPoint(x: Util.width(percent: 1 - Button.sizePercent - Util.marginPercent), y: settingsButton.position.y)
         addChild(froggiesButton)
+        
+        let storeButton = Button(type: .enter, center: false, delegate: self)
+        storeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent / 2), y: settingsButton.position.y)
+        addChild(storeButton)
     }
     
     func createProgressBar() {
@@ -86,8 +90,10 @@ class GameScene: SKScene, ButtonDelegate {
             scene?.view?.presentScene(BattleScene(mode: button))
         case .settings:
             scene?.view?.presentScene(SettingsScene())
-        case .enter: // todo: Replace type with froggies button when image is available
+        case .froggies: // todo: Replace type with froggies button when image is available
             scene?.view?.presentScene(FroggiesScene())
+        case .enter:
+            scene?.view?.presentScene(StoreScene())
         default:
             print("Button on main screen not supported")
         }

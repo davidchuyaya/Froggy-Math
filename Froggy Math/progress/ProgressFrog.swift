@@ -13,12 +13,18 @@ class ProgressFrog: SKNode {
     
     init(image: String, size: CGSize, delegate: ProgressFrogDelegate?) {
         super.init()
-        // todo: Animate if there is a delegate (so the user knows to click)
         
         self.delegate = delegate
+        if delegate != nil {
+            let sparks = SKEmitterNode(fileNamed: "LightRaysParticle")!
+            sparks.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            sparks.zPosition = 201
+            addChild(sparks)
+        }
         
         frog = SKSpriteNode(texture: SKTexture(imageNamed: image), size: size)
         frog.anchorPoint = CGPoint(x: 0, y: 0)
+        frog.zPosition = 202
         addChild(frog)
         
         isUserInteractionEnabled = (delegate != nil)

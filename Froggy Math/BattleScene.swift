@@ -106,7 +106,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func createOtherButtons() {
         let pauseButton = Button(type: .pause, center: false, delegate: self)
-        pauseButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
+        pauseButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(pauseButton)
         
         if mode == .zenMode {
@@ -129,8 +129,9 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func createNumButtons() {
         var buttons = [NumberButton]()
+        let style = Settings.getNumberStyle()
         for num in NumberTypes.allCases {
-            let button = NumberButton(num: num, center: true, delegate: self)
+            let button = NumberButton(num: num, style: style, center: true, delegate: self)
             addChild(button)
             buttons.append(button)
             inputButtons.append(button)
@@ -311,7 +312,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
             addChild(EvolutionWindow(frogStage: Settings.getFrogStage(), newFrog: newFrog, delegate: self))
         }
         else {
-            addChild(EvolutionWindow(frogStage: Settings.getFrogStage()))
+            addChild(EvolutionWindow(frogStage: Settings.getFrogStage(), delegate: self))
         }
     }
     

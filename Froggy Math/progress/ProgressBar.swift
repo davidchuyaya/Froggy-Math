@@ -9,7 +9,7 @@ import SpriteKit
 
 class ProgressBar: SKNode {
     static let widthPercent = 0.5
-    static let topPercent = 0.12
+    static let topPercent = 0.18
     static let frogStageSizePercent = 0.1
     static let insetPercent = 0.01
     static let progressX = [0.0, 200.0, 326.0, 440.0, 550.0, 671.0, 818.0, 1037.0]

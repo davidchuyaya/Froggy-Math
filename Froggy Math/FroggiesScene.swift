@@ -28,7 +28,7 @@ class FroggiesScene: SKScene, ButtonDelegate, FrogDelegate {
     
     func createButtons() {
         let homeButton = Button(type: .home, center: false, delegate: self)
-        homeButton.position = CGPoint(x: Util.margin(), y: Util.windowHeight() - Util.width(percent: Util.marginPercent + Button.sizePercent))
+        homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(homeButton)
         
         let prevButton = Button(type: .prev, center: false, delegate: self)
@@ -44,7 +44,7 @@ class FroggiesScene: SKScene, ButtonDelegate, FrogDelegate {
         let frogWidth = Util.width(percent: FroggiesScene.frogSizePercent)
         let frogHeight = frogWidth * Frog.heightRatio
         let frogSize = CGSize(width: frogWidth, height: frogHeight)
-        let startY = Util.windowHeight() - Util.width(percent: Button.sizePercent + Util.marginPercent) - frogHeight
+        let startY = Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent) - frogHeight
         
         // todo handle more frogs than can be fit onto one page
         let ownedFrogs = Set(Settings.getFrogs())
