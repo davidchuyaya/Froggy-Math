@@ -23,6 +23,9 @@ class EvolutionWindow: AlertWindow {
             }
         }
         
-        self.init(imageFile: imageFile, text: FrogStages.evolveText(newStage: frogStage, newFrog: newFrog), buttonTypes: [.home], delegate: delegate)
+        let width = Util.width(percent: AlertWindow.imageWidthPercent)
+        let size = CGSize(width: width, height: width * Frog.heightRatio)
+        
+        self.init(imageFile: imageFile, size: size, text: FrogStages.evolveText(newStage: frogStage, newFrog: newFrog), buttonTypes: [.home], delegate: delegate)
     }
 }

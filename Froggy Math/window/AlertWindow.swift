@@ -60,13 +60,18 @@ class AlertWindow: SKNode, ButtonDelegate {
         position = CGPoint(x: Util.windowWidth() / 2, y: 0)
     }
     
-    convenience init(imageFile: String, text: String, buttonTypes: [ButtonTypes], delegate: ButtonDelegate?) {
-        let image = SKSpriteNode(texture: SKTexture(imageNamed: imageFile), size: CGSize(width: Util.width(percent: AlertWindow.imageWidthPercent), height: Util.width(percent: AlertWindow.imageWidthPercent)))
+    convenience init(imageFile: String, size: CGSize, text: String, buttonTypes: [ButtonTypes], delegate: ButtonDelegate?) {
+        let image = SKSpriteNode(texture: SKTexture(imageNamed: imageFile), size: size)
         image.anchorPoint = CGPoint(x: 0.5, y: 1)
         image.position = CGPoint(x: 0, y: Util.height(percent: 1 - AlertWindow.yMarginPercent))
         image.zPosition = 201
         
         self.init(image: image, text: text, buttonTypes: buttonTypes, delegate: delegate)
+    }
+    
+    convenience init(imageFile: String, text: String, buttonTypes: [ButtonTypes], delegate: ButtonDelegate?) {
+        let size = CGSize(width: Util.width(percent: AlertWindow.imageWidthPercent), height: Util.width(percent: AlertWindow.imageWidthPercent))
+        self.init(imageFile: imageFile, size: size, text: text, buttonTypes: buttonTypes, delegate: delegate)
     }
     
     required init?(coder aDecoder: NSCoder) {
