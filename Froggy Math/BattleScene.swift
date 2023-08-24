@@ -105,21 +105,21 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     }
     
     func createOtherButtons() {
-        let pauseButton = Button(type: .pause, center: false, delegate: self)
+        let pauseButton = Button(type: .pause, delegate: self)
         pauseButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(pauseButton)
         
         if mode == .zenMode {
-            let endButton = Button(type: .end, center: false, delegate: self)
+            let endButton = Button(type: .end, delegate: self)
             endButton.position = CGPoint(x: Util.width(percent: 1 - Util.marginPercent - Button.sizePercent), y: pauseButton.position.y)
             addChild(endButton)
         }
         
-        let enterButton = Button(type: .enter, size: Util.width(percent: NumberButton.numButtonSizePercent), center: false, delegate: self)
+        let enterButton = Button(type: .enter, size: Util.width(percent: NumberButton.numButtonSizePercent), delegate: self)
         enterButton.position = CGPoint(x: Util.width(percent: 1 - Util.marginPercent - NumberButton.numButtonSizePercent), y: Util.height(percent: BattleScene.numbersBottomMargin) + Util.width(percent: NumberButton.numButtonSizePercent * 1.5 + NumberButton.insetPercent))
         addChild(enterButton)
         
-        let clearButton = Button(type: .clear, size: Util.width(percent: NumberButton.numButtonSizePercent), center: false, delegate: self)
+        let clearButton = Button(type: .clear, size: Util.width(percent: NumberButton.numButtonSizePercent), delegate: self)
         clearButton.position = CGPoint(x: Util.margin(), y: enterButton.position.y)
         addChild(clearButton)
         
@@ -131,7 +131,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         var buttons = [NumberButton]()
         let style = Settings.getNumberStyle()
         for num in NumberTypes.allCases {
-            let button = NumberButton(num: num, style: style, center: true, delegate: self)
+            let button = NumberButton(num: num, style: style, delegate: self)
             addChild(button)
             buttons.append(button)
             inputButtons.append(button)
@@ -139,7 +139,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         
         // positioning
         let bottomMargin = Util.height(percent: BattleScene.numbersBottomMargin)
-        let midWidth = Util.windowWidth() / 2
+        let midWidth = Util.width(percent: (1.0 - Button.sizePercent) / 2)
         let buttonSize = Util.width(percent: NumberButton.numButtonSizePercent + NumberButton.insetPercent)
         
         buttons[0].position = CGPoint(x: midWidth, y: bottomMargin)
@@ -239,7 +239,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         case .home:
             scene?.view?.presentScene(GameScene())
         case .pause:
-            let pauseWindow = AlertWindow(imageFile: FrogStages.file(stage: 0), text: "Game paused.", buttonTypes: [.home, .resume], delegate: self)
+            let pauseWindow = AlertWindow(imageFile: FrogStages.file(stage: 0), text: "Game paused.", buttonTypes: [.end, .resume], delegate: self)
             addChild(pauseWindow)
             pause(true)
         case .resume:
@@ -248,7 +248,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
             resetValues()
             pause(false)
         case .end:
-            gameOver()
+            gameOver(naturalCompletion: mode == .zenMode)
         case .enter:
             onEnterPressed()
         case .clear:
@@ -293,7 +293,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
             }
             
             if solved + failed == BattleScene.totalProblems {
-                gameOver()
+                gameOver(naturalCompletion: true)
             }
         default:
             print("Unsupported mode when enter pressed")
@@ -327,7 +327,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func timeOut() {
         addReviewNumbers()
-        gameOver()
+        gameOver(naturalCompletion: true)
     }
     
     // the answer the user inputted was wrong
@@ -382,7 +382,7 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         }
     }
     
-    func gameOver() {
+    func gameOver(naturalCompletion: Bool) {
         pause(true)
         let (modeDelta, progressTotal, shouldEvolve) = calculateProgress()
         
@@ -395,10 +395,11 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
         let timeElapsed = Date().timeIntervalSince(startTime) - pauseTime
         let speed = Double(solved) / timeElapsed * 60.0
         gameOverWindow!.animate(mode: mode, solvedFlies: solved, accuracy: accuracy, speed: speed, modeDelta: modeDelta, progressTotal: progressTotal)
-        
-        // save new stats
-        Settings.updateAccuracy(accuracy)
-        Settings.updateSpeed(speed)
+        // save stats if the game was completed correctly
+        if naturalCompletion {
+            Settings.updateAccuracy(accuracy)
+            Settings.updateSpeed(speed)
+        }
         Settings.addCoins(solved)
         
         if !shouldEvolve {

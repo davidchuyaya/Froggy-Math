@@ -27,15 +27,15 @@ class FroggiesScene: SKScene, ButtonDelegate, FrogDelegate {
     }
     
     func createButtons() {
-        let homeButton = Button(type: .home, center: false, delegate: self)
+        let homeButton = Button(type: .home, delegate: self)
         homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(homeButton)
         
-        let prevButton = Button(type: .prev, center: false, delegate: self)
+        let prevButton = Button(type: .prev, delegate: self)
         prevButton.position = CGPoint(x: Util.margin(), y: Util.margin())
         addChild(prevButton)
         
-        let nextButton = Button(type: .next, center: false, delegate: self)
+        let nextButton = Button(type: .next, delegate: self)
         nextButton.position = CGPoint(x: Util.width(percent: 1 - Button.sizePercent - Util.marginPercent), y: prevButton.position.y)
         addChild(nextButton)
     }

@@ -23,10 +23,10 @@ class AlertWindow: SKNode, ButtonDelegate {
         let halfNumButtons = Double(buttonTypes.count) / 2.0
         // coordinate origin is at bottom left
         for (i, type) in buttonTypes.enumerated() {
-            let button = Button(type: type, center: true, delegate: self)
-            // center button x should be 0, if there is an odd number
+            let button = Button(type: type, delegate: self)
+            // center button x should be -0.5 * button size, if there is an odd number
             let distanceFromMid = halfNumButtons - Double(i)
-            let x = (0.5 - distanceFromMid) * (Util.width(percent: Button.sizePercent + Util.marginPercent))
+            let x = (0.5 - distanceFromMid) * (Util.width(percent: Button.sizePercent + Util.marginPercent)) - Util.width(percent: Button.sizePercent * 0.5)
             button.position = CGPoint(x: x, y: Util.width(percent: AlertWindow.yMarginPercent))
             button.zPosition = 201
             buttons.append(button)

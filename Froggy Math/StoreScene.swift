@@ -23,7 +23,7 @@ class StoreScene: SKScene, ButtonDelegate {
     }
     
     func createButtons() {
-        let homeButton = Button(type: .home, center: false, delegate: self)
+        let homeButton = Button(type: .home, delegate: self)
         homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(homeButton)
     }

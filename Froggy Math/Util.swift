@@ -5,7 +5,7 @@
 //  Created by David Chu on 12/15/22.
 //
 
-import UIKit
+import SpriteKit
 
 class Util {
     static let marginPercent = 0.04
@@ -33,6 +33,13 @@ class Util {
         return width(percent: marginPercent)
     }
 
+    static func addBackground(scene: SKScene, num: Int) {
+        // Assume all backgrounds are 828 x 1792
+        let background = SKSpriteNode(imageNamed: "background\(num)")
+        background.size = CGSize(width: scene.frame.width, height: 1792.0 / 828.0 * scene.frame.width)
+        background.position = CGPoint(x: scene.frame.midX, y: scene.frame.midY)
+        scene.addChild(background)
+    }
 }
 
 enum NumberStyles: String {
@@ -166,3 +173,4 @@ enum FrogType: String, CaseIterable {
         }
     }
 }
+

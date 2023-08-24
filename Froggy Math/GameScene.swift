@@ -24,6 +24,7 @@ class GameScene: SKScene, ButtonDelegate {
         anchorPoint = CGPoint(x: 0, y: 0)
         
         print(UserDefaults.standard.dictionaryRepresentation())
+        Util.addBackground(scene: self, num: 1)
         
         createNewEggAlert()
         createButtons()
@@ -32,27 +33,27 @@ class GameScene: SKScene, ButtonDelegate {
     }
     
     func createButtons() {
-        let accuracyModeButton = Button(type: .accuracyMode, center: true, delegate: self)
-        accuracyModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent - Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        let accuracyModeButton = Button(type: .accuracyMode, delegate: self)
+        accuracyModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent * 1.5 - Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(accuracyModeButton)
         
-        let speedModeButton = Button(type: .speedMode, center: true, delegate: self)
-        speedModeButton.position = CGPoint(x: Util.width(percent: 0.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        let speedModeButton = Button(type: .speedMode, delegate: self)
+        speedModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent * 0.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(speedModeButton)
         
-        let zenModeButton = Button(type: .zenMode, center: true, delegate: self)
-        zenModeButton.position = CGPoint(x: Util.width(percent: 0.5 + Button.sizePercent + Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        let zenModeButton = Button(type: .zenMode, delegate: self)
+        zenModeButton.position = CGPoint(x: Util.width(percent: 0.5 + Button.sizePercent * 0.5 + Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(zenModeButton)
         
-        let settingsButton = Button(type: .settings, center: false, delegate: self)
+        let settingsButton = Button(type: .settings, delegate: self)
         settingsButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(settingsButton)
         
-        let froggiesButton = Button(type: .froggies, center: false, delegate: self)
+        let froggiesButton = Button(type: .froggies, delegate: self)
         froggiesButton.position = CGPoint(x: Util.width(percent: 1 - Button.sizePercent - Util.marginPercent), y: settingsButton.position.y)
         addChild(froggiesButton)
         
-        let storeButton = Button(type: .enter, center: false, delegate: self)
+        let storeButton = Button(type: .enter, delegate: self)
         storeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent / 2), y: settingsButton.position.y)
         addChild(storeButton)
     }

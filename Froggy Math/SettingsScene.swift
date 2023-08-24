@@ -32,7 +32,7 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
     }
     
     func createButtons() {
-        let homeButton = Button(type: .home, center: false, delegate: self)
+        let homeButton = Button(type: .home, delegate: self)
         homeButton.position = CGPoint(x: Util.margin(), y: Util.height(percent: 1 - GameScene.buttonsTopMargin) - Util.width(percent: Button.sizePercent))
         addChild(homeButton)
     }
@@ -66,7 +66,7 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
                 y -= Util.width(percent: NumberButton.numButtonSizePercent + NumberButton.insetPercent)
             }
             
-            let button = NumberButton(num: num, style: style, center: false, delegate: self)
+            let button = NumberButton(num: num, style: style, delegate: self)
             button.position = CGPoint(x: x, y: y)
             if !timesTable.contains(num.rawValue) {
                 button.setDisabledColor()
