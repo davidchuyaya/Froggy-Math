@@ -24,7 +24,10 @@ class GameScene: SKScene, ButtonDelegate {
         anchorPoint = CGPoint(x: 0, y: 0)
         
         print(UserDefaults.standard.dictionaryRepresentation())
-        Util.addBackground(scene: self, num: 1)
+        Background.addBackground(scene: self, num: 1)
+        let log = Log()
+        log.position = CGPoint(x: Util.width(percent: 0.2), y: Util.height(percent: 0.5))
+        addChild(log)
         
         createNewEggAlert()
         createButtons()

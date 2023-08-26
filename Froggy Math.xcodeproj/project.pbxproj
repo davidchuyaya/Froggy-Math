@@ -36,6 +36,8 @@
 		0671C9012A3CEA890072B400 /* GameOverWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0671C9002A3CEA890072B400 /* GameOverWindow.swift */; };
 		069FEFEE2A647E8B00A8CF39 /* LightRaysParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 069FEFED2A647E8B00A8CF39 /* LightRaysParticle.sks */; };
 		069FEFF02A6490FB00A8CF39 /* StoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069FEFEF2A6490FB00A8CF39 /* StoreScene.swift */; };
+		06AD431F2A9A054800D245B3 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AD431E2A9A054800D245B3 /* Background.swift */; };
+		06AD43212A9A0A6F00D245B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AD43202A9A0A6F00D245B3 /* Log.swift */; };
 		06BCAB332A3BE487005F3A9F /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB322A3BE487005F3A9F /* SettingsScene.swift */; };
 		06BCAB352A3C274D005F3A9F /* FlyCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB342A3C274D005F3A9F /* FlyCounter.swift */; };
 		06CBC9562A4AA07400900753 /* FroggiesScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CBC9552A4AA07400900753 /* FroggiesScene.swift */; };
@@ -76,6 +78,8 @@
 		0671C9002A3CEA890072B400 /* GameOverWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverWindow.swift; sourceTree = "<group>"; };
 		069FEFED2A647E8B00A8CF39 /* LightRaysParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LightRaysParticle.sks; sourceTree = "<group>"; };
 		069FEFEF2A6490FB00A8CF39 /* StoreScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScene.swift; sourceTree = "<group>"; };
+		06AD431E2A9A054800D245B3 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
+		06AD43202A9A0A6F00D245B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		06BCAB322A3BE487005F3A9F /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		06BCAB342A3C274D005F3A9F /* FlyCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyCounter.swift; sourceTree = "<group>"; };
 		06CBC9552A4AA07400900753 /* FroggiesScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroggiesScene.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 		062C4941294C41FE00116F44 /* Froggy Math */ = {
 			isa = PBXGroup;
 			children = (
+				06AD431D2A9A052800D245B3 /* background */,
 				060196632A3ED0000042DA94 /* window */,
 				06D007912A3AD27700CABA15 /* sounds */,
 				063A3799295A89E80074BB85 /* timer */,
@@ -199,6 +204,15 @@
 				063782892A3BC0F500A4A1C6 /* TimeBarDelegate.swift */,
 			);
 			path = timer;
+			sourceTree = "<group>";
+		};
+		06AD431D2A9A052800D245B3 /* background */ = {
+			isa = PBXGroup;
+			children = (
+				06AD431E2A9A054800D245B3 /* Background.swift */,
+				06AD43202A9A0A6F00D245B3 /* Log.swift */,
+			);
+			path = background;
 			sourceTree = "<group>";
 		};
 		06D007912A3AD27700CABA15 /* sounds */ = {
@@ -303,6 +317,7 @@
 				063A3793295A86600074BB85 /* Frog.swift in Sources */,
 				0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */,
 				0601966A2A3ED61E0042DA94 /* ProgressFrogDelegate.swift in Sources */,
+				06AD431F2A9A054800D245B3 /* Background.swift in Sources */,
 				069FEFF02A6490FB00A8CF39 /* StoreScene.swift in Sources */,
 				06D007902A3AC33200CABA15 /* Settings.swift in Sources */,
 				060196682A3ED5DE0042DA94 /* ProgressFrog.swift in Sources */,
@@ -315,6 +330,7 @@
 				064675F8296B53B300174DFF /* Button.swift in Sources */,
 				0671C8FF2A3CD2430072B400 /* ProgressBar.swift in Sources */,
 				062C4943294C41FE00116F44 /* AppDelegate.swift in Sources */,
+				06AD43212A9A0A6F00D245B3 /* Log.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
