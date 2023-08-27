@@ -48,7 +48,9 @@ class Fly: SKNode {
         case .spiral:
             followSpiralPath()
         case .toLeaf:
-            followPathToLeaf()
+            followPathTo(destX: Util.width(percent: 1 - BattleScene.leafWidthPercent/3*2), destY: Util.height(percent: 1 - BattleScene.leafYPercent/5*2))
+        case .duel:
+            followPathTo(destX: Util.windowWidth() / 2, destY: Util.windowHeight() / 2)
         default:
             print("type doesn't exist for fly")
         }
@@ -98,10 +100,8 @@ class Fly: SKNode {
         return midwayY
     }
     
-    func followPathToLeaf() {
+    func followPathTo(destX: CGFloat, destY: CGFloat) {
         let path = CGMutablePath()
-        let destX = Util.width(percent: 1 - BattleScene.leafWidthPercent/3*2)
-        let destY = Util.height(percent: 1 - BattleScene.leafYPercent/5*2)
         path.move(to: CGPoint(x: -Util.width(percent: 0.1), y: destY + Util.height(percent: 0.1)))
         path.addLine(to: CGPoint(x: destX, y: destY))
         

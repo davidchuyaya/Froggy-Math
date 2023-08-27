@@ -60,9 +60,19 @@ class Frog: SKNode {
         // magic numbers obtained from photoshop
         let x: CGFloat = Frog.getWidth()/800*351
         let y: CGFloat = Frog.getWidth()/800*170
-        let yDiff = fly.y - (position.y + y)
-        let xDiff = fly.x - (position.x + x)
-        let angle = atan2(yDiff, xDiff) - Double.pi/2
+        let xDiff: CGFloat!
+        let yDiff: CGFloat!
+        let angle: CGFloat!
+        if zRotation == 0 {
+            xDiff = fly.x - (position.x + x)
+            yDiff = fly.y - (position.y + y)
+            angle = atan2(yDiff, xDiff) - Double.pi/2
+        }
+        else { // assume either frog is right side up or rotated 180
+            xDiff = fly.x - (position.x - x)
+            yDiff = fly.y - (position.y - y)
+            angle = atan2(yDiff, xDiff) - Double.pi * 1.5
+        }
         let distance = sqrt(xDiff*xDiff + yDiff*yDiff)
         
         let mouth = SKSpriteNode(texture: SKTexture(imageNamed: "mouth") , size: CGSize(width: Frog.getWidth()/800*130, height: Frog.getWidth()/800*72))

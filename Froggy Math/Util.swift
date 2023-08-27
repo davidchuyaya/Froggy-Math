@@ -56,7 +56,7 @@ enum ButtonTypes {
     }
 }
 enum FlyTypes {
-    case toLeaf, spiral
+    case toLeaf, spiral, duel
 }
 enum FlyCounterTypes {
     case normal, numbered, progress

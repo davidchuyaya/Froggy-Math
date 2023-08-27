@@ -69,7 +69,7 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
             let button = NumberButton(num: num, style: style, delegate: self)
             button.position = CGPoint(x: x, y: y)
             if !timesTable.contains(num.rawValue) {
-                button.setDisabledColor()
+                button.setInactiveColor()
             }
         
             addChild(button)
@@ -86,7 +86,7 @@ class SettingsScene: SKScene, ButtonDelegate, NumberButtonDelegate {
                 return // not allowed to have fewer than 1 number in times table
             }
             Settings.setTimesTable(newTimesTable)
-            numberButtons[num.rawValue - 2].setDisabledColor()
+            numberButtons[num.rawValue - 2].setInactiveColor()
         }
         else {
             timesTable.append(num.rawValue)

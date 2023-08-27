@@ -33,6 +33,10 @@ class ProblemWindow: SKNode {
         numText.text = "\(firstNum) × \(secondNum) = \(solutionText)"
     }
     
+    func clear() {
+        numText.text = ""
+    }
+    
     func setIncorrectColor() {
         numText.fontColor = .red
     }

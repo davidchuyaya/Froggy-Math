@@ -36,16 +36,21 @@ class GameScene: SKScene, ButtonDelegate {
     }
     
     func createButtons() {
+        // TODO: Change button type once it's done
+        let duelModeButton = Button(type: .clear, delegate: self)
+        duelModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent * 2 - Util.marginPercent * 1.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        addChild(duelModeButton)
+        
         let accuracyModeButton = Button(type: .accuracyMode, delegate: self)
-        accuracyModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent * 1.5 - Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        accuracyModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent - Util.marginPercent * 0.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(accuracyModeButton)
         
         let speedModeButton = Button(type: .speedMode, delegate: self)
-        speedModeButton.position = CGPoint(x: Util.width(percent: 0.5 - Button.sizePercent * 0.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        speedModeButton.position = CGPoint(x: Util.width(percent: 0.5 + Util.marginPercent * 0.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(speedModeButton)
         
         let zenModeButton = Button(type: .zenMode, delegate: self)
-        zenModeButton.position = CGPoint(x: Util.width(percent: 0.5 + Button.sizePercent * 0.5 + Util.marginPercent), y: Util.height(percent: GameScene.buttonsBottomMargin))
+        zenModeButton.position = CGPoint(x: Util.width(percent: 0.5 + Button.sizePercent + Util.marginPercent * 1.5), y: Util.height(percent: GameScene.buttonsBottomMargin))
         addChild(zenModeButton)
         
         let settingsButton = Button(type: .settings, delegate: self)
@@ -94,10 +99,12 @@ class GameScene: SKScene, ButtonDelegate {
             scene?.view?.presentScene(BattleScene(mode: button))
         case .settings:
             scene?.view?.presentScene(SettingsScene())
-        case .froggies: // todo: Replace type with froggies button when image is available
+        case .froggies: // TODO: Replace type with froggies button when image is available
             scene?.view?.presentScene(FroggiesScene())
         case .enter:
             scene?.view?.presentScene(StoreScene())
+        case .clear: // TODO: Replace type when image is complete
+            scene?.view?.presentScene(DuelScene())
         default:
             print("Button on main screen not supported")
         }

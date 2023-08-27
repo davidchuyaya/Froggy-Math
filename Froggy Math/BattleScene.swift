@@ -1,5 +1,5 @@
 //
-//  GameScene.swift
+//  BattleScene.swift
 //  Froggy Math
 //
 //  Created by David Chu on 12/15/22.

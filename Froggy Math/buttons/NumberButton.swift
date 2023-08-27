@@ -28,7 +28,7 @@ class NumberButton: Button {
         numDelegate.onButtonPressed(num: num)
     }
     
-    func setDisabledColor() {
+    func setInactiveColor() {
         rect.color = .black
         rect.colorBlendFactor = 0.8
     }

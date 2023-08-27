@@ -118,9 +118,17 @@ class Button: SKNode {
     func setIncorrectColor() {
         rect.color = .red
         rect.colorBlendFactor = 0.8
+        isUserInteractionEnabled = false
+    }
+    
+    func setDisabledColor() {
+        rect.color = .black
+        rect.colorBlendFactor = 0.8
+        isUserInteractionEnabled = false
     }
     
     func setDefaultColor() {
         rect.colorBlendFactor = 0.0
+        isUserInteractionEnabled = true
     }
 }

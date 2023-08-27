@@ -41,6 +41,8 @@
 		06BCAB332A3BE487005F3A9F /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB322A3BE487005F3A9F /* SettingsScene.swift */; };
 		06BCAB352A3C274D005F3A9F /* FlyCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCAB342A3C274D005F3A9F /* FlyCounter.swift */; };
 		06CBC9562A4AA07400900753 /* FroggiesScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CBC9552A4AA07400900753 /* FroggiesScene.swift */; };
+		06CD64B52A9B65B700848403 /* DuelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD64B42A9B65B700848403 /* DuelScene.swift */; };
+		06CD64B72A9B828700848403 /* DuelOverWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD64B62A9B828700848403 /* DuelOverWindow.swift */; };
 		06D007902A3AC33200CABA15 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D0078F2A3AC33200CABA15 /* Settings.swift */; };
 		06D007A42A3AD3B100CABA15 /* slurp_0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A12A3AD3B000CABA15 /* slurp_0.m4a */; };
 		06D007A52A3AD3B100CABA15 /* slurp_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A22A3AD3B100CABA15 /* slurp_2.m4a */; };
@@ -83,6 +85,8 @@
 		06BCAB322A3BE487005F3A9F /* SettingsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		06BCAB342A3C274D005F3A9F /* FlyCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyCounter.swift; sourceTree = "<group>"; };
 		06CBC9552A4AA07400900753 /* FroggiesScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FroggiesScene.swift; sourceTree = "<group>"; };
+		06CD64B42A9B65B700848403 /* DuelScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuelScene.swift; sourceTree = "<group>"; };
+		06CD64B62A9B828700848403 /* DuelOverWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuelOverWindow.swift; sourceTree = "<group>"; };
 		06D0078F2A3AC33200CABA15 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		06D007A12A3AD3B000CABA15 /* slurp_0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_0.m4a; sourceTree = SOURCE_ROOT; };
 		06D007A22A3AD3B100CABA15 /* slurp_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_2.m4a; sourceTree = SOURCE_ROOT; };
@@ -106,6 +110,7 @@
 				06206E0F2A39828B0001B110 /* AlertWindow.swift */,
 				060196642A3ED0240042DA94 /* EvolutionWindow.swift */,
 				0671C9002A3CEA890072B400 /* GameOverWindow.swift */,
+				06CD64B62A9B828700848403 /* DuelOverWindow.swift */,
 			);
 			path = window;
 			sourceTree = "<group>";
@@ -151,6 +156,7 @@
 				060196662A3ED5690042DA94 /* progress */,
 				062C4946294C41FE00116F44 /* Actions.sks */,
 				062C4948294C41FE00116F44 /* BattleScene.swift */,
+				06CD64B42A9B65B700848403 /* DuelScene.swift */,
 				069FEFED2A647E8B00A8CF39 /* LightRaysParticle.sks */,
 				064675F5296B51D300174DFF /* GameScene.swift */,
 				06BCAB322A3BE487005F3A9F /* SettingsScene.swift */,
@@ -314,6 +320,7 @@
 				06206E102A39828B0001B110 /* AlertWindow.swift in Sources */,
 				063A3795295A86A40074BB85 /* FrogDelegate.swift in Sources */,
 				0663F4E52956B07000EB7DCF /* ButtonDelegate.swift in Sources */,
+				06CD64B72A9B828700848403 /* DuelOverWindow.swift in Sources */,
 				063A3793295A86600074BB85 /* Frog.swift in Sources */,
 				0663F4E72956BDFD00EB7DCF /* ProblemWindow.swift in Sources */,
 				0601966A2A3ED61E0042DA94 /* ProgressFrogDelegate.swift in Sources */,
@@ -330,6 +337,7 @@
 				064675F8296B53B300174DFF /* Button.swift in Sources */,
 				0671C8FF2A3CD2430072B400 /* ProgressBar.swift in Sources */,
 				062C4943294C41FE00116F44 /* AppDelegate.swift in Sources */,
+				06CD64B52A9B65B700848403 /* DuelScene.swift in Sources */,
 				06AD43212A9A0A6F00D245B3 /* Log.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
