@@ -11,9 +11,9 @@ class NumberButton: Button {
     static let numButtonSizePercent = 0.16
     static let insetPercent = 0.03
     var num: NumberTypes!
-    var numDelegate: NumberButtonDelegate!
+    var numDelegate: NumberButtonDelegate?
     
-    init(num: NumberTypes, style: NumberStyles, delegate: NumberButtonDelegate) {
+    init(num: NumberTypes, style: NumberStyles, delegate: NumberButtonDelegate? = nil) {
         super.init(imageFile: num.file(style: style), size: Util.width(percent: NumberButton.numButtonSizePercent), delegate: nil)
         
         self.num = num
@@ -25,7 +25,7 @@ class NumberButton: Button {
     }
     
     override func onButtonPressed() {
-        numDelegate.onButtonPressed(num: num)
+        numDelegate?.onButtonPressed(num: num)
     }
     
     func setInactiveColor() {

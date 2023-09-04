@@ -25,7 +25,7 @@ class GameScene: SKScene, ButtonDelegate {
         
         print(UserDefaults.standard.dictionaryRepresentation())
         Background.addBackground(scene: self, num: 1)
-        let log = Log()
+        let log = Log(animate: true)
         log.position = CGPoint(x: Util.width(percent: 0.2), y: Util.height(percent: 0.5))
         addChild(log)
         

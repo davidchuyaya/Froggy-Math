@@ -12,11 +12,11 @@ class Frog: SKNode {
     static let sizePercent = 0.7
     static let heightRatio = 0.75
 
-    var delegate: FrogDelegate!
+    var delegate: FrogDelegate?
     var frog: SKSpriteNode!
     var slurpSoundActions = [SKAction]()
     
-    init(type: FrogType, size: CGSize? = nil, loadSounds: Bool, delegate: FrogDelegate) {
+    init(type: FrogType, size: CGSize? = nil, loadSounds: Bool, delegate: FrogDelegate? = nil) {
         super.init()
         
         self.delegate = delegate
@@ -40,7 +40,11 @@ class Frog: SKNode {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        delegate.onFrogPressed()
+        delegate?.onFrogPressed()
+    }
+    
+    func setNewType(_ type: FrogType) {
+        frog.texture = SKTexture(imageNamed: type.file())
     }
     
     func setColorSilhouette() {

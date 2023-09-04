@@ -28,28 +28,12 @@ class DuelOverWindow: SKNode, ButtonDelegate {
         addChild(bg)
         position = CGPoint(x: Util.windowWidth() / 2, y: 0)
         
-        let gameOver0 = SKLabelNode()
-        gameOver0.horizontalAlignmentMode = .center
-        gameOver0.verticalAlignmentMode = .top
-        gameOver0.fontSize = Util.fontSize
-        gameOver0.fontName = Util.font
-        gameOver0.numberOfLines = 2
-        gameOver0.preferredMaxLayoutWidth = Util.width(percent: 1 - Util.marginPercent * 2)
+        let gameOver0 = getTitleLabel()
         gameOver0.position = CGPoint(x: 0, y: Util.windowHeight() / 2 - Util.margin())
-        gameOver0.fontColor = .black
-        gameOver0.zPosition = 201
         bg.addChild(gameOver0)
         
-        let gameOver1 = SKLabelNode()
-        gameOver1.horizontalAlignmentMode = .center
-        gameOver1.verticalAlignmentMode = .top
-        gameOver1.fontSize = Util.fontSize
-        gameOver1.fontName = Util.font
-        gameOver1.numberOfLines = 2
-        gameOver1.preferredMaxLayoutWidth = Util.width(percent: 1 - Util.marginPercent * 2)
+        let gameOver1 = getTitleLabel()
         gameOver1.position = CGPoint(x: 0, y: Util.windowHeight() / 2 + Util.margin())
-        gameOver1.fontColor = .black
-        gameOver1.zPosition = 201
         gameOver1.zRotation = .pi
         bg.addChild(gameOver1)
         
@@ -98,12 +82,12 @@ class DuelOverWindow: SKNode, ButtonDelegate {
         coinImage1.zRotation = .pi
         bg.addChild(coinImage1)
         
-        let coinText0 = getLabel(text: "$0")
+        let coinText0 = getItemLabel(text: "$0")
         coinText0.position = CGPoint(x: coinImage0.position.x + coinImage0.size.width + inset, y: coinImage0.position.y)
         coinTexts.append(coinText0)
         bg.addChild(coinText0)
         
-        let coinText1 = getLabel(text: "$0")
+        let coinText1 = getItemLabel(text: "$0")
         coinText1.position = CGPoint(x: coinImage1.position.x - coinImage1.size.width - inset, y: coinImage1.position.y)
         coinText1.zRotation = .pi
         coinTexts.append(coinText1)
@@ -119,12 +103,25 @@ class DuelOverWindow: SKNode, ButtonDelegate {
         return (text as NSString).size(withAttributes: [NSAttributedString.Key.font: font])
     }
     
-    func getLabel(text: String) -> SKLabelNode {
+    func getItemLabel(text: String) -> SKLabelNode {
         let label = SKLabelNode(text: text)
         label.horizontalAlignmentMode = .left
         label.verticalAlignmentMode = .bottom
         label.fontSize = Util.fontSize
         label.fontName = Util.font
+        label.fontColor = .black
+        label.zPosition = 201
+        return label
+    }
+    
+    func getTitleLabel() -> SKLabelNode {
+        let label = SKLabelNode()
+        label.horizontalAlignmentMode = .center
+        label.verticalAlignmentMode = .top
+        label.fontSize = Util.fontSize
+        label.fontName = Util.font
+        label.numberOfLines = 2
+        label.preferredMaxLayoutWidth = Util.width(percent: 1 - Util.marginPercent * 2)
         label.fontColor = .black
         label.zPosition = 201
         return label

@@ -49,16 +49,16 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
         createFrogs()
         createProblemWindow()
         createFlyCounter()
-        resetValues()
+        createDuelReadyWindow()
     }
    
     func createFrogs() {
-        let frog0 = Frog(type: .basic, loadSounds: true, delegate: self)
+        let frog0 = Frog(type: Settings.getDuelist0Frog(), loadSounds: true, delegate: self)
         frog0.position = CGPoint(x: Util.windowWidth() - Frog.getWidth() / 1.5, y: player0ButtonsTop)
         addChild(frog0)
         frogs.append(frog0)
         
-        let frog1 = Frog(type: .basic, loadSounds: true, delegate: self)
+        let frog1 = Frog(type: Settings.getDuelist1Frog(), loadSounds: true, delegate: self)
         frog1.position = CGPoint(x: Frog.getWidth() / 1.5, y: player1ButtonsBottom)
         frog1.zRotation = .pi
         addChild(frog1)
@@ -174,6 +174,11 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
         flyCounters.append(flyCounter1)
     }
     
+    func createDuelReadyWindow() {
+        let duelReadyWindow = DuelReadyWindow(delegate: self)
+        addChild(duelReadyWindow)
+    }
+    
     func newProblem() {
         problemNum1 = Settings.getTimesTable().randomElement()!
         problemNum2 = Int.random(in: 2...9)
@@ -242,10 +247,13 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
     
     func onButtonPressed(button: ButtonTypes) {
         switch(button) {
+        case .ok:
+            // Begin duel!
+            resetValues()
         case .home:
             scene?.view?.presentScene(GameScene())
         case .replay:
-            resetValues()
+            createDuelReadyWindow()
         default:
             print("unhandled button type in BattleScene")
         }
@@ -269,8 +277,21 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
             problemWindows.forEach({$0.clear()})
             inputButtons.forEach({$0.forEach({$0.setDisabledColor()})})
             DispatchQueue.main.asyncAfter(deadline: .now() + DuelScene.waitSecBetweenProblems) {
-                self.inputButtons.forEach({$0.forEach({$0.setDefaultColor()})})
                 self.newProblem()
+            }
+            
+            var solvedWhenDisabled = solved
+            DispatchQueue.main.asyncAfter(deadline: .now() + DuelScene.waitSecBetweenProblems + Double(Settings.getDuelist0Handicap())) {
+                // Only reenable if the problem hasn't changed (otherwise, wait even longer)
+                if self.solved == solvedWhenDisabled {
+                    self.inputButtons[0].forEach({$0.setDefaultColor()})
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + DuelScene.waitSecBetweenProblems + Double(Settings.getDuelist1Handicap())) {
+                // Only reenable if the problem hasn't changed (otherwise, wait even longer)
+                if self.solved == solvedWhenDisabled {
+                    self.inputButtons[1].forEach({$0.setDefaultColor()})
+                }
             }
         }
         

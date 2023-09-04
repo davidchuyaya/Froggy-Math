@@ -24,6 +24,10 @@ class Settings {
     static let keyFrogs = "frogs" // array of all frogs
     static let keyCoins = "coins" // how many coins you have
     static let keyNumberStyle = "number-style" // what style the number buttons are
+    static let keyDuelist0Frog = "duelist-0-frog" // frog last used by duelist 0
+    static let keyDuelist1Frog = "duelist-1-frog"
+    static let keyDuelist0Handicap = "duelist-0-handicap"
+    static let keyDuelist1Handicap = "duelist-1-handicap"
     
     // call function on init
     static func registerDefaults() {
@@ -42,9 +46,13 @@ class Settings {
             keyAccuracyDay: 0.0,
             keySpeedWeek: 0.0,
             keySpeedDay: 0.0,
-            keyFrogs: [String](),
+            keyFrogs: [FrogType.basic.rawValue],
             keyCoins: 0,
-            keyNumberStyle: NumberStyles.arabic.rawValue
+            keyNumberStyle: NumberStyles.arabic.rawValue,
+            keyDuelist0Frog: FrogType.basic.rawValue,
+            keyDuelist1Frog: FrogType.basic.rawValue,
+            keyDuelist0Handicap: 0,
+            keyDuelist1Handicap: 0
         ])
     }
     
@@ -216,6 +224,9 @@ class Settings {
     
     static func addFrog(_ frog: FrogType) {
         var frogs = getFrogs()
+        guard !frogs.contains(frog) else {
+            return
+        }
         frogs.append(frog)
         UserDefaults.standard.set(frogs.map({$0.rawValue}), forKey: keyFrogs)
     }
@@ -231,5 +242,37 @@ class Settings {
     
     static func setNumberStyle(_ style: NumberStyles) {
         UserDefaults.standard.set(style.rawValue, forKey: keyNumberStyle)
+    }
+    
+    static func getDuelist0Frog() -> FrogType {
+        return FrogType(rawValue: UserDefaults.standard.string(forKey: keyDuelist0Frog)!)!
+    }
+    
+    static func setDuelist0Frog(_ frog: FrogType) {
+        UserDefaults.standard.set(frog.rawValue, forKey: keyDuelist0Frog)
+    }
+    
+    static func getDuelist1Frog() -> FrogType {
+        return FrogType(rawValue: UserDefaults.standard.string(forKey: keyDuelist1Frog)!)!
+    }
+    
+    static func setDuelist1Frog(_ frog: FrogType) {
+        UserDefaults.standard.set(frog.rawValue, forKey: keyDuelist1Frog)
+    }
+    
+    static func getDuelist0Handicap() -> Int {
+        return UserDefaults.standard.integer(forKey: keyDuelist0Handicap)
+    }
+    
+    static func setDuelist0Handicap(_ num: Int) {
+        UserDefaults.standard.set(num, forKey: keyDuelist0Handicap)
+    }
+    
+    static func getDuelist1Handicap() -> Int {
+        return UserDefaults.standard.integer(forKey: keyDuelist1Handicap)
+    }
+    
+    static func setDuelist1Handicap(_ num: Int) {
+        UserDefaults.standard.set(num, forKey: keyDuelist1Handicap)
     }
 }

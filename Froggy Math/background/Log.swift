@@ -21,7 +21,7 @@ class Log: SKNode, FrogDelegate {
     var frogButtShadow: SKShapeNode?
     var frog: Frog?
     
-    override init() {
+    init(type: FrogType? = nil, animate: Bool) {
         super.init()
         
         let logWidth = Util.width(percent: Log.logWidthPercent)
@@ -30,8 +30,7 @@ class Log: SKNode, FrogDelegate {
         log.zPosition = 1
         addChild(log)
         
-        let frogs = Settings.getFrogs()
-        if let randomFrogType = frogs.randomElement() {
+        if let actualType = type ?? Settings.getFrogs().randomElement() {
             // add shadow for frog
             let buttShadowWidth = Frog.getWidth() * Log.buttShadowWidthPercent
             let buttShadowHeight = Frog.getHeight() * Log.buttShadowHeightPercent
@@ -42,17 +41,19 @@ class Log: SKNode, FrogDelegate {
             frogButtShadow!.zPosition = 2
             addChild(frogButtShadow!)
             
-            frog = Frog(type: randomFrogType, loadSounds: false, delegate: self)
+            frog = Frog(type: actualType, loadSounds: false, delegate: self)
             frog!.position = CGPoint(x: -Frog.getWidth() / 2.2, y: Frog.getHeight() * 0.05)
             frog!.zPosition = 3
             addChild(frog!)
         }
         
         // Animate floating
-        let floatRight = SKAction.moveBy(x: Util.width(percent: 0.6), y: 0, duration: Log.floatSpeed)
-        floatRight.timingMode = .easeInEaseOut
-        run(SKAction.repeatForever(SKAction.sequence([floatRight, floatRight.reversed()])))
-        
+        if animate {
+            let floatRight = SKAction.moveBy(x: Util.width(percent: 0.6), y: 0, duration: Log.floatSpeed)
+            floatRight.timingMode = .easeInEaseOut
+            run(SKAction.repeatForever(SKAction.sequence([floatRight, floatRight.reversed()])))
+        }
+
         isUserInteractionEnabled = true
     }
     
