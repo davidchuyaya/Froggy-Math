@@ -45,16 +45,15 @@ class ProgressBar: SKNode {
         bar.zPosition = 10
         addChild(bar)
         
-        let barFillCrop = SKCropNode()
         barFillMask = SKSpriteNode(color: .white, size: CGSize(width: getBarFillWidth(frogStage: frogStage, flies: fliesInAccuracyMode + fliesInSpeedMode + fliesInZenMode), height: barHeight))
-        barFillCrop.maskNode = barFillMask
+        barFillMask.anchorPoint = CGPoint(x: 0, y: 0)
         let barFill = SKSpriteNode(texture: SKTexture(imageNamed: "progress_bar_fill"), size: bar.size)
+        barFill.anchorPoint = CGPoint(x: 0, y: 0)
+        let barFillCrop = SKCropNode()
+        barFillCrop.position = bar.position
+        barFillCrop.maskNode = barFillMask
+        barFillCrop.zPosition = bar.zPosition - 1
         barFillCrop.addChild(barFill)
-        barFillMask.position = bar.position
-        barFillMask.anchorPoint = bar.anchorPoint
-        barFill.position = bar.position
-        barFill.anchorPoint = bar.anchorPoint
-        barFill.zPosition = bar.zPosition - 1
         addChild(barFillCrop)
         
         let flyCounterAccuracy = FlyCounter(type: .progress)
