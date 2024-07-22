@@ -129,9 +129,9 @@ class BattleScene: SKScene, NumberButtonDelegate, ButtonDelegate, FrogDelegate, 
     
     func createNumButtons() {
         var buttons = [NumberButton]()
-        let style = Settings.getNumberStyle()
+        let language = Settings.getLanguage()
         for num in NumberTypes.allCases {
-            let button = NumberButton(num: num, style: style, delegate: self)
+            let button = NumberButton(num: num, style: language, numDelegate: self)
             addChild(button)
             buttons.append(button)
             inputButtons.append(button)

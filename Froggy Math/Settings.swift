@@ -14,6 +14,7 @@ class Settings {
     static let keyFrogStage = "frog-stage" // what current stage of the egg are we on
     static let keyLatestFrog = "latest-frog" // if frog-stage = 7, what the most recent frog was
     static let keyTimesTable = "times-table" // which numbers' times tables we are using
+    static let keyLanguage = "language" // whether the buttons show up in arabic numerals or something else
     static let keyFliesInAccuracyMode = "flies-in-accuracy-mode" // how many flies we got in accuracy mode since we last maxed out all flies
     static let keyFliesInSpeedMode = "flies-in-speed-mode"
     static let keyFliesInZenMode = "flies-in-zen-mode"
@@ -23,7 +24,6 @@ class Settings {
     static let keySpeedDay = "speed-day"
     static let keyFrogs = "frogs" // array of all frogs
     static let keyCoins = "coins" // how many coins you have
-    static let keyNumberStyle = "number-style" // what style the number buttons are
     static let keyDuelist0Frog = "duelist-0-frog" // frog last used by duelist 0
     static let keyDuelist1Frog = "duelist-1-frog"
     static let keyDuelist0Handicap = "duelist-0-handicap"
@@ -39,6 +39,7 @@ class Settings {
             keyFrogStage: 7, // default stage = 7 so we can trigger new egg alert, which will reset stage to 0
             keyLatestFrog: FrogType.basic.rawValue,
             keyTimesTable: Array(2...9),
+            keyLanguage: NumberStyles.arabic.rawValue,
             keyFliesInAccuracyMode: 0,
             keyFliesInSpeedMode: 0,
             keyFliesInZenMode: 0,
@@ -48,7 +49,6 @@ class Settings {
             keySpeedDay: 0.0,
             keyFrogs: [FrogType.basic.rawValue],
             keyCoins: 0,
-            keyNumberStyle: NumberStyles.arabic.rawValue,
             keyDuelist0Frog: FrogType.basic.rawValue,
             keyDuelist1Frog: FrogType.basic.rawValue,
             keyDuelist0Handicap: 0,
@@ -112,6 +112,14 @@ class Settings {
     
     static func setTimesTable(_ table: [Int]) {
         UserDefaults.standard.set(table, forKey: keyTimesTable)
+    }
+    
+    static func getLanguage() -> NumberStyles {
+        return NumberStyles(rawValue: UserDefaults.standard.string(forKey: keyLanguage)!)!
+    }
+    
+    static func setLanguage(language: NumberStyles) {
+        UserDefaults.standard.set(language.rawValue, forKey: keyLanguage)
     }
     
     static func getFliesInAccuracyMode() -> Int {
@@ -234,14 +242,6 @@ class Settings {
     static func addCoins(_ coins: Int) {
         let existingCoins = UserDefaults.standard.integer(forKey: keyCoins)
         UserDefaults.standard.set(existingCoins + coins, forKey: keyCoins)
-    }
-    
-    static func getNumberStyle() -> NumberStyles {
-        return NumberStyles(rawValue: UserDefaults.standard.string(forKey: keyNumberStyle)!)!
-    }
-    
-    static func setNumberStyle(_ style: NumberStyles) {
-        UserDefaults.standard.set(style.rawValue, forKey: keyNumberStyle)
     }
     
     static func getDuelist0Frog() -> FrogType {

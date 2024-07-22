@@ -93,10 +93,10 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
     
     func createNumButtons() {
         var buttons = [[NumberButton](), [NumberButton]()]
-        let style = Settings.getNumberStyle()
+        let style = Settings.getLanguage()
         for num in NumberTypes.allCases {
             for i in 0...1 {
-                let button = NumberButton(num: num, style: style, delegate: playerButtonDelegates[i])
+                let button = NumberButton(num: num, style: style, numDelegate: playerButtonDelegates[i])
                 if i == 1 {
                     button.zRotation = .pi
                 }

@@ -103,16 +103,18 @@ class DuelReadyWindow: SKNode {
         bg.addChild(handicapText1)
         handicapButtons[1] = [:]
         
+        let language = Settings.getLanguage()
+        
         for i in 0...DuelReadyWindow.maxHandicap {
             let numType = NumberTypes(rawValue: i)!
             
-            let numButton0 = NumberButton(num: numType, style: Settings.getNumberStyle(), delegate: player0Delegate)
+            let numButton0 = NumberButton(num: numType, style: language, numDelegate: player0Delegate)
             numButton0.position = CGPoint(x: handicapText0.position.x + handicapSize.width + Double(i) * (inset + buttonSize) + inset, y: rowBottomY)
             numButton0.zPosition = 201
             bg.addChild(numButton0)
             handicapButtons[0]![i] = numButton0
             
-            let numButton1 = NumberButton(num: numType, style: Settings.getNumberStyle(), delegate: player1Delegate)
+            let numButton1 = NumberButton(num: numType, style: language, numDelegate: player1Delegate)
             numButton1.position = CGPoint(x: Util.windowWidth() - numButton0.position.x, y: Util.windowHeight() - rowBottomY)
             numButton1.zPosition = 201
             numButton1.zRotation = .pi
@@ -246,13 +248,14 @@ class DuelReadyWindow: SKNode {
     
     func animateStart() {
         let y = (Util.windowHeight() - Util.width(percent: NumberButton.numButtonSizePercent)) * 0.5
-        let three = NumberButton(num: .three, style: Settings.getNumberStyle())
+        let language = Settings.getLanguage()
+        let three = NumberButton(num: .three, style: language)
         three.position = CGPoint(x: Util.width(percent: 0.5 + 0.5 * NumberButton.numButtonSizePercent + DuelReadyWindow.buttonMarginPercent), y: y)
         three.zPosition = 204
-        let two = NumberButton(num: .two, style: Settings.getNumberStyle())
+        let two = NumberButton(num: .two, style: language)
         two.position = CGPoint(x: Util.width(percent: 0.5 - 0.5 * NumberButton.numButtonSizePercent), y: y)
         two.zPosition = 204
-        let one = NumberButton(num: .one, style: Settings.getNumberStyle())
+        let one = NumberButton(num: .one, style: language)
         one.position = CGPoint(x: Util.width(percent: 0.5 - 1.5 * NumberButton.numButtonSizePercent - DuelReadyWindow.buttonMarginPercent), y: y)
         one.zPosition = 204
         bg.addChild(three)

@@ -34,7 +34,7 @@ class Util {
     }
 }
 
-enum NumberStyles: String {
+enum NumberStyles: String, CaseIterable {
     case arabic, chinese
 }
 

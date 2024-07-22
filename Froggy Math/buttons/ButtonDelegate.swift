@@ -10,6 +10,9 @@ import Foundation
 protocol NumberButtonDelegate {
     func onButtonPressed(num: NumberTypes)
 }
+protocol LanguageButtonDelegate {
+    func onButtonPressed(language: NumberStyles)
+}
 protocol ButtonDelegate {
     func onButtonPressed(button: ButtonTypes)
 }

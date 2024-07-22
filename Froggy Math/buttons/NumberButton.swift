@@ -11,13 +11,19 @@ class NumberButton: Button {
     static let numButtonSizePercent = 0.16
     static let insetPercent = 0.03
     var num: NumberTypes!
+    var language: NumberStyles!
     var numDelegate: NumberButtonDelegate?
+    var languageDelegate: LanguageButtonDelegate?
+    var isLanguageButton: Bool!
     
-    init(num: NumberTypes, style: NumberStyles, delegate: NumberButtonDelegate? = nil) {
+    init(num: NumberTypes, style: NumberStyles, numDelegate: NumberButtonDelegate? = nil, languageDelegate: LanguageButtonDelegate? = nil) {
         super.init(imageFile: num.file(style: style), size: Util.width(percent: NumberButton.numButtonSizePercent), delegate: nil)
         
         self.num = num
-        self.numDelegate = delegate
+        self.language = style
+        self.numDelegate = numDelegate
+        self.languageDelegate = languageDelegate
+        isLanguageButton = languageDelegate != nil
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,7 +31,12 @@ class NumberButton: Button {
     }
     
     override func onButtonPressed() {
-        numDelegate?.onButtonPressed(num: num)
+        if isLanguageButton {
+            languageDelegate?.onButtonPressed(language: language)
+        }
+        else {
+            numDelegate?.onButtonPressed(num: num)
+        }
     }
     
     func setInactiveColor() {
