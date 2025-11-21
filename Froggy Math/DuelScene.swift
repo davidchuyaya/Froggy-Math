@@ -29,6 +29,8 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
     var fly: Fly?
     var flyCounters = [FlyCounter]()
     
+    var itsTimeToDuelSound = SKAction()
+    
     var duelOverWindow: DuelOverWindow?
     
     override init() {
@@ -41,6 +43,8 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
                    
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0, y: 0)
+        
+        itsTimeToDuelSound = SKAction.playSoundFileNamed("its_time_to_duel.mp3", waitForCompletion: false)
         
         playerButtonDelegates.append(PlayerButtonDelegate(parent: self, playerNum: 0))
         playerButtonDelegates.append(PlayerButtonDelegate(parent: self, playerNum: 1))
@@ -249,6 +253,7 @@ class DuelScene: SKScene, ButtonDelegate, FrogDelegate, FlyDelegate {
         switch(button) {
         case .ok:
             // Begin duel!
+            run(itsTimeToDuelSound)
             resetValues()
         case .home:
             scene?.view?.presentScene(GameScene())

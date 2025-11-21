@@ -48,6 +48,7 @@
 		06D007A42A3AD3B100CABA15 /* slurp_0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A12A3AD3B000CABA15 /* slurp_0.m4a */; };
 		06D007A52A3AD3B100CABA15 /* slurp_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A22A3AD3B100CABA15 /* slurp_2.m4a */; };
 		06D007A62A3AD3B100CABA15 /* slurp_1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06D007A32A3AD3B100CABA15 /* slurp_1.m4a */; };
+		06E499312ED0333F0016CD2A /* its_time_to_duel.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 06E499302ED0333F0016CD2A /* its_time_to_duel.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		06D007A12A3AD3B000CABA15 /* slurp_0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_0.m4a; sourceTree = SOURCE_ROOT; };
 		06D007A22A3AD3B100CABA15 /* slurp_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_2.m4a; sourceTree = SOURCE_ROOT; };
 		06D007A32A3AD3B100CABA15 /* slurp_1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = slurp_1.m4a; sourceTree = SOURCE_ROOT; };
+		06E499302ED0333F0016CD2A /* its_time_to_duel.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = its_time_to_duel.mp3; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,7 @@
 		06D007912A3AD27700CABA15 /* sounds */ = {
 			isa = PBXGroup;
 			children = (
+				06E499302ED0333F0016CD2A /* its_time_to_duel.mp3 */,
 				06D007A12A3AD3B000CABA15 /* slurp_0.m4a */,
 				06D007A32A3AD3B100CABA15 /* slurp_1.m4a */,
 				06D007A22A3AD3B100CABA15 /* slurp_2.m4a */,
@@ -301,6 +304,7 @@
 				062C4953294C420000116F44 /* LaunchScreen.storyboard in Resources */,
 				062C4947294C41FE00116F44 /* Actions.sks in Resources */,
 				069FEFEE2A647E8B00A8CF39 /* LightRaysParticle.sks in Resources */,
+				06E499312ED0333F0016CD2A /* its_time_to_duel.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
